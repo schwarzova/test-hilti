@@ -12,4 +12,24 @@ export default defineConfig({
 
   // The output directory for your css system
   outdir: 'styled-system',
+
+  theme: {
+    extend: {
+      tokens: {
+        colors: {
+          boxTitleColor: { value: '#636363' },
+        },
+        spacing: {
+          basePx: { value: '15px' },
+          basePy: { value: '10px' },
+        },
+      },
+      semanticTokens: {
+        colors: {
+          boxBg: { value: '{colors.gray.200}' },
+          boxBgHover: { value: '{colors.gray.300}' },
+        },
+      },
+    },
+  },
 });

@@ -1,22 +1,17 @@
 import { css } from '../styled-system/css';
 
-import reactLogo from './assets/react.svg';
+import TopMenu from './containers/TopMenu';
+import Sidebar from './containers/Sidebar';
+import Plan from './containers/Plan';
 
 function App() {
   return (
     <>
-      <div>
-        <div className={css({ fontSize: '2xl', fontWeight: 'bold' })}>
-          Hello 🐼!
-        </div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <TopMenu />
+      <div className={css({ display: 'flex', px: 'basePx', py: 'basePy' })}>
+        <Sidebar />
+        <Plan />
       </div>
-      <h1>Vite + React</h1>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
