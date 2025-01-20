@@ -1,16 +1,24 @@
+import { useState } from 'react';
 import { css } from '../../styled-system/css';
+import PlanViewer from '../components/PlanViewer';
 
 const planStyles = css({
+  marginLeft: 'basePx',
+  width: '80%',
+  borderRadius: '10px',
+});
+
+const selectBtnStyles = css({
+  px: 'basePx',
+  py: 'basePy',
+  height: '100%',
+  width: '100%',
+  borderRadius: '10px',
   display: 'flex',
   flexDir: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  marginLeft: 'basePx',
-  px: 'basePx',
-  py: 'basePy',
-  width: '80%',
   backgroundColor: 'boxBg',
-  borderRadius: '10px',
   color: 'boxTitleColor',
   cursor: 'pointer',
   '&:hover': {
@@ -19,13 +27,26 @@ const planStyles = css({
 });
 
 function Plan() {
-  function handlePlanSelect() {}
+  const [isPlanSelected, setIsPlanSelected] = useState(false);
+
+  function handlePlanSelect() {
+    // todo
+    // fetch plans
+    // display selection
+    setIsPlanSelected(true);
+  }
 
   return (
-    <button className={planStyles} onClick={handlePlanSelect}>
-      Add Plan
-      <div>+</div>
-    </button>
+    <div className={planStyles}>
+      {isPlanSelected ? (
+        <PlanViewer />
+      ) : (
+        <button className={selectBtnStyles} onClick={handlePlanSelect}>
+          Add Plan
+          <div>+</div>
+        </button>
+      )}
+    </div>
   );
 }
 
