@@ -1,5 +1,6 @@
 import { css } from '../../../styled-system/css';
 import { Plan } from '../../types';
+import Spinner from '../Spinner';
 
 const selectBtnStyles = css({
   px: 'basePx',
@@ -13,7 +14,6 @@ const selectBtnStyles = css({
   alignItems: 'center',
   backgroundColor: 'boxBg',
   color: 'boxTitleColor',
-  cursor: 'pointer',
   '&:hover': {
     bg: 'boxBgHover',
   },
@@ -36,7 +36,7 @@ const listItemStyles = css({
   px: 'basePx',
   py: 'basePy',
   _hover: {
-    color: '#000',
+    color: 'boxTitleColorHover',
   },
 });
 
@@ -49,7 +49,7 @@ type Props = {
 
 function PlanSelection(props: Props) {
   if (props.isFetching) {
-    return 'loading...';
+    return <Spinner />;
   }
 
   if (props.plans.length === 0) {

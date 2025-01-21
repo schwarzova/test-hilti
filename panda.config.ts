@@ -18,6 +18,7 @@ export default defineConfig({
       tokens: {
         colors: {
           boxTitleColor: { value: '#636363' },
+          boxTitleColorHover: { value: '#3d3d3d' },
         },
         spacing: {
           basePx: { value: '15px' },

@@ -32,7 +32,7 @@ function Plan() {
   return (
     <div className={planWrapStyles}>
       {selectedPlan ? (
-        <Viewer />
+        <Viewer isFetching={isFetching} />
       ) : (
         <PlanSelection
           isFetching={isFetching}
