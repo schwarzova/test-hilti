@@ -1,5 +1,6 @@
 import { css } from '../../styled-system/css';
 import hiltiLogo from '../assets/hilti-logo.png';
+import { topMenuHeight } from '../constants/consts';
 
 const menuStyles = css({
   display: 'flex',
@@ -8,6 +9,7 @@ const menuStyles = css({
   py: 'basePy',
   backgroundColor: 'boxBg',
   fontSize: '16px',
+  height: topMenuHeight,
 });
 
 const logoStyles = css({

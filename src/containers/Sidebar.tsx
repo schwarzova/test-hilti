@@ -2,14 +2,16 @@ import { css } from '../../styled-system/css';
 
 const sidebarStyles = css({
   width: '20%',
+  display: 'flex',
+  flexDir: 'column',
 });
 
 const sidebarBoxStyles = css({
+  flex: '1',
   mb: 'basePy',
   px: 'basePx',
   py: 'basePy',
   backgroundColor: 'boxBg',
-  minH: '200px',
   borderRadius: '10px',
   textAlign: 'center',
   color: 'boxTitleColor',
