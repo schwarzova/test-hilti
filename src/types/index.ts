@@ -6,3 +6,15 @@ export type Anchor = {
   y: number;
   z: number;
 };
+
+export type Tag = {
+  tagId: string;
+  position: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  los: string;
+  batteryLevel: number;
+  timestamp: string;
+};

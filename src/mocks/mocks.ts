@@ -1,4 +1,4 @@
-import { Anchor, Plan } from '../types';
+import { Anchor, Plan, Tag } from '../types';
 
 export const mockedPlans: Plan[] = [
   { id: '1', name: 'Plan 1' },
@@ -53,5 +53,19 @@ export const mockedAnchors: Anchor[] = [
     x: -44.513,
     y: 21.602,
     z: 0.697,
+  },
+];
+
+export const mockedTags: Tag[] = [
+  {
+    tagId: '1111',
+    position: {
+      x: 12.34,
+      y: 45.67,
+      z: 1.23,
+    },
+    los: 'a1a4', // (meaning that there is line of sight only with anchors 1 and 4)
+    batteryLevel: 85,
+    timestamp: '1736343493', // unix time
   },
 ];

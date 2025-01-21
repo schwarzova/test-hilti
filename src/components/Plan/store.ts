@@ -11,6 +11,8 @@ type PlanState = {
   resetSelectedPlan: () => void;
   anchors: Anchor[];
   fetchAnchors: () => Promise<void>;
+  selectedPlanSvgUrl?: string;
+  fetchPlanSvgUrl: () => Promise<void>;
 };
 
 export const usePlanStore = create<PlanState>((set) => ({
@@ -29,6 +31,12 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
     set({ anchors: mockedAnchors });
+    set({ isFetching: false });
+  },
+  fetchPlanSvgUrl: async () => {
+    set({ isFetching: true });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // todo set plan svg url?
     set({ isFetching: false });
   },
 }));
