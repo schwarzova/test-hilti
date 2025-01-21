@@ -12,7 +12,7 @@ type PlanState = {
   anchors: Anchor[];
   fetchAnchors: () => Promise<void>;
   selectedPlanSvgUrl?: string;
-  fetchPlanSvgUrl: () => Promise<void>;
+  fetchPlanSvgUrl: (planId: string) => Promise<void>;
 };
 
 export const usePlanStore = create<PlanState>((set) => ({
@@ -33,10 +33,14 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ anchors: mockedAnchors });
     set({ isFetching: false });
   },
-  fetchPlanSvgUrl: async () => {
+  fetchPlanSvgUrl: async (planId) => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    // todo set plan svg url?
+    if (planId === '1') {
+      set({ selectedPlanSvgUrl: '/src/assets/floorplan.svg' });
+    } else {
+      set({ selectedPlanSvgUrl: '/src/assets/floorplan2.svg' });
+    }
     set({ isFetching: false });
   },
 }));

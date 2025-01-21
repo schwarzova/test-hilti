@@ -4,6 +4,7 @@ import Viewer from '../components/Plan/Viewer';
 import { usePlanStore } from '../components/Plan/store';
 import PlanSelection from '../components/Plan/PlanSelection';
 import { Plan as PlanType } from '../types';
+import { useRef } from 'react';
 
 const planWrapStyles = css({
   marginLeft: 'basePx',
@@ -12,12 +13,16 @@ const planWrapStyles = css({
 });
 
 function Plan() {
+  const planRef = useRef<HTMLDivElement>(null);
   const fetchPlans = usePlanStore((state) => state.fetchPlans);
   const isFetching = usePlanStore((state) => state.isFetching);
   const plans = usePlanStore((state) => state.plans);
   const selectedPlan = usePlanStore((state) => state.selectedPlan);
   const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
   const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
+  const anchors = usePlanStore((state) => state.anchors);
+  const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
+  const selectedPlanSvgUrl = usePlanStore((state) => state.selectedPlanSvgUrl);
 
   function handlePlansLoad() {
     fetchPlans();
@@ -26,13 +31,19 @@ function Plan() {
   function handlePlanSelect(plan: PlanType) {
     setSelectedPlan(plan);
     fetchAnchors();
-    // todo fetch svg
+    fetchSvgUrl(plan.id);
   }
 
   return (
-    <div className={planWrapStyles}>
-      {selectedPlan ? (
-        <Viewer isFetching={isFetching} />
+    <div className={planWrapStyles} ref={planRef}>
+      {selectedPlan && selectedPlanSvgUrl && planRef.current ? (
+        <Viewer
+          anchors={anchors}
+          isFetching={isFetching}
+          planSvgUrl={selectedPlanSvgUrl}
+          planWidth={planRef.current.getBoundingClientRect().width}
+          planHeight={planRef.current.getBoundingClientRect().height}
+        />
       ) : (
         <PlanSelection
           isFetching={isFetching}
