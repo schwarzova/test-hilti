@@ -1,50 +1,45 @@
-import { useState } from 'react';
 import { css } from '../../styled-system/css';
-import PlanViewer from '../components/PlanViewer';
 
-const planStyles = css({
+import Viewer from '../components/Plan/Viewer';
+import { usePlanStore } from '../components/Plan/store';
+import PlanSelection from '../components/Plan/PlanSelection';
+import { Plan as PlanType } from '../types';
+
+const planWrapStyles = css({
   marginLeft: 'basePx',
   width: '80%',
   borderRadius: '10px',
 });
 
-const selectBtnStyles = css({
-  px: 'basePx',
-  py: 'basePy',
-  height: '100%',
-  width: '100%',
-  borderRadius: '10px',
-  display: 'flex',
-  flexDir: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: 'boxBg',
-  color: 'boxTitleColor',
-  cursor: 'pointer',
-  '&:hover': {
-    bg: 'boxBgHover',
-  },
-});
-
 function Plan() {
-  const [isPlanSelected, setIsPlanSelected] = useState(false);
+  const fetchPlans = usePlanStore((state) => state.fetchPlans);
+  const isFetching = usePlanStore((state) => state.isFetching);
+  const plans = usePlanStore((state) => state.plans);
+  const selectedPlan = usePlanStore((state) => state.selectedPlan);
+  const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
+  const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
 
-  function handlePlanSelect() {
-    // todo
-    // fetch plans
-    // display selection
-    setIsPlanSelected(true);
+  function handlePlansLoad() {
+    fetchPlans();
+  }
+
+  function handlePlanSelect(plan: PlanType) {
+    setSelectedPlan(plan);
+    fetchAnchors();
+    // todo fetch svg
   }
 
   return (
-    <div className={planStyles}>
-      {isPlanSelected ? (
-        <PlanViewer />
+    <div className={planWrapStyles}>
+      {selectedPlan ? (
+        <Viewer />
       ) : (
-        <button className={selectBtnStyles} onClick={handlePlanSelect}>
-          Add Plan
-          <div>+</div>
-        </button>
+        <PlanSelection
+          isFetching={isFetching}
+          onPlansLoad={handlePlansLoad}
+          onPlanSelect={handlePlanSelect}
+          plans={plans}
+        />
       )}
     </div>
   );
