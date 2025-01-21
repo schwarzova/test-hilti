@@ -7,7 +7,7 @@ import {
 import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
 
 import Spinner from '../Spinner';
-import { Anchor } from '../../types';
+import { Anchor, Point2d } from '../../types';
 import anchorImg from '../../assets/anchor.png';
 import { anchorSize } from '../../constants/consts';
 
@@ -25,14 +25,13 @@ type Props = {
   planSvgUrl: string;
 };
 
-type Position = { top: number; left: number };
-
 function Viewer(props: Props) {
-  const [anchorPosition, setAnchorPosition] = useState<Position>();
+  const [startAnchor, setStartAnchor] = useState<Point2d>();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function renderAnchors(event: ViewerMouseEvent<any>) {
-    setAnchorPosition({ top: event.y, left: event.x });
+    setStartAnchor({ y: event.y, x: event.x });
+    // todo store anchors for future ?
   }
 
   if (props.isFetching) {
@@ -47,35 +46,33 @@ function Viewer(props: Props) {
           <UncontrolledReactSVGPanZoom
             width={props.planWidth}
             height={props.planHeight}
-            onClick={(e) => renderAnchors(e)}
+            defaultTool="pan"
+            onClick={renderAnchors}
           >
             <svg width={props.planWidth} height={props.planHeight}>
               <>
                 {content}
-                <foreignObject
-                  width={props.planWidth}
-                  height={props.planHeight}
-                >
-                  <canvas
-                    id="anchor_canvas"
+                {startAnchor && (
+                  <foreignObject
                     width={props.planWidth}
                     height={props.planHeight}
-                  />
-                  <img
-                    src={anchorImg}
-                    className={css({
-                      position: 'absolute',
-                      zIndex: 1,
-                      height: `${anchorSize}px`,
-                      width: `${anchorSize}px`,
-                    })}
-                    style={{
-                      left: `calc(${anchorPosition?.left}px - ${anchorSize / 2}px)`,
-                      top: `calc(${anchorPosition?.top}px - ${anchorSize / 2}px)`,
-                    }}
-                    alt="Anchor"
-                  />
-                </foreignObject>
+                  >
+                    <img
+                      src={anchorImg}
+                      className={css({
+                        position: 'absolute',
+                        zIndex: 1,
+                        height: `${anchorSize}px`,
+                        width: `${anchorSize}px`,
+                      })}
+                      style={{
+                        left: `calc(${startAnchor.x}px - ${anchorSize / 2}px)`,
+                        top: `calc(${startAnchor.y}px - ${anchorSize / 2}px)`,
+                      }}
+                      alt="Anchor"
+                    />
+                  </foreignObject>
+                )}
               </>
             </svg>
           </UncontrolledReactSVGPanZoom>

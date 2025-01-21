@@ -25,7 +25,12 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ isFetching: false });
   },
   setSelectedPlan: (plan) => set({ selectedPlan: plan }),
-  resetSelectedPlan: () => set({ selectedPlan: undefined, anchors: [] }),
+  resetSelectedPlan: () =>
+    set({
+      selectedPlan: undefined,
+      anchors: [],
+      selectedPlanSvgUrl: undefined,
+    }),
   anchors: [],
   fetchAnchors: async () => {
     set({ isFetching: true });
