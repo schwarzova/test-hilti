@@ -7,9 +7,8 @@ import {
 import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
 
 import Spinner from '../Spinner';
-import { Anchor, Point2d } from '../../types';
-import anchorImg from '../../assets/anchor.png';
-import { anchorSize } from '../../constants/consts';
+import { Anchor as AnchorType } from '../../types';
+import Anchor from './Anchor';
 
 const viewerWrapStyles = css({
   width: '100%',
@@ -18,7 +17,7 @@ const viewerWrapStyles = css({
 });
 
 type Props = {
-  anchors: Anchor[];
+  anchors: AnchorType[];
   isFetching: boolean;
   planHeight: number;
   planWidth: number;
@@ -26,11 +25,21 @@ type Props = {
 };
 
 function Viewer(props: Props) {
-  const [startAnchor, setStartAnchor] = useState<Point2d>();
+  const [convertedAnchors, setConvertedAnchors] = useState<AnchorType[]>([]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function renderAnchors(event: ViewerMouseEvent<any>) {
-    setStartAnchor({ y: event.y, x: event.x });
+    const sortedAnchors = props.anchors.sort((a, b) => a.x - b.x || a.y - b.y);
+    const mostTopLeftAnchor = sortedAnchors[0];
+    const deltaX = mostTopLeftAnchor.x - event.x;
+    const deltaY = mostTopLeftAnchor.y - event.y;
+
+    const newAnchors = props.anchors.map((a) => ({
+      ...a,
+      x: a.x - deltaX,
+      y: a.y - deltaY,
+    }));
+    setConvertedAnchors(newAnchors);
     // todo store anchors for future ?
   }
 
@@ -52,25 +61,14 @@ function Viewer(props: Props) {
             <svg width={props.planWidth} height={props.planHeight}>
               <>
                 {content}
-                {startAnchor && (
+                {convertedAnchors.length > 0 && (
                   <foreignObject
                     width={props.planWidth}
                     height={props.planHeight}
                   >
-                    <img
-                      src={anchorImg}
-                      className={css({
-                        position: 'absolute',
-                        zIndex: 1,
-                        height: `${anchorSize}px`,
-                        width: `${anchorSize}px`,
-                      })}
-                      style={{
-                        left: `calc(${startAnchor.x}px - ${anchorSize / 2}px)`,
-                        top: `calc(${startAnchor.y}px - ${anchorSize / 2}px)`,
-                      }}
-                      alt="Anchor"
-                    />
+                    {convertedAnchors.map((a) => (
+                      <Anchor key={a.id} anchorX={a.x} anchorY={a.y} />
+                    ))}
                   </foreignObject>
                 )}
               </>

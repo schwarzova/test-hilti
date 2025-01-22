@@ -18,8 +18,3 @@ export type Tag = {
   batteryLevel: number;
   timestamp: string;
 };
-
-export type Point2d = {
-  x: number;
-  y: number;
-};
