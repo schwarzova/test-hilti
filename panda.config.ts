@@ -30,9 +30,11 @@ export default defineConfig({
           background: {
             light: {value: '#FFFFFF'}, // White for Light Theme
             dark:{value:  '#121212'},  // Black for Dark Theme
+            tooltip: {value: 'rgba(0, 0, 0, 0.7)'},
           },
           viewer: {
             tag: {value: '#B71C1C'}, 
+            anchor: {value: '#A46BFA'}, 
           }
         },
         spacing: {

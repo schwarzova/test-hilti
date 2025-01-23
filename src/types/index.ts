@@ -19,9 +19,21 @@ export type Tag = {
   timestamp: string;
 };
 
-export type GCP = {
+export type ReferencePoint = {
   xSvg: number;
   ySvg: number;
   xReal: number;
   yReal: number;
 };
+
+export type SvgParsedData = {
+  referencePoints: ReferencePoint[];
+  originOfTSL: ReferencePoint;
+  scale: number;
+  angle: number;
+};
+
+export type Point = {
+  x: number;
+  y: number;
+}
