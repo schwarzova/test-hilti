@@ -57,7 +57,7 @@ export const usePlanStore = create<PlanState>((set) => ({
   anchors: [],
   fetchAnchors: async () => {
     set({ isFetching: true });
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     set({ anchors: mockedAnchors });
     set({ isFetching: false });
   },
@@ -66,7 +66,7 @@ export const usePlanStore = create<PlanState>((set) => ({
   tags: [],
   fetchTags: async () => {
     set({ isFetchingTags: true });
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 200));
     set({ tags: mockedTags });
     set({ isFetchingTags: false });
   },

@@ -20,6 +20,7 @@ function Plan() {
   const selectedPlan = usePlanStore((state) => state.selectedPlan);
   const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
   const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
+  const fetchTags = usePlanStore((state) => state.fetchTags);
   const anchors = usePlanStore((state) => state.anchors);
   const tags = usePlanStore((state) => state.tags);
   const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
@@ -47,6 +48,7 @@ function Plan() {
   function handlePlanSelect(plan: PlanType) {
     setSelectedPlan(plan);
     fetchAnchors();
+    fetchTags();
     fetchSvgUrl(plan.id);
   }
 

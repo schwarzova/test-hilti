@@ -61,23 +61,16 @@ function calculateDistance(pointA: ReferencePoint, pointB: ReferencePoint): numb
 }
 
 function calculateAngle(pointA: ReferencePoint, pointB: ReferencePoint, pointC: ReferencePoint): number {
-    console.log('Angle 1: ',{pointA, pointB, pointC })
     // Vectors BA a BC
     const vectorBA = { x: pointA.xSvg - pointB.xSvg, y: pointA.ySvg - pointB.ySvg };
     const vectorBC = { x: pointC.xSvg - pointB.xSvg, y: pointC.ySvg - pointB.ySvg };
 
-
     // dot product BA a BC
     const dotProduct = vectorBA.x * vectorBC.x + vectorBA.y * vectorBC.y;
-
-
-    console.log('Angle 3: ',{vectorBA,vectorBC}  )
 
     // Size of vectors BA a BC
     const magnitudeBA = Math.sqrt(vectorBA.x * vectorBA.x + vectorBA.y * vectorBA.y);
     const magnitudeBC = Math.sqrt(vectorBC.x * vectorBC.x + vectorBC.y * vectorBC.y);
-
-
 
     // Cos angle
     const cosTheta = dotProduct / (magnitudeBA * magnitudeBC);
