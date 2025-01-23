@@ -59,7 +59,6 @@ function Plan() {
   function handlePlanSelect(plan: PlanType) {
     setSelectedPlan(plan);
     fetchAnchors();
-    fetchTags();
     fetchSvgUrl(plan.id);
   }
 

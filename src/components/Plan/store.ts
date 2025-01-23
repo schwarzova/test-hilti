@@ -86,8 +86,8 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       setInterval(() => {
         const originTagPos = mockedTags[0].position;
         const prevTag = get().tags[0];
-        const randomSignX = Math.random() < 0.5 ? -1 : 1;
-        const randomSignY = Math.random() < 0.5 ? -1 : 1;
+        const randomSignX = Math.random() < 0.5 ? -0.1 : 0.1;
+        const randomSignY = Math.random() < 0.5 ? -0.1 : 0.1;
         const newX = prevTag.position.x + randomSignX;
         const newY = prevTag.position.y + randomSignY;
 
