@@ -1,25 +1,41 @@
 import { create } from 'zustand';
-import { Anchor, GCP, Plan, Tag } from '../../types';
+import { Anchor, Plan, Point, ReferencePoint, SvgParsedData, Tag } from '../../types';
 import { mockedAnchors, mockedPlans, mockedTags } from '../../mocks/mocks';
+import { parseSvg } from './utils';
 
 type PlanState = {
   anchors: Anchor[];
-  gcps: GCP[];
   isFetching: boolean;
   isFetchingTags: boolean;
   plans: Plan[];
+  referencePoints: ReferencePoint[]; // Global Coordinate points
+  scale: number;
   selectedPlan?: Plan;
   selectedPlanSvgUrl?: string;
   tags: Tag[];
+  originPoint: Point
   fetchAnchors: () => Promise<void>;
   fetchPlans: () => Promise<void>;
   fetchPlanSvgUrl: (planId: string) => Promise<void>;
   fetchTags: () => Promise<void>;
   resetSelectedPlan: () => void;
   setSelectedPlan: (plan: Plan) => void;
+  quickInit: () => void;
 };
 
 export const usePlanStore = create<PlanState>((set) => ({
+  scale: 1,
+  originPoint: { x: 0, y: 0 },
+  // this is for quick floor plan load for debugging anchors and tags
+  quickInit: () => {
+    set({
+      selectedPlanSvgUrl: '/src/assets/floorplan3withGCS.svg',
+      anchors: mockedAnchors,
+      tags: mockedTags,
+      selectedPlan: mockedPlans[0],
+      plans: mockedPlans,
+    })
+  },
   plans: [],
   fetchPlans: async () => {
     set({ isFetching: true });
@@ -34,11 +50,11 @@ export const usePlanStore = create<PlanState>((set) => ({
       selectedPlan: undefined,
       anchors: [],
       selectedPlanSvgUrl: undefined,
-      gcps: [],
+      referencePoints: [],
     }),
 
-    isFetching: false,
-    anchors: [],
+  isFetching: false,
+  anchors: [],
   fetchAnchors: async () => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -55,7 +71,7 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ isFetchingTags: false });
   },
 
-  gcps: [],
+  referencePoints: [],
   fetchPlanSvgUrl: async (planId) => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -66,22 +82,19 @@ export const usePlanStore = create<PlanState>((set) => ({
     } else {
       set({ selectedPlanSvgUrl: '/src/assets/floorplan3withGCS.svg' });
 
+
       // Parse the SVG and extract metadata
       const response = await fetch('/src/assets/floorplan3withGCS.svg');
       const text = await response.text();
-      const parser = new DOMParser();
-      const svgDocument = parser.parseFromString(text, 'image/svg+xml');
-      const metadataElement = svgDocument.querySelector('metadata');
-      const gcpElements = metadataElement?.querySelectorAll('gcp');
 
-      if (gcpElements) {
-        const gcps: GCP[] = Array.from(gcpElements).map((gcp) => ({
-          xSvg: Number(gcp.getAttribute('x_svg')!),
-          ySvg: Number(gcp.getAttribute('y_svg')!),
-          xReal: Number(gcp.getAttribute('x_real')!),
-          yReal: Number(gcp.getAttribute('y_real')!),
-        }));
-        set({ gcps });
+      const parsedData: SvgParsedData | null = parseSvg(text);
+      if (parsedData) {
+        set({
+          referencePoints: parsedData.referencePoints, scale: parsedData.scale, originPoint: {
+            x: parsedData.originOfTSL.xSvg,
+            y: parsedData.originOfTSL.ySvg
+          }
+        });
       }
     }
     set({ isFetching: false });

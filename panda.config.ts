@@ -33,6 +33,7 @@ export default defineConfig({
           },
           viewer: {
             tag: {value: '#B71C1C'}, 
+            anchor: {value: '#A46BFA'}, 
           }
         },
         spacing: {

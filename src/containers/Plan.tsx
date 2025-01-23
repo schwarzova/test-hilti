@@ -4,7 +4,7 @@ import Viewer from '../components/Viewer/Viewer';
 import { usePlanStore } from '../components/Plan/store';
 import PlanSelection from '../components/Plan/PlanSelection';
 import { Plan as PlanType } from '../types';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const planWrapStyles = css({
   marginLeft: 'basePx',
@@ -24,6 +24,21 @@ function Plan() {
   const tags = usePlanStore((state) => state.tags);
   const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
   const selectedPlanSvgUrl = usePlanStore((state) => state.selectedPlanSvgUrl);
+  const scale = usePlanStore((state) => state.scale);
+  const originPoint = usePlanStore((state) => state.originPoint);
+  
+  // uncomment for quick init
+  // const quickInit = usePlanStore((state) => state.quickInit);
+  // const [isDone, setDone] = useState(false);
+
+  // useEffect(() => {
+  //   if (!isDone){
+  //     quickInit();
+  //     fetchSvgUrl('3')
+  //     setDone(true);
+  //   }
+    
+  // }, [isDone, fetchSvgUrl, quickInit])
 
   function handlePlansLoad() {
     fetchPlans();
@@ -40,11 +55,13 @@ function Plan() {
       {selectedPlan && selectedPlanSvgUrl && planRef.current ? (
         <Viewer
           anchors={anchors}
+          originPoint={originPoint}
           isFetching={isFetching}
           planSvgUrl={selectedPlanSvgUrl}
           planWidth={planRef.current.getBoundingClientRect().width}
           planHeight={planRef.current.getBoundingClientRect().height}
           tags={tags}
+          scale={scale}
         />
       ) : (
         <PlanSelection
