@@ -1,20 +1,20 @@
-import { useState } from "react";
-import { css } from "../../../styled-system/css";
+import { useState } from 'react';
+import { css } from '../../../styled-system/css';
 import {
   UncontrolledReactSVGPanZoom,
   ViewerMouseEvent,
-} from "react-svg-pan-zoom";
-import { ReactSvgPanZoomLoader } from "react-svg-pan-zoom-loader";
+} from 'react-svg-pan-zoom';
+import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
 
-import Spinner from "../Spinner";
-import { Anchor as AnchorType, Tag } from "../../types";
-import { tagStyles } from "./styles";
-import Anchor from "./Anchor";
+import Spinner from '../Spinner';
+import { Anchor as AnchorType, Tag } from '../../types';
+import { tagStyles } from './styles';
+import Anchor from './Anchor';
 
 const viewerWrapStyles = css({
-  width: "100%",
-  height: "100%",
-  position: "relative",
+  width: '100%',
+  height: '100%',
+  position: 'relative',
 });
 
 type Props = {
@@ -80,9 +80,10 @@ function Viewer(props: Props) {
                   >
                     {props.tags.map((tag) => (
                       <div
+                        key={tag.tagId}
                         className={tagStyles}
                         style={{
-                          position: "absolute",
+                          position: 'absolute',
                           top: `${tag.position.y}px`,
                           left: `${tag.position.x}px`,
                         }}
