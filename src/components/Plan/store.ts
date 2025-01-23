@@ -20,12 +20,7 @@ type PlanState = {
 };
 
 export const usePlanStore = create<PlanState>((set) => ({
-  isFetching: false,
-  isFetchingTags: false,
-  tags: [],
   plans: [],
-  anchors: [],
-  gcps: [],
   fetchPlans: async () => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -33,6 +28,7 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ isFetching: false });
   },
   setSelectedPlan: (plan) => set({ selectedPlan: plan }),
+
   resetSelectedPlan: () =>
     set({
       selectedPlan: undefined,
@@ -41,6 +37,8 @@ export const usePlanStore = create<PlanState>((set) => ({
       gcps: [],
     }),
 
+    isFetching: false,
+    anchors: [],
   fetchAnchors: async () => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -48,6 +46,8 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ isFetching: false });
   },
 
+  isFetchingTags: false,
+  tags: [],
   fetchTags: async () => {
     set({ isFetchingTags: true });
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -55,6 +55,7 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ isFetchingTags: false });
   },
 
+  gcps: [],
   fetchPlanSvgUrl: async (planId) => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
