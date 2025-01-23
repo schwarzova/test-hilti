@@ -62,7 +62,7 @@ export const mockedTags: Tag[] = [
     tagId: '1111',
     position: {
       x: 12.34,
-      y: 45.67,
+      y: 9.67,
       z: 1.23,
     },
     los: 'a1a4', // (meaning that there is line of sight only with anchors 1 and 4)

@@ -25,6 +25,8 @@ function Plan() {
   const selectedPlanSvgUrl = usePlanStore((state) => state.selectedPlanSvgUrl);
   const fetchTags = usePlanStore((state) => state.fetchTags);
   const tags = usePlanStore((state) => state.tags);
+  const scale = usePlanStore((state) => state.scale);
+  const originPoint = usePlanStore((state) => state.originPoint);
 
   useEffect(() => {
     if (selectedPlan) {
@@ -37,6 +39,19 @@ function Plan() {
     }
   }, [fetchTags, selectedPlan]);
 
+  // uncomment for quick init
+  // const quickInit = usePlanStore((state) => state.quickInit);
+  // const [isDone, setDone] = useState(false);
+
+  // useEffect(() => {
+  //   if (!isDone){
+  //     quickInit();
+  //     fetchSvgUrl('3')
+  //     setDone(true);
+  //   }
+
+  // }, [isDone, fetchSvgUrl, quickInit])
+
   function handlePlansLoad() {
     fetchPlans();
   }
@@ -44,6 +59,7 @@ function Plan() {
   function handlePlanSelect(plan: PlanType) {
     setSelectedPlan(plan);
     fetchAnchors();
+    fetchTags();
     fetchSvgUrl(plan.id);
   }
 
@@ -52,11 +68,13 @@ function Plan() {
       {selectedPlan && selectedPlanSvgUrl && planRef.current ? (
         <Viewer
           anchors={anchors}
+          originPoint={originPoint}
           isFetching={isFetching}
           planSvgUrl={selectedPlanSvgUrl}
           planWidth={planRef.current.getBoundingClientRect().width}
           planHeight={planRef.current.getBoundingClientRect().height}
           tags={tags}
+          scale={scale}
         />
       ) : (
         <PlanSelection
