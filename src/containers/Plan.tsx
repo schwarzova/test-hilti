@@ -1,6 +1,6 @@
 import { css } from '../../styled-system/css';
 
-import Viewer from '../components/Plan/Viewer';
+import Viewer from '../components/Viewer/Viewer';
 import { usePlanStore } from '../components/Plan/store';
 import PlanSelection from '../components/Plan/PlanSelection';
 import { Plan as PlanType } from '../types';
@@ -21,6 +21,7 @@ function Plan() {
   const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
   const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
   const anchors = usePlanStore((state) => state.anchors);
+  const tags = usePlanStore((state) => state.tags);
   const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
   const selectedPlanSvgUrl = usePlanStore((state) => state.selectedPlanSvgUrl);
 
@@ -43,6 +44,7 @@ function Plan() {
           planSvgUrl={selectedPlanSvgUrl}
           planWidth={planRef.current.getBoundingClientRect().width}
           planHeight={planRef.current.getBoundingClientRect().height}
+          tags={tags}
         />
       ) : (
         <PlanSelection

@@ -1,19 +1,20 @@
-import { useState } from 'react';
-import { css } from '../../../styled-system/css';
+import { useState } from "react";
+import { css } from "../../../styled-system/css";
 import {
   UncontrolledReactSVGPanZoom,
   ViewerMouseEvent,
-} from 'react-svg-pan-zoom';
-import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
+} from "react-svg-pan-zoom";
+import { ReactSvgPanZoomLoader } from "react-svg-pan-zoom-loader";
 
-import Spinner from '../Spinner';
-import { Anchor as AnchorType } from '../../types';
-import Anchor from './Anchor';
+import Spinner from "../Spinner";
+import { Anchor as AnchorType, Tag } from "../../types";
+import { tagStyles } from "./styles";
+import Anchor from "./Anchor";
 
 const viewerWrapStyles = css({
-  width: '100%',
-  height: '100%',
-  position: 'relative',
+  width: "100%",
+  height: "100%",
+  position: "relative",
 });
 
 type Props = {
@@ -22,6 +23,7 @@ type Props = {
   planHeight: number;
   planWidth: number;
   planSvgUrl: string;
+  tags: Tag[];
 };
 
 function Viewer(props: Props) {
@@ -68,6 +70,23 @@ function Viewer(props: Props) {
                   >
                     {convertedAnchors.map((a) => (
                       <Anchor key={a.id} anchorX={a.x} anchorY={a.y} />
+                    ))}
+                  </foreignObject>
+                )}
+                {props.tags.length > 0 && (
+                  <foreignObject
+                    width={props.planWidth}
+                    height={props.planHeight}
+                  >
+                    {props.tags.map((tag) => (
+                      <div
+                        className={tagStyles}
+                        style={{
+                          position: "absolute",
+                          top: `${tag.position.y}px`,
+                          left: `${tag.position.x}px`,
+                        }}
+                      ></div>
                     ))}
                   </foreignObject>
                 )}

@@ -1,23 +1,25 @@
 import { create } from 'zustand';
-import { Anchor, GCP, Plan } from '../../types';
-import { mockedAnchors, mockedPlans } from '../../mocks/mocks';
+import { Anchor, GCP, Plan, Tag } from '../../types';
+import { mockedAnchors, mockedPlans, mockedTags } from '../../mocks/mocks';
 
 type PlanState = {
-  isFetching: boolean;
-  plans: Plan[];
-  fetchPlans: () => Promise<void>;
-  selectedPlan?: Plan;
-  setSelectedPlan: (plan: Plan) => void;
-  resetSelectedPlan: () => void;
   anchors: Anchor[];
-  fetchAnchors: () => Promise<void>;
-  selectedPlanSvgUrl?: string;
-  fetchPlanSvgUrl: (planId: string) => Promise<void>;
   gcps: GCP[];
+  isFetching: boolean;
+  isFetchingTags: boolean;
+  plans: Plan[];
+  selectedPlan?: Plan;
+  selectedPlanSvgUrl?: string;
+  tags: Tag[];
+  fetchAnchors: () => Promise<void>;
+  fetchPlans: () => Promise<void>;
+  fetchPlanSvgUrl: (planId: string) => Promise<void>;
+  fetchTags: () => Promise<void>;
+  resetSelectedPlan: () => void;
+  setSelectedPlan: (plan: Plan) => void;
 };
 
 export const usePlanStore = create<PlanState>((set) => ({
-  isFetching: false,
   plans: [],
   fetchPlans: async () => {
     set({ isFetching: true });
@@ -26,6 +28,7 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ isFetching: false });
   },
   setSelectedPlan: (plan) => set({ selectedPlan: plan }),
+
   resetSelectedPlan: () =>
     set({
       selectedPlan: undefined,
@@ -33,13 +36,25 @@ export const usePlanStore = create<PlanState>((set) => ({
       selectedPlanSvgUrl: undefined,
       gcps: [],
     }),
-  anchors: [],
+
+    isFetching: false,
+    anchors: [],
   fetchAnchors: async () => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
     set({ anchors: mockedAnchors });
     set({ isFetching: false });
   },
+
+  isFetchingTags: false,
+  tags: [],
+  fetchTags: async () => {
+    set({ isFetchingTags: true });
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    set({ tags: mockedTags });
+    set({ isFetchingTags: false });
+  },
+
   gcps: [],
   fetchPlanSvgUrl: async (planId) => {
     set({ isFetching: true });
