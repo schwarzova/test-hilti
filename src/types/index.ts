@@ -18,3 +18,10 @@ export type Tag = {
   batteryLevel: number;
   timestamp: string;
 };
+
+export type GCP = {
+  xSvg: number;
+  ySvg: number;
+  xReal: number;
+  yReal: number;
+};
