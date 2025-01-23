@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { Anchor, Point, Tag } from "../../types";
-import AnchorPoint from "./AnchorPoint";
-import TagPoint from "./TagPoint";
-import { rotatePoint } from "../Plan/utils";
+import { Anchor, Point, Tag } from '../../types';
+import AnchorPoint from './AnchorPoint';
+import TagPoint from './TagPoint';
+import { rotatePoint } from '../Plan/utils';
 
 type Props = {
   anchors: Anchor[];
@@ -35,7 +35,7 @@ function AnchorLayer(props: Props) {
       const newPoint = rotatePoint(
         { x: a.x, y: a.y },
         { x: props.originPoint.x, y: props.originPoint.y },
-        0
+        0,
       );
 
       return {

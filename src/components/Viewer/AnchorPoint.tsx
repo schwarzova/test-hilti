@@ -1,7 +1,7 @@
 // import anchorImg from '../../assets/anchor.png';
-import { ANCHOR_SIZE } from "../../constants/consts";
-import { Anchor } from "../../types";
-import { anchorClass } from "./styles";
+import { ANCHOR_SIZE } from '../../constants/consts';
+import { Anchor } from '../../types';
+import { anchorClass } from './styles';
 
 type Props = {
   anchor: Anchor;
@@ -12,8 +12,8 @@ function AnchorPoint(props: Props) {
     <div
       className={anchorClass}
       style={{
-        left: `${props.anchor.x - (ANCHOR_SIZE/2)}px`,
-        top: `${props.anchor.y - (ANCHOR_SIZE/2)}px`,
+        left: `${props.anchor.x - ANCHOR_SIZE / 2}px`,
+        top: `${props.anchor.y - ANCHOR_SIZE / 2}px`,
       }}
     />
   );
