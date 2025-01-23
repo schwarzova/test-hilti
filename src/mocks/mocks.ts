@@ -2,7 +2,7 @@ import { Anchor, Plan, Tag } from '../types';
 
 export const mockedPlans: Plan[] = [
   { id: '1', name: 'Plan 1' },
-  { id: '2', name: 'Plan ABC' },
+  { id: '2', name: 'Plan with meta data' },
 ];
 
 export const mockedAnchors: Anchor[] = [

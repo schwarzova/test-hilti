@@ -14,7 +14,7 @@ const sidebarBoxStyles = css({
   backgroundColor: 'boxBg',
   borderRadius: '10px',
   textAlign: 'center',
-  color: 'boxTitleColor',
+  color: 'text.primary',
   _last: { mb: 0 },
 });
 

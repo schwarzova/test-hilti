@@ -17,8 +17,23 @@ export default defineConfig({
     extend: {
       tokens: {
         colors: {
-          boxTitleColor: { value: '#636363' },
-          boxTitleColorHover: { value: '#3d3d3d' },
+          neutral: {
+            light: {value: '#F5F5F5'}, // Light Gray
+            main: {value: '#9E9E9E'},  // Gray
+            dark: {value: '#424242'},  // Dark Gray
+          },
+          text: {
+            primary:{value: '#212121'}, // Almost Black
+            secondary: {value: '#636363',}, // Gray Text
+            disabled: {value:'#BDBDBD'}, // Disabled Text
+          },
+          background: {
+            light: {value: '#FFFFFF'}, // White for Light Theme
+            dark:{value:  '#121212'},  // Black for Dark Theme
+          },
+          viewer: {
+            tag: {value: '#B71C1C'}, 
+          }
         },
         spacing: {
           basePx: { value: '15px' },
