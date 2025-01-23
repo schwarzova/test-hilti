@@ -1,6 +1,6 @@
 import { css } from '../../styled-system/css';
 
-import Viewer from '../components/Plan/Viewer';
+import Viewer from '../components/Viewer/Viewer';
 import { usePlanStore } from '../components/Plan/store';
 import PlanSelection from '../components/Plan/PlanSelection';
 import { Plan as PlanType } from '../types';
