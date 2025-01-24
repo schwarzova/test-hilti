@@ -5,6 +5,8 @@ import Viewer from '../components/Viewer/Viewer';
 import { usePlanStore } from '../components/Plan/store';
 import PlanSelection from '../components/Plan/PlanSelection';
 import { Plan as PlanType } from '../types';
+import { useSidebarStore } from '../components/Sidebar/store';
+import ControlledViewer from '../components/Viewer/ControlledViewer';
 
 const planWrapStyles = css({
   marginLeft: 'basePx',
@@ -27,6 +29,7 @@ function Plan() {
   const tags = usePlanStore((state) => state.tags);
   const scale = usePlanStore((state) => state.scale);
   const originPoint = usePlanStore((state) => state.originPoint);
+  const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
   useEffect(() => {
     if (selectedPlan) {
@@ -60,12 +63,13 @@ function Plan() {
     setSelectedPlan(plan);
     fetchAnchors();
     fetchSvgUrl(plan.id);
+    fetchSidebarTools();
   }
 
   return (
     <div className={planWrapStyles} ref={planRef}>
       {selectedPlan && selectedPlanSvgUrl && planRef.current ? (
-        <Viewer
+        <ControlledViewer
           anchors={anchors}
           originPoint={originPoint}
           isFetching={isFetching}

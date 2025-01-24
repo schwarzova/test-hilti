@@ -37,3 +37,9 @@ export type Point = {
   x: number;
   y: number;
 };
+
+export type Tool = {
+  id: string;
+  tagId: string;
+  name: string;
+};
