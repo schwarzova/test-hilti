@@ -18,28 +18,32 @@ export default defineConfig({
       tokens: {
         colors: {
           neutral: {
-            light: {value: '#F5F5F5'}, // Light Gray
-            main: {value: '#9E9E9E'},  // Gray
-            dark: {value: '#424242'},  // Dark Gray
+            light: { value: '#F5F5F5' }, // Light Gray
+            main: { value: '#9E9E9E' }, // Gray
+            dark: { value: '#424242' }, // Dark Gray
           },
           text: {
-            primary:{value: '#212121'}, // Almost Black
-            secondary: {value: '#636363',}, // Gray Text
-            disabled: {value:'#BDBDBD'}, // Disabled Text
+            primary: { value: '#212121' }, // Almost Black
+            secondary: { value: '#636363' }, // Gray Text
+            disabled: { value: '#BDBDBD' }, // Disabled Text
           },
           background: {
-            light: {value: '#FFFFFF'}, // White for Light Theme
-            dark:{value:  '#121212'},  // Black for Dark Theme
-            tooltip: {value: 'rgba(0, 0, 0, 0.7)'},
+            light: { value: '#FFFFFF' }, // White for Light Theme
+            dark: { value: '#121212' }, // Black for Dark Theme
+            tooltip: { value: 'rgba(0, 0, 0, 0.7)' },
           },
           viewer: {
-            tag: {value: '#B71C1C'}, 
-            anchor: {value: '#A46BFA'}, 
-          }
+            tag: { value: '#B71C1C' },
+            anchor: { value: '#A46BFA' },
+          },
         },
         spacing: {
           basePx: { value: '15px' },
           basePy: { value: '10px' },
+        },
+        sizes: {
+          tagSize: { value: '10px' },
+          anchorSize: { value: '5px' },
         },
       },
       semanticTokens: {

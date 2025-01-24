@@ -1,6 +1,6 @@
-import { Plan } from "../../types";
-import Spinner from "../Spinner";
-import { listItemStyles, listWrapStyles, selectBtnStyles } from "./styles";
+import { Plan } from '../../types';
+import Spinner from '../Spinner';
+import { listItemStyles, listWrapStyles, selectBtnStyles } from './styles';
 
 type Props = {
   isFetching: boolean;

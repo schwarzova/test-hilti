@@ -1,12 +1,10 @@
-import {
-  UncontrolledReactSVGPanZoom,
-} from "react-svg-pan-zoom";
-import { ReactSvgPanZoomLoader } from "react-svg-pan-zoom-loader";
+import { UncontrolledReactSVGPanZoom } from 'react-svg-pan-zoom';
+import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
 
-import Spinner from "../Spinner";
-import { Anchor, Point, Tag } from "../../types";
-import {  viewerWrapClass } from "./styles";
-import AnchorLayer from "./AnchorLayer";
+import Spinner from '../Spinner';
+import { Anchor, Point, Tag } from '../../types';
+import { viewerWrapClass } from './styles';
+import AnchorLayer from './AnchorLayer';
 
 type Props = {
   anchors: Anchor[];

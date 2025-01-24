@@ -36,4 +36,4 @@ export type SvgParsedData = {
 export type Point = {
   x: number;
   y: number;
-}
+};

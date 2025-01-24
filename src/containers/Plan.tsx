@@ -1,10 +1,10 @@
+import { useEffect, useRef } from 'react';
 import { css } from '../../styled-system/css';
 
 import Viewer from '../components/Viewer/Viewer';
 import { usePlanStore } from '../components/Plan/store';
 import PlanSelection from '../components/Plan/PlanSelection';
 import { Plan as PlanType } from '../types';
-import { useEffect, useRef, useState } from 'react';
 
 const planWrapStyles = css({
   marginLeft: 'basePx',
@@ -20,14 +20,25 @@ function Plan() {
   const selectedPlan = usePlanStore((state) => state.selectedPlan);
   const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
   const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
-  const fetchTags = usePlanStore((state) => state.fetchTags);
   const anchors = usePlanStore((state) => state.anchors);
-  const tags = usePlanStore((state) => state.tags);
   const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
   const selectedPlanSvgUrl = usePlanStore((state) => state.selectedPlanSvgUrl);
+  const fetchTags = usePlanStore((state) => state.fetchTags);
+  const tags = usePlanStore((state) => state.tags);
   const scale = usePlanStore((state) => state.scale);
   const originPoint = usePlanStore((state) => state.originPoint);
-  
+
+  useEffect(() => {
+    if (selectedPlan) {
+      const socket = fetchTags();
+
+      return () => {
+        // temporary solution, with real socket we can have separate action in store to close it
+        socket?.close();
+      };
+    }
+  }, [fetchTags, selectedPlan]);
+
   // uncomment for quick init
   // const quickInit = usePlanStore((state) => state.quickInit);
   // const [isDone, setDone] = useState(false);
@@ -38,7 +49,7 @@ function Plan() {
   //     fetchSvgUrl('3')
   //     setDone(true);
   //   }
-    
+
   // }, [isDone, fetchSvgUrl, quickInit])
 
   function handlePlansLoad() {
@@ -48,7 +59,6 @@ function Plan() {
   function handlePlanSelect(plan: PlanType) {
     setSelectedPlan(plan);
     fetchAnchors();
-    fetchTags();
     fetchSvgUrl(plan.id);
   }
 

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { TAG_SIZE } from "../../constants/consts";
-import { Tag } from "../../types";
-import { tagClass } from "./styles";
+import { useState } from 'react';
+import { TAG_SIZE } from '../../constants/consts';
+import { Tag } from '../../types';
+import { tagClass } from './styles';
 
 type Props = {
   tag: Tag;
@@ -35,14 +35,14 @@ function TagPoint(props: Props) {
       {isTooltipVisible && (
         <div
           style={{
-            position: "absolute",
+            position: 'absolute',
             top: top + 10, // Offset to avoid overlap
             left: left + 10,
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            color: "white",
-            padding: "5px 10px",
-            borderRadius: "5px",
-            pointerEvents: "none", // Prevents tooltip from interfering with SVG interactions
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            color: 'white',
+            padding: '5px 10px',
+            borderRadius: '5px',
+            pointerEvents: 'none', // Prevents tooltip from interfering with SVG interactions
           }}
         >
           Battery level: {props.tag.batteryLevel}%

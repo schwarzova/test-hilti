@@ -1,28 +1,26 @@
 import { css } from '../../../styled-system/css';
-import { ANCHOR_SIZE, TAG_SIZE } from '../../constants/consts';
 
 export const viewerWrapClass = css({
-  width: "100%",
+  width: '100%',
   height: '100%',
-  position: "relative",
+  position: 'relative',
   border: '2px solid red',
 });
 
 export const tagClass = css({
   zIndex: 1,
-  position: "absolute",
-  width: TAG_SIZE + 'px',
-  height:TAG_SIZE + 'px',
-  backgroundColor: "viewer.tag",
-  borderRadius: "50%",
+  position: 'absolute',
+  width: 'tagSize',
+  height: 'tagSize',
+  backgroundColor: 'viewer.tag',
+  borderRadius: '50%',
 });
 
 export const anchorClass = css({
-  position: "absolute",
+  position: 'absolute',
   zIndex: 1,
-  height: ANCHOR_SIZE + 'px',
-  width:  ANCHOR_SIZE + 'px',
+  height: 'anchorSize',
+  width: 'anchorSize',
   backgroundColor: 'viewer.anchor',
-  borderRadius: "50%",
+  borderRadius: '50%',
 });
-

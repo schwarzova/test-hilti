@@ -1,5 +1,14 @@
 import { create } from 'zustand';
-import { Anchor, Plan, Point, ReferencePoint, SvgParsedData, Tag } from '../../types';
+import { WebSocket as MockWebSocket, Server } from 'mock-socket';
+
+import {
+  Anchor,
+  Plan,
+  Point,
+  ReferencePoint,
+  SvgParsedData,
+  Tag,
+} from '../../types';
 import { mockedAnchors, mockedPlans, mockedTags } from '../../mocks/mocks';
 import { parseSvg } from './utils';
 
@@ -13,17 +22,18 @@ type PlanState = {
   selectedPlan?: Plan;
   selectedPlanSvgUrl?: string;
   tags: Tag[];
-  originPoint: Point
+  socket: MockWebSocket | null;
+  originPoint: Point;
   fetchAnchors: () => Promise<void>;
   fetchPlans: () => Promise<void>;
   fetchPlanSvgUrl: (planId: string) => Promise<void>;
-  fetchTags: () => Promise<void>;
+  fetchTags: () => MockWebSocket | null;
   resetSelectedPlan: () => void;
   setSelectedPlan: (plan: Plan) => void;
   quickInit: () => void;
 };
 
-export const usePlanStore = create<PlanState>((set) => ({
+export const usePlanStore = create<PlanState>((set, get) => ({
   scale: 1,
   originPoint: { x: 0, y: 0 },
   // this is for quick floor plan load for debugging anchors and tags
@@ -34,7 +44,7 @@ export const usePlanStore = create<PlanState>((set) => ({
       tags: mockedTags,
       selectedPlan: mockedPlans[0],
       plans: mockedPlans,
-    })
+    });
   },
   plans: [],
   fetchPlans: async () => {
@@ -63,12 +73,50 @@ export const usePlanStore = create<PlanState>((set) => ({
   },
 
   isFetchingTags: false,
-  tags: [],
-  fetchTags: async () => {
-    set({ isFetchingTags: true });
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    set({ tags: mockedTags });
-    set({ isFetchingTags: false });
+  tags: mockedTags,
+  socket: null,
+  fetchTags: () => {
+    if (get().socket) return null;
+
+    // Mocked server
+    const mockServer = new Server('wss://mockserver.com/socket');
+
+    mockServer.on('connection', (socket) => {
+      // Send random tags coordinates each 200ms
+      setInterval(() => {
+        const originTagPos = mockedTags[0].position;
+        const prevTag = get().tags[0];
+        const randomSignX = Math.random() < 0.5 ? -0.1 : 0.1;
+        const randomSignY = Math.random() < 0.5 ? -0.1 : 0.1;
+        const newX = prevTag.position.x + randomSignX;
+        const newY = prevTag.position.y + randomSignY;
+
+        const mockUpdatedTags: Tag[] = [
+          {
+            ...mockedTags[0],
+            position: {
+              x: newX < 1300 && newX > 0 ? newX : originTagPos.x,
+              y: newY < 350 && newY > 0 ? newY : originTagPos.y,
+              z: mockedTags[0].position.z,
+            },
+          },
+        ];
+        socket.send(JSON.stringify({ tags: mockUpdatedTags }));
+      }, 200);
+    });
+
+    // Create mocked socket connected to server
+    const socket = new MockWebSocket('wss://mockserver.com/socket');
+    set({ socket });
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.tags) {
+        set({ tags: data.tags });
+      }
+    };
+
+    return socket;
   },
 
   referencePoints: [],
@@ -82,7 +130,6 @@ export const usePlanStore = create<PlanState>((set) => ({
     } else {
       set({ selectedPlanSvgUrl: '/src/assets/floorplan3withGCS.svg' });
 
-
       // Parse the SVG and extract metadata
       const response = await fetch('/src/assets/floorplan3withGCS.svg');
       const text = await response.text();
@@ -90,10 +137,12 @@ export const usePlanStore = create<PlanState>((set) => ({
       const parsedData: SvgParsedData | null = parseSvg(text);
       if (parsedData) {
         set({
-          referencePoints: parsedData.referencePoints, scale: parsedData.scale, originPoint: {
+          referencePoints: parsedData.referencePoints,
+          scale: parsedData.scale,
+          originPoint: {
             x: parsedData.originOfTSL.xSvg,
-            y: parsedData.originOfTSL.ySvg
-          }
+            y: parsedData.originOfTSL.ySvg,
+          },
         });
       }
     }
