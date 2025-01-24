@@ -41,6 +41,10 @@ export default defineConfig({
           basePx: { value: '15px' },
           basePy: { value: '10px' },
         },
+        sizes: {
+          tagSize: { value: '10px' },
+          anchorSize: { value: '5px' },
+        },
       },
       semanticTokens: {
         colors: {
