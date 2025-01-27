@@ -1,5 +1,8 @@
 import { Point, ReferencePoint, SvgParsedData } from '../../types';
 
+const TLS_0 : ReferencePoint = {xSvg:-45.560, ySvg: 20.350, xReal: -1, yReal: -1};
+const TLS_1 : ReferencePoint = {xSvg:-33.640, ySvg: 9.980, xReal: -1, yReal: -1}; // south
+
 export function parseSvg(svgInString: string): null | SvgParsedData {
   const parser = new DOMParser();
   const svgDocument = parser.parseFromString(svgInString, 'image/svg+xml');
@@ -24,16 +27,24 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
       referencePoints[1],
       referencePoints[2],
     );
+
+    const tlsDistance = calculateDistance(
+        TLS_1,
+        referencePoints[2],
+      );
+
     const angle = calculateAngle(
-      referencePoints[0],
+        referencePoints[0],
       referencePoints[2],
       referencePoints[1],
     );
-    const scale = realDistance / svgDistance;
+    // const scale = realDistance / svgDistance;
+    const scale = realDistance / tlsDistance;
 
     // console.log('Real distance in meters:', realDistance.toFixed(2));
     // console.log('Svg distance', svgDistance.toFixed(2));
-    // console.log('Scale', scale);
+    console.log('Tls distance', tlsDistance.toFixed(2));
+    console.log('Scale', scale);
     // console.log('Angle is', angle.toFixed(2));
 
     return { referencePoints, originOfTSL: referencePoints[2], scale, angle };

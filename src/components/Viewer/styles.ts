@@ -24,3 +24,12 @@ export const anchorClass = css({
   backgroundColor: 'viewer.anchor',
   borderRadius: '50%',
 });
+
+export const tooltipClass = css({
+  position: 'absolute',
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  color: 'white',
+  padding: '5px 10px',
+  borderRadius: '5px',
+  pointerEvents: 'none', // Prevents tooltip from interfering with SVG interactions
+});
