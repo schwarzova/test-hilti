@@ -12,6 +12,7 @@ type Props = {
   tags: Tag[];
   svgScaleX:number,
   svgScaleY: number,
+  onTooltipVisibilityChange: ( tag?: Tag) => void;
 };
 
 function AnchorLayer(props: Props) {
@@ -95,7 +96,9 @@ function AnchorLayer(props: Props) {
         <AnchorPoint key={a.id} anchor={{ ...a, x: a.x, y: a.y }} svgScaleX={props.svgScaleX}/>
       ))}
       {convertedTags.map((tag) => (
-        <TagPoint key={tag.tagId} tag={tag} />
+        <TagPoint key={tag.tagId} tag={tag}
+        onTooltipVisibilityChange={props.onTooltipVisibilityChange}
+        />
       ))}
       {convertedMeasuredPoints.map((point) => (
         <MeasuredReferencePoint key={`${point.x}_${point.y}`} point={point} />

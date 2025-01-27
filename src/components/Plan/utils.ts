@@ -301,3 +301,10 @@ export function transformPoint2(
 
   return rotatePoint({ x: xTransformed, y: yTransformed }, { x: 0, y: 0 }, -1);
 }
+
+export function convertMillisecondsToMinutesAndSeconds(milliseconds: number): [number, number] {
+  const totalSeconds = Math.floor(milliseconds / 1000); 
+  const minutes = Math.floor(totalSeconds / 60); 
+  const seconds = totalSeconds % 60; 
+  return [minutes,seconds ]
+}

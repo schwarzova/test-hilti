@@ -7,6 +7,7 @@ import { Anchor, SvgParsedData, Tag } from '../../types';
 import { viewerWrapClass } from './styles';
 import AnchorLayer from './AnchorLayer';
 import { useViewerRef } from '../../hooks/useViewerRef';
+import TagTooltip from './TagTooltip';
 
 type Props = {
   anchors: Anchor[];
@@ -26,11 +27,12 @@ function ControlledViewer(props: Props) {
   const [tool, onChangeTool] = useState<Tool>(TOOL_PAN);
   const [value, onChangeValue] = useState<Value>({} as Value);
 
+  const [tooltipTag, setTooltipTag] = useState<Tag | undefined>(undefined);
+
   useEffect(() => {
     const svgEl = document.getElementsByClassName('injected-svg')[0];
 
-    if ((props.svgScaleX === 1) && svgEl) {
-
+    if (props.svgScaleX === 1 && svgEl) {
       const originalWidth = svgEl.getBoundingClientRect().width;
       const originalHeight = svgEl.getBoundingClientRect().height;
 
@@ -44,6 +46,10 @@ function ControlledViewer(props: Props) {
       viewerRef?.current?.fitToViewer();
     }
   }, [value]);
+
+  function handleTooltipVisibilityChange(tag?: Tag) {
+    setTooltipTag(tag);
+  }
 
   if (props.isFetching) {
     return <Spinner />;
@@ -77,6 +83,7 @@ function ControlledViewer(props: Props) {
                     parsedSvgData={props.parsedSvgData}
                     svgScaleX={props.svgScaleX}
                     svgScaleY={props.svgScaleY}
+                    onTooltipVisibilityChange={handleTooltipVisibilityChange}
                   />
                 </foreignObject>
               </>
@@ -84,6 +91,16 @@ function ControlledViewer(props: Props) {
           </ReactSVGPanZoom>
         )}
       />
+        {tooltipTag && (
+          <TagTooltip
+            style={{
+              position: 'absolute',
+              top: tooltipTag.position.y + 10,
+              left: tooltipTag.position.x + 10,
+            }}
+            tag={tooltipTag}
+          />
+        )}
     </div>
   );
 }
