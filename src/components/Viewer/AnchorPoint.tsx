@@ -33,6 +33,16 @@ function AnchorPoint(props: Props) {
           top: `${top}px`,
         }}
       />
+      <span
+        style={{
+          fontSize: '14px',
+          top: top + 5,
+          position: 'absolute',
+          left: left + 5,
+        }}
+      >
+        {props.anchor.id.split(' ')[1]}
+      </span>
       {isTooltipVisible && (
         <div
           className={tooltipClass}

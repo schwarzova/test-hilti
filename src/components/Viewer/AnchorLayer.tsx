@@ -23,19 +23,25 @@ function AnchorLayer(props: Props) {
   }, [props.anchors, props.tags, props.originPoint]);
 
   function convertAnchors(anchors: Anchor[]) {
+    // console.log('Anchors: ',anchors);
+    const flippedAnchors = anchors.map(a => ({...a, y: 0 - a.y}))
+    // console.log('Flipped anchors: ',flippedAnchors);
+
+
     // scale
-    let newAnchors = anchors.map((a) => ({
+     let newAnchors = flippedAnchors.map((a) => ({
       ...a,
-      x: a.x / 0.1 + props.originPoint.x,
-      y: a.y / 0.1 + props.originPoint.y,
+      x: a.x / props.scale + props.originPoint.x,
+      y: a.y / props.scale + props.originPoint.y,
     }));
+
 
     // rotate
     newAnchors = newAnchors.map<Anchor>((a) => {
       const newPoint = rotatePoint(
         { x: a.x, y: a.y },
         { x: props.originPoint.x, y: props.originPoint.y },
-        0,
+        -22.5,
       );
 
       return {

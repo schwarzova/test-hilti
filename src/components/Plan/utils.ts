@@ -38,8 +38,7 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
       referencePoints[2],
       referencePoints[1],
     );
-    // const scale = realDistance / svgDistance;
-    const scale = realDistance / tlsDistance;
+    const scale = realDistance / svgDistance;
 
     // console.log('Real distance in meters:', realDistance.toFixed(2));
     // console.log('Svg distance', svgDistance.toFixed(2));
