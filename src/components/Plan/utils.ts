@@ -47,10 +47,6 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
     );
     const scale = realDistance / svgDistance;
 
-    // console.log('Real distance in meters:', realDistance.toFixed(2));
-    // console.log('Svg distance', svgDistance.toFixed(2));
-    console.log('Scale', scale);
-
     // TLS, SVG points
     const transformMatrix = calculateAffineTransformation(
       [TLS_0, TLS_1, { x: 0, y: 0 }],
@@ -270,6 +266,23 @@ export function transformPoint(
     x: a * point.x + b * point.y + c,
     y: d * point.x + e * point.y + f,
   };
+}
+
+export function transformPointWithScale(
+  point: Point,
+  transformMatrix: TransformMatrix,
+  svgScaleX: number,
+  svgScaleY: number,
+): Point {
+  const newPoint =  transformPoint(point, transformMatrix);
+  
+    // Scale and offset
+    const xTransformed = newPoint.x * svgScaleX + 0;
+    const yTransformed = newPoint.y * svgScaleY + 0;
+
+  return {
+    x: xTransformed, y: yTransformed
+  }
 }
 
 export function transformPoint2(
