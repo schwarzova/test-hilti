@@ -26,6 +26,8 @@ function Plan() {
   const selectedPlanSvgUrl = usePlanStore((state) => state.selectedPlanSvgUrl);
   const fetchTags = usePlanStore((state) => state.fetchTags);
   const tags = usePlanStore((state) => state.tags);
+  const svgScale = usePlanStore((state) => state.svgScale);
+  const setSvgScale = usePlanStore((state) => state.setSvgScale);
   const parsedSvgData = usePlanStore((state) => state.parsedSvgData);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
@@ -75,6 +77,8 @@ function Plan() {
           planSvgUrl={selectedPlanSvgUrl}
           planWidth={planRef.current.getBoundingClientRect().width}
           tags={tags}
+          svgScale={svgScale}
+          onSvgScaleSet={setSvgScale}
         />
       ) : (
         <PlanSelection
