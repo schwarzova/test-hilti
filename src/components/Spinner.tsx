@@ -13,7 +13,7 @@ const spinnerStyles = css({
   w: '25px',
   h: '25px',
   borderRadius: '4px',
-  bg: 'boxBg',
+  bg: 'neutral.main',
 });
 
 function Spinner() {
