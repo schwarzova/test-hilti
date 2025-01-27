@@ -1,4 +1,4 @@
-import { Anchor, Plan, Tag } from '../types';
+import { Anchor, Plan, Tag, Tool } from '../types';
 
 export const mockedPlans: Plan[] = [
   { id: '3', name: 'Plan with GCS' },
@@ -69,4 +69,8 @@ export const mockedTags: Tag[] = [
     batteryLevel: 85,
     timestamp: '1736343493', // unix time
   },
+];
+
+export const mockedTools: Tool[] = [
+  { id: 't1', tagId: '1111', name: 'Tool 1' },
 ];
