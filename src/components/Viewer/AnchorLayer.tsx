@@ -3,11 +3,7 @@ import { useEffect, useState } from 'react';
 import { Anchor, Point, SvgParsedData, Tag } from '../../types';
 import AnchorPoint from './AnchorPoint';
 import TagPoint from './TagPoint';
-import {
-  MEASURED_POINTS,
-  rotatePoint,
-  transformPoint,
-} from '../Plan/utils';
+import { MEASURED_POINTS, rotatePoint, transformPoint } from '../Plan/utils';
 import MeasuredReferencePoint from './MeasuredReferencePoint';
 
 type Props = {

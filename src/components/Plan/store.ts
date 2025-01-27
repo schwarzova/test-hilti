@@ -1,12 +1,7 @@
 import { create } from 'zustand';
 import { WebSocket as MockWebSocket, Server } from 'mock-socket';
 
-import {
-  Anchor,
-  Plan,
-  SvgParsedData,
-  Tag,
-} from '../../types';
+import { Anchor, Plan, SvgParsedData, Tag } from '../../types';
 import { mockedAnchors, mockedPlans, mockedTags } from '../../mocks/mocks';
 import { parseSvg } from './utils';
 
@@ -29,13 +24,13 @@ type PlanState = {
   quickInit: () => void;
 };
 
-const initialParsed : SvgParsedData = {
+const initialParsed: SvgParsedData = {
   referencePoints: [],
-  transformMatrix: [0,0,0,0,0,0],
-  originOfTSL: {xSvg: 0,ySvg:0, yReal: 0, xReal:0,},
+  transformMatrix: [0, 0, 0, 0, 0, 0],
+  originOfTSL: { xSvg: 0, ySvg: 0, yReal: 0, xReal: 0 },
   scale: 1,
   angle: 0,
-}
+};
 
 export const usePlanStore = create<PlanState>((set, get) => ({
   scale: 1,
@@ -141,7 +136,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
 
       const parsedData: SvgParsedData | null = parseSvg(text);
       if (parsedData) {
-        set({parsedSvgData: parsedData})
+        set({ parsedSvgData: parsedData });
       }
     }
     set({ isFetching: false });

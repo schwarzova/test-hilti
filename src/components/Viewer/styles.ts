@@ -4,7 +4,7 @@ export const viewerWrapClass = css({
   width: '100%',
   height: '100%',
   position: 'relative',
-  border: '1px solid red'
+  border: '1px solid red',
 });
 
 export const tagClass = css({
@@ -42,4 +42,3 @@ export const measuredPointClass = css({
   backgroundColor: 'viewer.measuredPoint',
   borderRadius: '50%',
 });
-
