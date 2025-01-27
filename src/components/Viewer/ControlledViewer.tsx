@@ -29,7 +29,8 @@ function ControlledViewer(props: Props) {
   useEffect(() => {
     const svgEl = document.getElementsByClassName('injected-svg')[0];
 
-    if (!props.svgScaleX && svgEl) {
+    if ((props.svgScaleX === 1) && svgEl) {
+
       const originalWidth = svgEl.getBoundingClientRect().width;
       const originalHeight = svgEl.getBoundingClientRect().height;
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Anchor, Point, SvgParsedData, Tag } from '../../types';
 import AnchorPoint from './AnchorPoint';
 import TagPoint from './TagPoint';
-import { MEASURED_POINTS, rotatePoint, transformPointWithScale } from '../Plan/utils';
+import { MEASURED_POINTS, rotatePoint, transformPoint, transformPointWithScale } from '../Plan/utils';
 import MeasuredReferencePoint from './MeasuredReferencePoint';
 
 type Props = {
@@ -92,7 +92,7 @@ function AnchorLayer(props: Props) {
   return (
     <>
       {convertedAnchors.map((a) => (
-        <AnchorPoint key={a.id} anchor={{ ...a, x: a.x, y: a.y }} />
+        <AnchorPoint key={a.id} anchor={{ ...a, x: a.x, y: a.y }} svgScaleX={props.svgScaleX}/>
       ))}
       {convertedTags.map((tag) => (
         <TagPoint key={tag.tagId} tag={tag} />
