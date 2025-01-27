@@ -31,6 +31,7 @@ export type SvgParsedData = {
   originOfTSL: ReferencePoint;
   scale: number;
   angle: number;
+  transformMatrix: TransformMatrix;
 };
 
 export type Point = {
@@ -43,3 +44,5 @@ export type Tool = {
   tagId: string;
   name: string;
 };
+
+export type TransformMatrix = [number, number, number, number, number, number];

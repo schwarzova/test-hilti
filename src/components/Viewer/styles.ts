@@ -4,7 +4,7 @@ export const viewerWrapClass = css({
   width: '100%',
   height: '100%',
   position: 'relative',
-  border: '2px solid red',
+  border: '1px solid red',
 });
 
 export const tagClass = css({
@@ -27,9 +27,18 @@ export const anchorClass = css({
 
 export const tooltipClass = css({
   position: 'absolute',
-  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  backgroundColor: 'background.tooltip',
   color: 'white',
   padding: '5px 10px',
   borderRadius: '5px',
-  pointerEvents: 'none', // Prevents tooltip from interfering with SVG interactions
+  pointerEvents: 'none',
+});
+
+export const measuredPointClass = css({
+  position: 'absolute',
+  zIndex: 1,
+  height: 'referencePoint',
+  width: 'referencePoint',
+  backgroundColor: 'viewer.measuredPoint',
+  borderRadius: '50%',
 });
