@@ -63,11 +63,11 @@ export const mockedTags: Tag[] = [
     position: {
       x: 12.34,
       y: 9.67,
-      z: 1.23,
+      z: 0.1,
     },
     los: 'a1a4', // (meaning that there is line of sight only with anchors 1 and 4)
-    batteryLevel: 85,
-    timestamp: '1736343493', // unix time
+    batteryLevel: 19,
+    timestamp: '1738013852500', // unix time
   },
 ];
 
