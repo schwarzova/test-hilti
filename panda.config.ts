@@ -35,6 +35,7 @@ export default defineConfig({
           viewer: {
             tag: { value: '#B71C1C' },
             anchor: { value: '#A46BFA' },
+            measuredPoint: { value: '#Affe33' },
           },
         },
         spacing: {
@@ -44,6 +45,7 @@ export default defineConfig({
         sizes: {
           tagSize: { value: '10px' },
           anchorSize: { value: '5px' },
+          referencePoint: { value: '1px' },
         },
       },
       semanticTokens: {
