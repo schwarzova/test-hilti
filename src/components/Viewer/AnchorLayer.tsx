@@ -3,13 +3,15 @@ import { useEffect, useState } from 'react';
 import { Anchor, Point, SvgParsedData, Tag } from '../../types';
 import AnchorPoint from './AnchorPoint';
 import TagPoint from './TagPoint';
-import { MEASURED_POINTS, rotatePoint, transformPoint } from '../Plan/utils';
+import { MEASURED_POINTS, rotatePoint, transformPointWithScale } from '../Plan/utils';
 import MeasuredReferencePoint from './MeasuredReferencePoint';
 
 type Props = {
   anchors: Anchor[];
   parsedSvgData: SvgParsedData;
   tags: Tag[];
+  svgScaleX:number,
+  svgScaleY: number,
 };
 
 function AnchorLayer(props: Props) {
@@ -30,16 +32,17 @@ function AnchorLayer(props: Props) {
     setConvertedAnchors(convertAnchors(props.anchors, true));
     setConvertedTags(c);
     setConvertedMeasuredPoints(
-      MEASURED_POINTS.map((p) => transformPoint(p, transformMatrix)),
+      MEASURED_POINTS.map((p) => transformPointWithScale(p, transformMatrix, props.svgScaleX, props.svgScaleY)),
     );
   }, [props.anchors, props.tags, props.parsedSvgData]);
 
   function convertAnchors(anchors: Anchor[], useMatrix: boolean) {
     if (useMatrix && transformMatrix) {
       return anchors.map((a) => {
-        const newPoint: Point = transformPoint(
+        const newPoint: Point = transformPointWithScale(
           { x: a.x, y: a.y },
           transformMatrix,
+          props.svgScaleX, props.svgScaleY
         );
 
         return { ...a, x: newPoint.x, y: newPoint.y };

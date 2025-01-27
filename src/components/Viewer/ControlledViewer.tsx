@@ -16,8 +16,9 @@ type Props = {
   planSvgUrl: string;
   planWidth: number;
   tags: Tag[];
-  svgScale?: number;
-  onSvgScaleSet: (scale: number) => void;
+  svgScaleX: number;
+  svgScaleY: number;
+  onSvgScaleSet: (scaleX: number, scaleY: number) => void;
 };
 
 function ControlledViewer(props: Props) {
@@ -28,15 +29,17 @@ function ControlledViewer(props: Props) {
   useEffect(() => {
     const svgEl = document.getElementsByClassName('injected-svg')[0];
 
-    if (!props.svgScale && svgEl) {
+    if (!props.svgScaleX && svgEl) {
       const originalWidth = svgEl.getBoundingClientRect().width;
+      const originalHeight = svgEl.getBoundingClientRect().height;
 
       svgEl.setAttribute('width', '100%');
       svgEl.setAttribute('height', '100%');
       svgEl.setAttribute('preserveAspectRatio', 'xMinYMin meet');
 
       const newWidth = svgEl.getBoundingClientRect().width;
-      props.onSvgScaleSet(newWidth / originalWidth);
+      const newHeight = svgEl.getBoundingClientRect().height;
+      props.onSvgScaleSet(newWidth / originalWidth, newHeight / originalHeight);
       viewerRef?.current?.fitToViewer();
     }
   }, [value]);
@@ -71,6 +74,8 @@ function ControlledViewer(props: Props) {
                     // showTagImages={viewerRef?.current?.getValue().d > 5} // for decision if display circle or image
                     tags={props.tags}
                     parsedSvgData={props.parsedSvgData}
+                    svgScaleX={props.svgScaleX}
+                    svgScaleY={props.svgScaleY}
                   />
                 </foreignObject>
               </>

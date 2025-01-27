@@ -15,7 +15,8 @@ type PlanState = {
   selectedPlanSvgUrl?: string;
   tags: Tag[];
   socket: MockWebSocket | null;
-  svgScale?: number;
+  svgScaleX: number;
+  svgScaleY: number;
   fetchAnchors: () => Promise<void>;
   fetchPlans: () => Promise<void>;
   fetchPlanSvgUrl: (planId: string) => Promise<void>;
@@ -23,7 +24,7 @@ type PlanState = {
   resetSelectedPlan: () => void;
   setSelectedPlan: (plan: Plan) => void;
   quickInit: () => void;
-  setSvgScale: (svgScale: number) => void;
+  setSvgScale: (svgScaleX: number, svgScaleY: number,) => void;
 };
 
 const initialParsed: SvgParsedData = {
@@ -35,9 +36,10 @@ const initialParsed: SvgParsedData = {
 };
 
 export const usePlanStore = create<PlanState>((set, get) => ({
-  scale: 1,
   originPoint: { x: 0, y: 0 },
   parsedSvgData: initialParsed,
+  svgScaleX: 1,
+  svgScaleY: 1,
   // this is for quick floor plan load for debugging anchors and tags
   quickInit: () => {
     set({
@@ -63,7 +65,8 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       anchors: [],
       selectedPlanSvgUrl: undefined,
       parsedSvgData: initialParsed,
-      svgScale: undefined,
+      svgScaleX: 1,
+      svgScaleY: 1,
     }),
 
   isFetching: false,
@@ -144,5 +147,5 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     }
     set({ isFetching: false });
   },
-  setSvgScale: (svgScale) => set({ svgScale }),
+  setSvgScale: (svgScaleX, svgScaleY) => set({ svgScaleX, svgScaleY }),
 }));
