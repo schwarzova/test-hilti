@@ -6,7 +6,7 @@ import { useSidebarStore } from '../components/Sidebar/store';
 import Tasks from '../components/Sidebar/Tasks';
 import Tools from '../components/Sidebar/Tools';
 import { useViewerRef } from '../hooks/useViewerRef';
-import { Tag } from '../types';
+import { Point, Tag } from '../types';
 
 const sidebarStyles = css({
   width: '20%',
@@ -20,7 +20,12 @@ function Sidebar() {
   const tools = useSidebarStore((state) => state.tools);
   // needed just for converting tags should be move to one place in future
   const tags = usePlanStore((state) => state.tags);
-  const originPoint = usePlanStore((state) => state.originPoint);
+  const originOfTSL = usePlanStore((state) => state.parsedSvgData).originOfTSL;
+
+  const originPoint: Point = {
+    x: originOfTSL.xSvg,
+    y: originOfTSL.ySvg,
+  };
 
   function convertTags(tags: Tag[]): Tag[] {
     return tags.map<Tag>((t) => ({

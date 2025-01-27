@@ -26,10 +26,9 @@ function Plan() {
   const selectedPlanSvgUrl = usePlanStore((state) => state.selectedPlanSvgUrl);
   const fetchTags = usePlanStore((state) => state.fetchTags);
   const tags = usePlanStore((state) => state.tags);
-  const scale = usePlanStore((state) => state.scale);
-  const originPoint = usePlanStore((state) => state.originPoint);
   const svgScale = usePlanStore((state) => state.svgScale);
   const setSvgScale = usePlanStore((state) => state.setSvgScale);
+  const parsedSvgData = usePlanStore((state) => state.parsedSvgData);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
   useEffect(() => {
@@ -72,13 +71,12 @@ function Plan() {
       {selectedPlan && selectedPlanSvgUrl && planRef.current ? (
         <ControlledViewer
           anchors={anchors}
-          originPoint={originPoint}
           isFetching={isFetching}
+          parsedSvgData={parsedSvgData}
+          planHeight={planRef.current.getBoundingClientRect().height}
           planSvgUrl={selectedPlanSvgUrl}
           planWidth={planRef.current.getBoundingClientRect().width}
-          planHeight={planRef.current.getBoundingClientRect().height}
           tags={tags}
-          scale={scale}
           svgScale={svgScale}
           onSvgScaleSet={setSvgScale}
         />

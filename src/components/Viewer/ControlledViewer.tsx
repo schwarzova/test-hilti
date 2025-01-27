@@ -3,7 +3,7 @@ import { ReactSVGPanZoom, Tool, TOOL_PAN, Value } from 'react-svg-pan-zoom';
 import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
 
 import Spinner from '../Spinner';
-import { Anchor, Point, Tag } from '../../types';
+import { Anchor, SvgParsedData, Tag } from '../../types';
 import { viewerWrapClass } from './styles';
 import AnchorLayer from './AnchorLayer';
 import { useViewerRef } from '../../hooks/useViewerRef';
@@ -11,12 +11,11 @@ import { useViewerRef } from '../../hooks/useViewerRef';
 type Props = {
   anchors: Anchor[];
   isFetching: boolean;
+  parsedSvgData: SvgParsedData;
   planHeight: number;
-  planWidth: number;
   planSvgUrl: string;
+  planWidth: number;
   tags: Tag[];
-  scale: number;
-  originPoint: Point;
   svgScale?: number;
   onSvgScaleSet: (scale: number) => void;
 };
@@ -70,9 +69,8 @@ function ControlledViewer(props: Props) {
                   <AnchorLayer
                     anchors={props.anchors}
                     // showTagImages={viewerRef?.current?.getValue().d > 5} // for decision if display circle or image
-                    originPoint={props.originPoint}
-                    scale={props.scale}
                     tags={props.tags}
+                    parsedSvgData={props.parsedSvgData}
                   />
                 </foreignObject>
               </>

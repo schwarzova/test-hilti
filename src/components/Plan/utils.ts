@@ -1,7 +1,19 @@
-import { Point, ReferencePoint, SvgParsedData } from '../../types';
+import {
+  TransformMatrix,
+  ReferencePoint,
+  SvgParsedData,
+  Point,
+} from '../../types';
 
-const TLS_0 : ReferencePoint = {xSvg:-45.560, ySvg: 20.350, xReal: -1, yReal: -1};
-const TLS_1 : ReferencePoint = {xSvg:-33.640, ySvg: 9.980, xReal: -1, yReal: -1}; // south
+// firstly defined
+const TLS_0: Point = { x: -45.56, y: 20.35 }; // [0]
+const TLS_1: Point = { x: -33.64, y: 9.98 }; // south [1]
+
+// adjusted sligthly
+//  const TLS_0: Point ={ x: -45.549, y: 20.338 }; // [0]
+//  const TLS_1: Point = { x: -33.627, y: 9.965 }; // south [1]
+
+export const MEASURED_POINTS: Point[] = [TLS_0, TLS_1, { x: 0, y: 0 }];
 
 export function parseSvg(svgInString: string): null | SvgParsedData {
   const parser = new DOMParser();
@@ -28,26 +40,34 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
       referencePoints[2],
     );
 
-    const tlsDistance = calculateDistance(
-        TLS_1,
-        referencePoints[2],
-      );
-
     const angle = calculateAngle(
-        referencePoints[0],
+      referencePoints[0],
       referencePoints[2],
       referencePoints[1],
     );
-    // const scale = realDistance / svgDistance;
-    const scale = realDistance / tlsDistance;
+    const scale = realDistance / svgDistance;
 
     // console.log('Real distance in meters:', realDistance.toFixed(2));
     // console.log('Svg distance', svgDistance.toFixed(2));
-    console.log('Tls distance', tlsDistance.toFixed(2));
     console.log('Scale', scale);
-    // console.log('Angle is', angle.toFixed(2));
 
-    return { referencePoints, originOfTSL: referencePoints[2], scale, angle };
+    // TLS, SVG points
+    const transformMatrix = calculateAffineTransformation(
+      [TLS_0, TLS_1, { x: 0, y: 0 }],
+      [
+        { x: referencePoints[0].xSvg, y: referencePoints[0].ySvg },
+        { x: referencePoints[1].xSvg, y: referencePoints[1].ySvg },
+        { x: referencePoints[2].xSvg, y: referencePoints[2].ySvg },
+      ],
+    );
+
+    return {
+      referencePoints,
+      originOfTSL: referencePoints[0],
+      scale,
+      angle,
+      transformMatrix,
+    };
   }
 
   return null;
@@ -165,4 +185,106 @@ export function getRealDistance(
     pointB.xReal,
     pointB.yReal,
   );
+}
+
+function calculateAffineTransformation(
+  tlsPoints: [Point, Point, Point],
+  svgPoints: [Point, Point, Point],
+): [number, number, number, number, number, number] {
+  const A = [
+    [tlsPoints[0].x, tlsPoints[0].y, 1, 0, 0, 0],
+    [0, 0, 0, tlsPoints[0].x, tlsPoints[0].y, 1],
+    [tlsPoints[1].x, tlsPoints[1].y, 1, 0, 0, 0],
+    [0, 0, 0, tlsPoints[1].x, tlsPoints[1].y, 1],
+    [tlsPoints[2].x, tlsPoints[2].y, 1, 0, 0, 0],
+    [0, 0, 0, tlsPoints[2].x, tlsPoints[2].y, 1],
+  ];
+
+  const B = [
+    svgPoints[0].x,
+    svgPoints[0].y,
+    svgPoints[1].x,
+    svgPoints[1].y,
+    svgPoints[2].x,
+    svgPoints[2].y,
+  ];
+
+  // Solution Ax = B
+  const T = solveLinearSystem(A, B);
+
+  if (!T) {
+    throw new Error('Transform matrix could not be computed');
+  }
+
+  return [T[0], T[1], T[2], T[3], T[4], T[5]];
+}
+
+function solveLinearSystem(A: number[][], B: number[]): number[] | null {
+  const n = B.length;
+  const augmentedMatrix = A.map((row, i) => [...row, B[i]]);
+
+  // Gaussian elimination
+  for (let i = 0; i < n; i++) {
+    // Find pivot
+    let maxRow = i;
+    for (let k = i + 1; k < n; k++) {
+      if (
+        Math.abs(augmentedMatrix[k][i]) > Math.abs(augmentedMatrix[maxRow][i])
+      ) {
+        maxRow = k;
+      }
+    }
+
+    // Swap rows
+    [augmentedMatrix[i], augmentedMatrix[maxRow]] = [
+      augmentedMatrix[maxRow],
+      augmentedMatrix[i],
+    ];
+
+    // Normalize pivot row
+    const pivot = augmentedMatrix[i][i];
+    if (pivot === 0) return null; // No solution
+    for (let j = i; j <= n; j++) {
+      augmentedMatrix[i][j] /= pivot;
+    }
+
+    // Elimination
+    for (let k = 0; k < n; k++) {
+      if (k === i) continue;
+      const factor = augmentedMatrix[k][i];
+      for (let j = i; j <= n; j++) {
+        augmentedMatrix[k][j] -= factor * augmentedMatrix[i][j];
+      }
+    }
+  }
+
+  return augmentedMatrix.map((row) => row[n]);
+}
+
+export function transformPoint(
+  point: Point,
+  transform: TransformMatrix,
+): Point {
+  const [a, b, c, d, e, f] = transform;
+  return {
+    x: a * point.x + b * point.y + c,
+    y: d * point.x + e * point.y + f,
+  };
+}
+
+export function transformPoint2(
+  point: Point,
+  transform: TransformMatrix,
+  scale: number = 0.85,
+  scaleY: number = 0.7,
+  offsetX: number = 80,
+  offsetY: number = 80,
+): Point {
+  const transformedPoint = transformPoint(point, transform);
+
+  // Scale and offset
+  const xTransformed = transformedPoint.x * scale + offsetX;
+  const yTransformed = transformedPoint.y * scaleY + offsetY;
+
+  return rotatePoint({ x: xTransformed, y: yTransformed }, { x: 0, y: 0 }, -1);
 }

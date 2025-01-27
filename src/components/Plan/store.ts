@@ -1,14 +1,7 @@
 import { create } from 'zustand';
 import { WebSocket as MockWebSocket, Server } from 'mock-socket';
 
-import {
-  Anchor,
-  Plan,
-  Point,
-  ReferencePoint,
-  SvgParsedData,
-  Tag,
-} from '../../types';
+import { Anchor, Plan, SvgParsedData, Tag } from '../../types';
 import { mockedAnchors, mockedPlans, mockedTags } from '../../mocks/mocks';
 import { parseSvg } from './utils';
 
@@ -17,13 +10,11 @@ type PlanState = {
   isFetching: boolean;
   isFetchingTags: boolean;
   plans: Plan[];
-  referencePoints: ReferencePoint[]; // Global Coordinate points
-  scale: number;
+  parsedSvgData: SvgParsedData;
   selectedPlan?: Plan;
   selectedPlanSvgUrl?: string;
   tags: Tag[];
   socket: MockWebSocket | null;
-  originPoint: Point;
   svgScale?: number;
   fetchAnchors: () => Promise<void>;
   fetchPlans: () => Promise<void>;
@@ -35,9 +26,18 @@ type PlanState = {
   setSvgScale: (svgScale: number) => void;
 };
 
+const initialParsed: SvgParsedData = {
+  referencePoints: [],
+  transformMatrix: [0, 0, 0, 0, 0, 0],
+  originOfTSL: { xSvg: 0, ySvg: 0, yReal: 0, xReal: 0 },
+  scale: 1,
+  angle: 0,
+};
+
 export const usePlanStore = create<PlanState>((set, get) => ({
   scale: 1,
   originPoint: { x: 0, y: 0 },
+  parsedSvgData: initialParsed,
   // this is for quick floor plan load for debugging anchors and tags
   quickInit: () => {
     set({
@@ -62,7 +62,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       selectedPlan: undefined,
       anchors: [],
       selectedPlanSvgUrl: undefined,
-      referencePoints: [],
+      parsedSvgData: initialParsed,
       svgScale: undefined,
     }),
 
@@ -139,14 +139,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
 
       const parsedData: SvgParsedData | null = parseSvg(text);
       if (parsedData) {
-        set({
-          referencePoints: parsedData.referencePoints,
-          scale: parsedData.scale,
-          originPoint: {
-            x: parsedData.originOfTSL.xSvg,
-            y: parsedData.originOfTSL.ySvg,
-          },
-        });
+        set({ parsedSvgData: parsedData });
       }
     }
     set({ isFetching: false });
