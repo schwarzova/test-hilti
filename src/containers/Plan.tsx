@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { css } from '../../styled-system/css';
 
-import Viewer from '../components/Viewer/Viewer';
 import { usePlanStore } from '../components/Plan/store';
 import PlanSelection from '../components/Plan/PlanSelection';
 import { Plan as PlanType } from '../types';
@@ -29,6 +28,8 @@ function Plan() {
   const tags = usePlanStore((state) => state.tags);
   const scale = usePlanStore((state) => state.scale);
   const originPoint = usePlanStore((state) => state.originPoint);
+  const svgScale = usePlanStore((state) => state.svgScale);
+  const setSvgScale = usePlanStore((state) => state.setSvgScale);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
   useEffect(() => {
@@ -78,6 +79,8 @@ function Plan() {
           planHeight={planRef.current.getBoundingClientRect().height}
           tags={tags}
           scale={scale}
+          svgScale={svgScale}
+          onSvgScaleSet={setSvgScale}
         />
       ) : (
         <PlanSelection

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactSVGPanZoom, Tool, TOOL_PAN, Value } from 'react-svg-pan-zoom';
 import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
 
@@ -17,12 +17,30 @@ type Props = {
   tags: Tag[];
   scale: number;
   originPoint: Point;
+  svgScale?: number;
+  onSvgScaleSet: (scale: number) => void;
 };
 
 function ControlledViewer(props: Props) {
   const viewerRef = useViewerRef();
   const [tool, onChangeTool] = useState<Tool>(TOOL_PAN);
   const [value, onChangeValue] = useState<Value>({} as Value);
+
+  useEffect(() => {
+    const svgEl = document.getElementsByClassName('injected-svg')[0];
+
+    if (!props.svgScale && svgEl) {
+      const originalWidth = svgEl.getBoundingClientRect().width;
+
+      svgEl.setAttribute('width', '100%');
+      svgEl.setAttribute('height', '100%');
+      svgEl.setAttribute('preserveAspectRatio', 'xMinYMin meet');
+
+      const newWidth = svgEl.getBoundingClientRect().width;
+      props.onSvgScaleSet(newWidth / originalWidth);
+      viewerRef?.current?.fitToViewer();
+    }
+  }, [value]);
 
   if (props.isFetching) {
     return <Spinner />;
