@@ -14,6 +14,7 @@ type Props = {
   anchors: Anchor[];
   parsedSvgData: SvgParsedData;
   tags: Tag[];
+  showTagImage: boolean;
   svgScaleX: number;
   svgScaleY: number;
   onTooltipVisibilityChange: (tag?: Tag) => void;
@@ -116,6 +117,7 @@ function AnchorLayer(props: Props) {
           key={tag.tagId}
           tag={tag}
           onTooltipVisibilityChange={props.onTooltipVisibilityChange}
+          showTagImage={props.showTagImage}
         />
       ))}
       {convertedMeasuredPoints.map((point) => (

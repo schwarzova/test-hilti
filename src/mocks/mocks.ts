@@ -72,5 +72,10 @@ export const mockedTags: Tag[] = [
 ];
 
 export const mockedTools: Tool[] = [
-  { id: 't1', tagId: '1111', name: 'Tool 1' },
+  {
+    id: 't1',
+    tagId: '1111',
+    name: 'TE2000 #5',
+    imgUrl: '/src/assets/tool1.png',
+  },
 ];

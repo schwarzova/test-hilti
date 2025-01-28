@@ -27,4 +27,14 @@ export const listItemStyles = css({
 export const listItemBtnStyles = css({
   height: '100%',
   width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+export const toolImageStyles = css({
+  height: '40px',
+  width: 'auto',
+  mr: 'basePx',
+  ml: '-basePx',
 });

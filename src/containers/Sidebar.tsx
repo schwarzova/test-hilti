@@ -5,6 +5,7 @@ import DailyRuntime from '../components/Sidebar/DailyRuntime';
 import { useSidebarStore } from '../components/Sidebar/store';
 import Tasks from '../components/Sidebar/Tasks';
 import Tools from '../components/Sidebar/Tools';
+import { TAG_ZOOM_SCALE } from '../constants/consts';
 import { useViewerRef } from '../hooks/useViewerRef';
 import { Point, Tag } from '../types';
 
@@ -41,11 +42,10 @@ function Sidebar() {
   function handleLocateTool(tagId: string) {
     const convertedTags = convertTags(tags);
     const toolTag = convertedTags.find((t) => t.tagId === tagId);
-    const ZOOM_SCALE_TAG = 6;
-
     const currentZoom = viewerRef?.current?.getValue().d;
-    if (viewerRef && toolTag && currentZoom && currentZoom < ZOOM_SCALE_TAG) {
-      const scaleFactor = ZOOM_SCALE_TAG - currentZoom;
+
+    if (viewerRef && toolTag && currentZoom) {
+      const scaleFactor = TAG_ZOOM_SCALE / currentZoom;
       viewerRef.current?.zoom(
         toolTag.position.x,
         toolTag.position.y,

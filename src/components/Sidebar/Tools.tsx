@@ -1,6 +1,11 @@
 import { Tool } from '../../types';
 import Spinner from '../Spinner';
-import { listItemStyles, sidebarBoxStyles, listItemBtnStyles } from './styles';
+import {
+  listItemStyles,
+  sidebarBoxStyles,
+  listItemBtnStyles,
+  toolImageStyles,
+} from './styles';
 
 type Props = {
   isFetching: boolean;
@@ -27,6 +32,7 @@ function Tools(props: Props) {
               className={listItemBtnStyles}
               onClick={() => props.onToolClick(t.tagId)}
             >
+              <img src={t.imgUrl} alt={t.name} className={toolImageStyles} />
               {t.name}
             </button>
           </li>

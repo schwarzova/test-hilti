@@ -43,6 +43,7 @@ export type Tool = {
   id: string;
   tagId: string;
   name: string;
+  imgUrl: string;
 };
 
 export type TransformMatrix = [number, number, number, number, number, number];
