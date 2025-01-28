@@ -86,6 +86,7 @@ function Viewer(props: Props) {
                     svgScaleX={props.svgScaleX}
                     svgScaleY={props.svgScaleY}
                     onTooltipVisibilityChange={handleTooltipVisibilityChange}
+                    focusedTag={tooltipTag}
                   />
                 </foreignObject>
               </>

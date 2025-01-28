@@ -41,11 +41,6 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
       referencePoints[2],
     );
 
-    const angle = calculateAngle(
-      referencePoints[0],
-      referencePoints[2],
-      referencePoints[1],
-    );
     const scale = realDistance / svgDistance;
 
     // TLS, SVG points
@@ -62,7 +57,7 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
       referencePoints,
       originOfTSL: referencePoints[0],
       scale,
-      angle,
+      angle: 0,
       transformMatrix,
     };
   }
@@ -107,44 +102,6 @@ function calculateDistance(
   const dx = pointB.xSvg - pointA.xSvg;
   const dy = pointB.ySvg - pointA.ySvg;
   return Math.sqrt(dx * dx + dy * dy);
-}
-
-function calculateAngle(
-  pointA: ReferencePoint,
-  pointB: ReferencePoint,
-  pointC: ReferencePoint,
-): number {
-  // Vectors BA a BC
-  const vectorBA = {
-    x: pointA.xSvg - pointB.xSvg,
-    y: pointA.ySvg - pointB.ySvg,
-  };
-  const vectorBC = {
-    x: pointC.xSvg - pointB.xSvg,
-    y: pointC.ySvg - pointB.ySvg,
-  };
-
-  // dot product BA a BC
-  const dotProduct = vectorBA.x * vectorBC.x + vectorBA.y * vectorBC.y;
-
-  // Size of vectors BA a BC
-  const magnitudeBA = Math.sqrt(
-    vectorBA.x * vectorBA.x + vectorBA.y * vectorBA.y,
-  );
-  const magnitudeBC = Math.sqrt(
-    vectorBC.x * vectorBC.x + vectorBC.y * vectorBC.y,
-  );
-
-  // Cos angle
-  const cosTheta = dotProduct / (magnitudeBA * magnitudeBC);
-
-  // angle in radians
-  const angleRadians = Math.acos(Math.max(-1, Math.min(1, cosTheta)));
-
-  // change to degrees
-  const angleDegrees = (angleRadians * 180) / Math.PI;
-
-  return angleDegrees;
 }
 
 export function rotatePoint(
@@ -277,31 +234,16 @@ export function transformPointWithScale(
 ): Point {
   const newPoint = transformPoint(point, transformMatrix);
 
-  // Scale and offset
-  const xTransformed = newPoint.x * svgScaleX + 0;
-  const yTransformed = newPoint.y * svgScaleY + 0;
-
-  return {
-    x: xTransformed,
-    y: yTransformed,
-  };
-}
-
-export function transformPoint2(
-  point: Point,
-  transform: TransformMatrix,
-  scale: number = 0.85,
-  scaleY: number = 0.7,
-  offsetX: number = 80,
-  offsetY: number = 80,
-): Point {
-  const transformedPoint = transformPoint(point, transform);
+  const scaleX: number = 0.9;
+  const scaleY: number = 0.75;
+  const offsetX: number = 95;
+  const offsetY: number = 87;
 
   // Scale and offset
-  const xTransformed = transformedPoint.x * scale + offsetX;
-  const yTransformed = transformedPoint.y * scaleY + offsetY;
+  const xTransformed = newPoint.x * svgScaleX * scaleX + offsetX;
+  const yTransformed = newPoint.y * svgScaleY * scaleY + offsetY;
 
-  return rotatePoint({ x: xTransformed, y: yTransformed }, { x: 0, y: 0 }, -1);
+  return rotatePoint({ x: xTransformed, y: yTransformed }, { x: 0, y: 0 }, 0);
 }
 
 export function convertMillisecondsToMinutesAndSeconds(
