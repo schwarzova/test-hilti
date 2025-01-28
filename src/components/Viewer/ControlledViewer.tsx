@@ -91,16 +91,16 @@ function ControlledViewer(props: Props) {
           </ReactSVGPanZoom>
         )}
       />
-        {tooltipTag && (
-          <TagTooltip
-            style={{
-              position: 'absolute',
-              top: tooltipTag.position.y + 10,
-              left: tooltipTag.position.x + 10,
-            }}
-            tag={tooltipTag}
-          />
-        )}
+      {tooltipTag && (
+        <TagTooltip
+          style={{
+            position: 'absolute',
+            top: tooltipTag.position.y + 10,
+            left: tooltipTag.position.x + 10,
+          }}
+          tag={tooltipTag}
+        />
+      )}
     </div>
   );
 }

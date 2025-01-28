@@ -26,7 +26,7 @@ export default defineConfig({
             primary: { value: '#212121' }, // Almost Black
             secondary: { value: '#636363' }, // Gray Text
             disabled: { value: '#BDBDBD' }, // Disabled Text
-            highlighted: { value: '#FF564A' }, 
+            highlighted: { value: '#FF564A' },
           },
           background: {
             light: { value: '#FFFFFF' }, // White for Light Theme
