@@ -74,7 +74,9 @@ function TagTooltip(props: Props) {
     >
       <TooltipLabel>{props.tag.tagId}</TooltipLabel>
       <br />
-      <TooltipLabel>Last seen: {minutes} min</TooltipLabel>
+      <TooltipLabel>
+        Last seen: {minutes} min {seconds} s
+      </TooltipLabel>
 
       <TooltipLabel>Height: {getHeight()}</TooltipLabel>
       <TooltipLabel>
