@@ -5,7 +5,7 @@ import { usePlanStore } from '../components/Plan/store';
 import PlanSelection from '../components/Plan/PlanSelection';
 import { Plan as PlanType } from '../types';
 import { useSidebarStore } from '../components/Sidebar/store';
-import ControlledViewer from '../components/Viewer/ControlledViewer';
+import Viewer from '../components/Viewer/Viewer';
 
 const planWrapStyles = css({
   marginLeft: 'basePx',
@@ -70,7 +70,7 @@ function Plan() {
   return (
     <div className={planWrapStyles} ref={planRef}>
       {selectedPlan && selectedPlanSvgUrl && planRef.current ? (
-        <ControlledViewer
+        <Viewer
           anchors={anchors}
           isFetching={isFetching}
           parsedSvgData={parsedSvgData}

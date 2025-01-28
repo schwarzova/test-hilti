@@ -4,6 +4,7 @@ import {
   SvgParsedData,
   Point,
 } from '../../types';
+import { useSidebarStore } from '../Sidebar/store';
 
 // firstly defined
 const TLS_0: Point = { x: -45.56, y: 20.35 }; // [0]
@@ -310,4 +311,11 @@ export function convertMillisecondsToMinutesAndSeconds(
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   return [minutes, seconds];
+}
+
+export function findToolForTag(tagId: string) {
+  const tools = useSidebarStore.getState().tools;
+  const tool = tools.find((t) => t.tagId === tagId);
+
+  return tool;
 }

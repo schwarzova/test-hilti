@@ -56,3 +56,10 @@ export const tooltipNotEmphasizedLabelClass = css({
   fontStyle: 'normal',
   marginLeft: '2px',
 });
+
+export const tagImageClass = css({
+  zIndex: 1,
+  position: 'absolute',
+  height: '20px',
+  width: 'auto',
+});
