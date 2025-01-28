@@ -42,3 +42,24 @@ export const measuredPointClass = css({
   backgroundColor: 'viewer.measuredPoint',
   borderRadius: '50%',
 });
+
+export const tooltipLabelClass = css({
+  display: 'flex',
+  paddingBottom: '4px',
+});
+
+export const tooltipEmphasizedLabelClass = css({
+  color: 'text.highlighted',
+});
+
+export const tooltipNotEmphasizedLabelClass = css({
+  fontStyle: 'normal',
+  marginLeft: '2px',
+});
+
+export const tagImageClass = css({
+  zIndex: 1,
+  position: 'absolute',
+  height: '20px',
+  width: 'auto',
+});

@@ -1,49 +1,45 @@
-import { useState } from 'react';
 import { TAG_SIZE } from '../../constants/consts';
 import { Tag } from '../../types';
-import { tagClass, tooltipClass } from './styles';
+import { findToolForTag } from '../Plan/utils';
+import { tagClass, tagImageClass } from './styles';
 
 type Props = {
   tag: Tag;
+  onTooltipVisibilityChange: (tag?: Tag) => void;
+  showTagImage: boolean;
 };
 
 function TagPoint(props: Props) {
-  const [isTooltipVisible, setTooltipVisible] = useState(false);
+  const tool = findToolForTag(props.tag.tagId);
   const left = props.tag.position.x - TAG_SIZE / 2;
   const top = props.tag.position.y - TAG_SIZE / 2;
 
-  function handleMouseOver() {
-    setTooltipVisible(true);
-  }
-
-  function handleMouseOut() {
-    setTooltipVisible(false);
-  }
-
-  return (
-    <>
-      <div
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
-        className={tagClass}
+  if (props.showTagImage && tool) {
+    return (
+      <img
+        src={tool.imgUrl}
+        alt={tool.name}
+        onMouseOver={() => props.onTooltipVisibilityChange(props.tag)}
+        onMouseOut={() => props.onTooltipVisibilityChange(undefined)}
+        className={tagImageClass}
         style={{
           left: `${left}px`,
           top: `${top}px`,
         }}
       />
+    );
+  }
 
-      {isTooltipVisible && (
-        <div
-          className={tooltipClass}
-          style={{
-            top: top + 10, // Offset to avoid overlap
-            left: left + 10,
-          }}
-        >
-          Battery level: {props.tag.batteryLevel}%
-        </div>
-      )}
-    </>
+  return (
+    <div
+      onMouseOver={() => props.onTooltipVisibilityChange(props.tag)}
+      onMouseOut={() => props.onTooltipVisibilityChange(undefined)}
+      className={tagClass}
+      style={{
+        left: `${left}px`,
+        top: `${top}px`,
+      }}
+    />
   );
 }
 

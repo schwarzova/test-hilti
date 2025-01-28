@@ -4,6 +4,7 @@ import {
   SvgParsedData,
   Point,
 } from '../../types';
+import { useSidebarStore } from '../Sidebar/store';
 
 // firstly defined
 const TLS_0: Point = { x: -45.56, y: 20.35 }; // [0]
@@ -274,15 +275,16 @@ export function transformPointWithScale(
   svgScaleX: number,
   svgScaleY: number,
 ): Point {
-  const newPoint =  transformPoint(point, transformMatrix);
-  
-    // Scale and offset
-    const xTransformed = newPoint.x * svgScaleX + 0;
-    const yTransformed = newPoint.y * svgScaleY + 0;
+  const newPoint = transformPoint(point, transformMatrix);
+
+  // Scale and offset
+  const xTransformed = newPoint.x * svgScaleX + 0;
+  const yTransformed = newPoint.y * svgScaleY + 0;
 
   return {
-    x: xTransformed, y: yTransformed
-  }
+    x: xTransformed,
+    y: yTransformed,
+  };
 }
 
 export function transformPoint2(
@@ -300,4 +302,20 @@ export function transformPoint2(
   const yTransformed = transformedPoint.y * scaleY + offsetY;
 
   return rotatePoint({ x: xTransformed, y: yTransformed }, { x: 0, y: 0 }, -1);
+}
+
+export function convertMillisecondsToMinutesAndSeconds(
+  milliseconds: number,
+): [number, number] {
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return [minutes, seconds];
+}
+
+export function findToolForTag(tagId: string) {
+  const tools = useSidebarStore.getState().tools;
+  const tool = tools.find((t) => t.tagId === tagId);
+
+  return tool;
 }

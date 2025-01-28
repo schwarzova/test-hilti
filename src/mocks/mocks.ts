@@ -63,14 +63,19 @@ export const mockedTags: Tag[] = [
     position: {
       x: 12.34,
       y: 9.67,
-      z: 1.23,
+      z: 0.1,
     },
     los: 'a1a4', // (meaning that there is line of sight only with anchors 1 and 4)
-    batteryLevel: 85,
-    timestamp: '1736343493', // unix time
+    batteryLevel: 19,
+    timestamp: '1738013852500', // unix time
   },
 ];
 
 export const mockedTools: Tool[] = [
-  { id: 't1', tagId: '1111', name: 'Tool 1' },
+  {
+    id: 't1',
+    tagId: '1111',
+    name: 'TE2000 #5',
+    imgUrl: '/src/assets/tool1.png',
+  },
 ];

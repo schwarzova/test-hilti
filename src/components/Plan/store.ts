@@ -24,7 +24,7 @@ type PlanState = {
   resetSelectedPlan: () => void;
   setSelectedPlan: (plan: Plan) => void;
   quickInit: () => void;
-  setSvgScale: (svgScaleX: number, svgScaleY: number,) => void;
+  setSvgScale: (svgScaleX: number, svgScaleY: number) => void;
 };
 
 const initialParsed: SvgParsedData = {
