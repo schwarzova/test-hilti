@@ -9,15 +9,17 @@ import {
   transformPointWithScale,
 } from '../Plan/utils';
 import MeasuredReferencePoint from './MeasuredReferencePoint';
+import LinesOfSight from './LinesOfSight';
 
 type Props = {
   anchors: Anchor[];
+  focusedTag?: Tag;
+  onTooltipVisibilityChange: (tag?: Tag) => void;
   parsedSvgData: SvgParsedData;
-  tags: Tag[];
   showTagImage: boolean;
   svgScaleX: number;
   svgScaleY: number;
-  onTooltipVisibilityChange: (tag?: Tag) => void;
+  tags: Tag[];
 };
 
 function AnchorLayer(props: Props) {
@@ -93,14 +95,23 @@ function AnchorLayer(props: Props) {
   }
 
   function convertTags(tags: Tag[]): Tag[] {
-    return tags.map<Tag>((t) => ({
-      ...t,
-      position: {
-        ...t.position,
-        x: t.position.x / 0.1 + originPoint.x,
-        y: t.position.y / 0.1 + originPoint.y,
-      },
-    }));
+    return tags.map<Tag>((t) => {
+      const newPosition = transformPointWithScale(
+        { x: t.position.x, y: t.position.y },
+        transformMatrix,
+        props.svgScaleX,
+        props.svgScaleY,
+      );
+
+      return {
+        ...t,
+        position: {
+          ...t.position,
+          x: newPosition.x,
+          y: newPosition.y,
+        },
+      };
+    });
   }
 
   return (
@@ -123,6 +134,9 @@ function AnchorLayer(props: Props) {
       {convertedMeasuredPoints.map((point) => (
         <MeasuredReferencePoint key={`${point.x}_${point.y}`} point={point} />
       ))}
+      {props.focusedTag && (
+        <LinesOfSight tag={props.focusedTag} anchors={convertedAnchors} />
+      )}
     </>
   );
 }
