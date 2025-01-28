@@ -3,16 +3,20 @@ import { useEffect, useState } from 'react';
 import { Anchor, Point, SvgParsedData, Tag } from '../../types';
 import AnchorPoint from './AnchorPoint';
 import TagPoint from './TagPoint';
-import { MEASURED_POINTS, rotatePoint, transformPoint, transformPointWithScale } from '../Plan/utils';
+import {
+  MEASURED_POINTS,
+  rotatePoint,
+  transformPointWithScale,
+} from '../Plan/utils';
 import MeasuredReferencePoint from './MeasuredReferencePoint';
 
 type Props = {
   anchors: Anchor[];
   parsedSvgData: SvgParsedData;
   tags: Tag[];
-  svgScaleX:number,
-  svgScaleY: number,
-  onTooltipVisibilityChange: ( tag?: Tag) => void;
+  svgScaleX: number;
+  svgScaleY: number;
+  onTooltipVisibilityChange: (tag?: Tag) => void;
 };
 
 function AnchorLayer(props: Props) {
@@ -33,7 +37,14 @@ function AnchorLayer(props: Props) {
     setConvertedAnchors(convertAnchors(props.anchors, true));
     setConvertedTags(c);
     setConvertedMeasuredPoints(
-      MEASURED_POINTS.map((p) => transformPointWithScale(p, transformMatrix, props.svgScaleX, props.svgScaleY)),
+      MEASURED_POINTS.map((p) =>
+        transformPointWithScale(
+          p,
+          transformMatrix,
+          props.svgScaleX,
+          props.svgScaleY,
+        ),
+      ),
     );
   }, [props.anchors, props.tags, props.parsedSvgData]);
 
@@ -43,7 +54,8 @@ function AnchorLayer(props: Props) {
         const newPoint: Point = transformPointWithScale(
           { x: a.x, y: a.y },
           transformMatrix,
-          props.svgScaleX, props.svgScaleY
+          props.svgScaleX,
+          props.svgScaleY,
         );
 
         return { ...a, x: newPoint.x, y: newPoint.y };
@@ -93,11 +105,17 @@ function AnchorLayer(props: Props) {
   return (
     <>
       {convertedAnchors.map((a) => (
-        <AnchorPoint key={a.id} anchor={{ ...a, x: a.x, y: a.y }} svgScaleX={props.svgScaleX}/>
+        <AnchorPoint
+          key={a.id}
+          anchor={{ ...a, x: a.x, y: a.y }}
+          svgScaleX={props.svgScaleX}
+        />
       ))}
       {convertedTags.map((tag) => (
-        <TagPoint key={tag.tagId} tag={tag}
-        onTooltipVisibilityChange={props.onTooltipVisibilityChange}
+        <TagPoint
+          key={tag.tagId}
+          tag={tag}
+          onTooltipVisibilityChange={props.onTooltipVisibilityChange}
         />
       ))}
       {convertedMeasuredPoints.map((point) => (

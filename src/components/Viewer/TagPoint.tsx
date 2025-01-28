@@ -4,18 +4,18 @@ import { tagClass } from './styles';
 
 type Props = {
   tag: Tag;
-  onTooltipVisibilityChange: ( tag?: Tag) => void;
+  onTooltipVisibilityChange: (tag?: Tag) => void;
 };
 
-function TagPoint(props: Props) {s
+function TagPoint(props: Props) {
   const left = props.tag.position.x - TAG_SIZE / 2;
   const top = props.tag.position.y - TAG_SIZE / 2;
 
   return (
     <>
       <div
-        onMouseOver={( ) => props.onTooltipVisibilityChange( props.tag)}
-        onMouseOut={( ) => props.onTooltipVisibilityChange(undefined)}
+        onMouseOver={() => props.onTooltipVisibilityChange(props.tag)}
+        onMouseOut={() => props.onTooltipVisibilityChange(undefined)}
         className={tagClass}
         style={{
           left: `${left}px`,

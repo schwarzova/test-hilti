@@ -274,15 +274,16 @@ export function transformPointWithScale(
   svgScaleX: number,
   svgScaleY: number,
 ): Point {
-  const newPoint =  transformPoint(point, transformMatrix);
-  
-    // Scale and offset
-    const xTransformed = newPoint.x * svgScaleX + 0;
-    const yTransformed = newPoint.y * svgScaleY + 0;
+  const newPoint = transformPoint(point, transformMatrix);
+
+  // Scale and offset
+  const xTransformed = newPoint.x * svgScaleX + 0;
+  const yTransformed = newPoint.y * svgScaleY + 0;
 
   return {
-    x: xTransformed, y: yTransformed
-  }
+    x: xTransformed,
+    y: yTransformed,
+  };
 }
 
 export function transformPoint2(
@@ -302,9 +303,11 @@ export function transformPoint2(
   return rotatePoint({ x: xTransformed, y: yTransformed }, { x: 0, y: 0 }, -1);
 }
 
-export function convertMillisecondsToMinutesAndSeconds(milliseconds: number): [number, number] {
-  const totalSeconds = Math.floor(milliseconds / 1000); 
-  const minutes = Math.floor(totalSeconds / 60); 
-  const seconds = totalSeconds % 60; 
-  return [minutes,seconds ]
+export function convertMillisecondsToMinutesAndSeconds(
+  milliseconds: number,
+): [number, number] {
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return [minutes, seconds];
 }

@@ -49,15 +49,10 @@ export const tooltipLabelClass = css({
 });
 
 export const tooltipEmphasizedLabelClass = css({
-  color: 'text.highlighted'
+  color: 'text.highlighted',
 });
 
 export const tooltipNotEmphasizedLabelClass = css({
   fontStyle: 'normal',
   marginLeft: '2px',
 });
-
-
-
-
-
