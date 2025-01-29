@@ -1,13 +1,14 @@
 import { css } from '../../styled-system/css';
-import { usePlanStore } from '../components/Plan/store';
 
+import { usePlanStore } from '../components/Plan/store';
+import { transformPointWithScale } from '../components/Plan/utils';
 import DailyRuntime from '../components/Sidebar/DailyRuntime';
 import { useSidebarStore } from '../components/Sidebar/store';
 import Tasks from '../components/Sidebar/Tasks';
 import Tools from '../components/Sidebar/Tools';
 import { TAG_SELECTION_PADDING } from '../constants/consts';
 import { useViewerRef } from '../hooks/useViewerRef';
-import { Point, Tag } from '../types';
+import { Tag } from '../types';
 
 const sidebarStyles = css({
   width: '20%',
@@ -21,22 +22,28 @@ function Sidebar() {
   const tools = useSidebarStore((state) => state.tools);
   // needed just for converting tags should be move to one place in future
   const tags = usePlanStore((state) => state.tags);
-  const originOfTSL = usePlanStore((state) => state.parsedSvgData).originOfTSL;
-
-  const originPoint: Point = {
-    x: originOfTSL.xSvg,
-    y: originOfTSL.ySvg,
-  };
+  const svgScaleX = usePlanStore((state) => state.svgScaleX);
+  const svgScaleY = usePlanStore((state) => state.svgScaleY);
+  const { transformMatrix } = usePlanStore((state) => state.parsedSvgData);
 
   function convertTags(tags: Tag[]): Tag[] {
-    return tags.map<Tag>((t) => ({
-      ...t,
-      position: {
-        ...t.position,
-        x: t.position.x / 0.1 + originPoint.x,
-        y: t.position.y / 0.1 + originPoint.y,
-      },
-    }));
+    return tags.map<Tag>((t) => {
+      const newPosition = transformPointWithScale(
+        { x: t.position.x, y: t.position.y },
+        transformMatrix,
+        svgScaleX,
+        svgScaleY,
+      );
+
+      return {
+        ...t,
+        position: {
+          ...t.position,
+          x: newPosition.x,
+          y: newPosition.y,
+        },
+      };
+    });
   }
 
   function handleLocateTool(tagId: string) {
