@@ -15,6 +15,8 @@ export type Tag = {
     z: number;
   };
   los: string;
+  error2d: number;
+  error3d: number;
   batteryLevel: number;
   timestamp: string;
 };
