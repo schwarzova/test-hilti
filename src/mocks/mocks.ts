@@ -57,6 +57,8 @@ export const mockedAnchors: Anchor[] = [
   },
 ];
 
+/* eslint-disable no-loss-of-precision */
+
 export const mockedTags1: Tag[] = [
   {
     tagId: '1111',
