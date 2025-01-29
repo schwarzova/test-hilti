@@ -2,7 +2,13 @@ import { create } from 'zustand';
 import { WebSocket as MockWebSocket, Server } from 'mock-socket';
 
 import { Anchor, Plan, SvgParsedData, Tag } from '../../types';
-import { mockedAnchors, mockedPlans, mockedTags } from '../../mocks/mocks';
+import {
+  mockedAnchors,
+  mockedPlans,
+  mockedTags1,
+  mockedTags2,
+  mockedTags3,
+} from '../../mocks/mocks';
 import { parseSvg } from './utils';
 
 export type PlanState = {
@@ -45,7 +51,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     set({
       selectedPlanSvgUrl: '/src/assets/floorplan3withGCS.svg',
       anchors: mockedAnchors,
-      tags: mockedTags,
+      tags: mockedTags1,
       selectedPlan: mockedPlans[0],
       plans: mockedPlans,
     });
@@ -79,7 +85,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   },
 
   isFetchingTags: false,
-  tags: mockedTags,
+  tags: [],
   socket: null,
   fetchTags: () => {
     if (get().socket) return null;
@@ -88,27 +94,19 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     const mockServer = new Server('wss://mockserver.com/socket');
 
     mockServer.on('connection', (socket) => {
-      // Send random tags coordinates each 200ms
-      setInterval(() => {
-        const originTagPos = mockedTags[0].position;
-        const prevTag = get().tags[0];
-        const randomSignX = Math.random() < 0.5 ? -0.1 : 0.1;
-        const randomSignY = Math.random() < 0.5 ? -0.1 : 0.1;
-        const newX = prevTag.position.x + randomSignX;
-        const newY = prevTag.position.y + randomSignY;
+      const mockedTags = [mockedTags1, mockedTags2, mockedTags3];
+      let currentIndex = 0;
+      let currentTags = mockedTags[currentIndex];
 
-        const mockUpdatedTags: Tag[] = [
-          {
-            ...mockedTags[0],
-            position: {
-              x: newX < 1300 && newX > 0 ? newX : originTagPos.x,
-              y: newY < 350 && newY > 0 ? newY : originTagPos.y,
-              z: mockedTags[0].position.z,
-            },
-          },
-        ];
-        socket.send(JSON.stringify({ tags: mockUpdatedTags }));
-      }, 200);
+      // Send tags coordinates each 3s
+      setInterval(() => {
+        currentTags = mockedTags[currentIndex];
+
+        socket.send(JSON.stringify({ tags: currentTags }));
+
+        // Move to the next index, 0 → 1 → 2 → 0
+        currentIndex = (currentIndex + 1) % mockedTags.length;
+      }, 3000);
     });
 
     // Create mocked socket connected to server
