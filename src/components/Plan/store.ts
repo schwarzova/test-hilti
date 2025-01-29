@@ -51,7 +51,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     set({
       selectedPlanSvgUrl: '/src/assets/floorplan3withGCS.svg',
       anchors: mockedAnchors,
-      tags: mockedTags,
+      tags: mockedTags1,
       selectedPlan: mockedPlans[0],
       plans: mockedPlans,
     });
