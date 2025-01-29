@@ -6,6 +6,11 @@ import PlanSelection from '../components/Plan/PlanSelection';
 import { Plan as PlanType } from '../types';
 import { useSidebarStore } from '../components/Sidebar/store';
 import Viewer from '../components/Viewer/Viewer';
+import {
+  getConvertedAnchors,
+  getConvertedMeasuredPoints,
+  getConvertedTags,
+} from '../components/Plan/selectors';
 
 const planWrapStyles = css({
   marginLeft: 'basePx',
@@ -21,15 +26,14 @@ function Plan() {
   const selectedPlan = usePlanStore((state) => state.selectedPlan);
   const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
   const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
-  const anchors = usePlanStore((state) => state.anchors);
+  const anchors = usePlanStore(getConvertedAnchors);
   const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
   const selectedPlanSvgUrl = usePlanStore((state) => state.selectedPlanSvgUrl);
   const fetchTags = usePlanStore((state) => state.fetchTags);
-  const tags = usePlanStore((state) => state.tags);
+  const tags = usePlanStore(getConvertedTags);
+  const measuredPoints = usePlanStore(getConvertedMeasuredPoints);
   const svgScaleX = usePlanStore((state) => state.svgScaleX);
-  const svgScaleY = usePlanStore((state) => state.svgScaleY);
   const setSvgScale = usePlanStore((state) => state.setSvgScale);
-  const parsedSvgData = usePlanStore((state) => state.parsedSvgData);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
   useEffect(() => {
@@ -73,13 +77,12 @@ function Plan() {
         <Viewer
           anchors={anchors}
           isFetching={isFetching}
-          parsedSvgData={parsedSvgData}
+          measuredPoints={measuredPoints}
           planHeight={planRef.current.getBoundingClientRect().height}
           planSvgUrl={selectedPlanSvgUrl}
           planWidth={planRef.current.getBoundingClientRect().width}
           tags={tags}
           svgScaleX={svgScaleX}
-          svgScaleY={svgScaleY}
           onSvgScaleSet={setSvgScale}
         />
       ) : (

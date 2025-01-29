@@ -3,7 +3,7 @@ import { ReactSVGPanZoom, Tool, TOOL_PAN, Value } from 'react-svg-pan-zoom';
 import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
 
 import Spinner from '../Spinner';
-import { Anchor, SvgParsedData, Tag } from '../../types';
+import { Anchor, Point, Tag } from '../../types';
 import { viewerWrapClass } from './styles';
 import AnchorLayer from './AnchorLayer';
 import { useViewerRef } from '../../hooks/useViewerRef';
@@ -12,14 +12,13 @@ import { TAG_ZOOM_SCALE } from '../../constants/consts';
 
 type Props = {
   anchors: Anchor[];
+  measuredPoints: Point[];
   isFetching: boolean;
-  parsedSvgData: SvgParsedData;
   planHeight: number;
   planSvgUrl: string;
   planWidth: number;
   tags: Tag[];
   svgScaleX: number;
-  svgScaleY: number;
   onSvgScaleSet: (scaleX: number, scaleY: number) => void;
 };
 
@@ -82,9 +81,7 @@ function Viewer(props: Props) {
                     anchors={props.anchors}
                     showTagImage={currentZoom >= TAG_ZOOM_SCALE}
                     tags={props.tags}
-                    parsedSvgData={props.parsedSvgData}
-                    svgScaleX={props.svgScaleX}
-                    svgScaleY={props.svgScaleY}
+                    measuredPoints={props.measuredPoints}
                     onTooltipVisibilityChange={handleTooltipVisibilityChange}
                     focusedTag={tooltipTag}
                   />
