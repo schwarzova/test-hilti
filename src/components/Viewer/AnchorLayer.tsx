@@ -1,4 +1,4 @@
-import { Anchor, Point, Tag } from '../../types';
+import { Anchor, MeasurementPoint, Point, Tag } from '../../types';
 
 import AnchorPoint from './AnchorPoint';
 import TagPoint from './TagPoint';
@@ -8,6 +8,7 @@ import LinesOfSight from './LinesOfSight';
 type Props = {
   anchors: Anchor[];
   focusedTag?: Tag;
+  groundTruthPoints: MeasurementPoint[];
   measuredPoints: Point[];
   onTooltipVisibilityChange: (tag?: Tag) => void;
   showTagImage: boolean;
@@ -30,6 +31,13 @@ function AnchorLayer(props: Props) {
       ))}
       {props.measuredPoints.map((point) => (
         <MeasuredReferencePoint key={`${point.x}_${point.y}`} point={point} />
+      ))}
+      {props.groundTruthPoints.map((point) => (
+        <MeasuredReferencePoint
+          key={`${point.x}_${point.y}`}
+          point={point}
+          isGroundTruthPoint
+        />
       ))}
       {props.focusedTag && (
         <LinesOfSight tag={props.focusedTag} anchors={props.anchors} />

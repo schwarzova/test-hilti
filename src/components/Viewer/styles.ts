@@ -43,6 +43,12 @@ export const measuredPointClass = css({
   borderRadius: '50%',
 });
 
+export const groundTruthPointClass = css({
+  height: 'groundTruthPoint',
+  width: 'groundTruthPoint',
+  backgroundColor: 'viewer.groundTruthPoint',
+});
+
 export const tooltipLabelClass = css({
   display: 'flex',
   paddingBottom: '4px',

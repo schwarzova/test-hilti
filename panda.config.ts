@@ -37,6 +37,7 @@ export default defineConfig({
             tag: { value: '#B71C1C' },
             anchor: { value: '#A46BFA' },
             measuredPoint: { value: '#Affe33' },
+            groundTruthPoint: { value: '#0047AB' },
           },
         },
         spacing: {
@@ -47,6 +48,7 @@ export default defineConfig({
           tagSize: { value: '10px' },
           anchorSize: { value: '5px' },
           referencePoint: { value: '1px' },
+          groundTruthPoint: { value: '5px' },
         },
       },
       semanticTokens: {
