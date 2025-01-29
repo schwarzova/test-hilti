@@ -1,4 +1,5 @@
 import { css } from '../../styled-system/css';
+import { getConvertedTags } from '../components/Plan/selectors';
 import { usePlanStore } from '../components/Plan/store';
 
 import DailyRuntime from '../components/Sidebar/DailyRuntime';
@@ -7,7 +8,6 @@ import Tasks from '../components/Sidebar/Tasks';
 import Tools from '../components/Sidebar/Tools';
 import { TAG_SELECTION_PADDING } from '../constants/consts';
 import { useViewerRef } from '../hooks/useViewerRef';
-import { Point, Tag } from '../types';
 
 const sidebarStyles = css({
   width: '20%',
@@ -19,29 +19,10 @@ function Sidebar() {
   const viewerRef = useViewerRef();
   const isFetchingTools = useSidebarStore((state) => state.isFetchingTools);
   const tools = useSidebarStore((state) => state.tools);
-  // needed just for converting tags should be move to one place in future
-  const tags = usePlanStore((state) => state.tags);
-  const originOfTSL = usePlanStore((state) => state.parsedSvgData).originOfTSL;
-
-  const originPoint: Point = {
-    x: originOfTSL.xSvg,
-    y: originOfTSL.ySvg,
-  };
-
-  function convertTags(tags: Tag[]): Tag[] {
-    return tags.map<Tag>((t) => ({
-      ...t,
-      position: {
-        ...t.position,
-        x: t.position.x / 0.1 + originPoint.x,
-        y: t.position.y / 0.1 + originPoint.y,
-      },
-    }));
-  }
+  const tags = usePlanStore(getConvertedTags);
 
   function handleLocateTool(tagId: string) {
-    const convertedTags = convertTags(tags);
-    const toolTag = convertedTags.find((t) => t.tagId === tagId);
+    const toolTag = tags.find((t) => t.tagId === tagId);
 
     if (viewerRef?.current && toolTag) {
       viewerRef.current.fitSelection(
