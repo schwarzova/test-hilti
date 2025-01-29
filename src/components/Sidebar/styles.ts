@@ -33,8 +33,8 @@ export const listItemBtnStyles = css({
 });
 
 export const toolImageStyles = css({
-  height: '40px',
-  width: 'auto',
+  height: 'auto',
+  width: '60px',
   mr: 'basePx',
   ml: '-basePx',
 });
