@@ -5,7 +5,7 @@ import { Anchor, Plan, SvgParsedData, Tag } from '../../types';
 import { mockedAnchors, mockedPlans, mockedTags } from '../../mocks/mocks';
 import { parseSvg } from './utils';
 
-type PlanState = {
+export type PlanState = {
   anchors: Anchor[];
   isFetching: boolean;
   isFetchingTags: boolean;

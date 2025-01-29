@@ -6,7 +6,6 @@ import { anchorClass, tooltipClass } from './styles';
 
 type Props = {
   anchor: Anchor;
-  svgScaleX: number;
 };
 
 function AnchorPoint(props: Props) {
