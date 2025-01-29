@@ -25,6 +25,12 @@ export const anchorClass = css({
   borderRadius: '50%',
 });
 
+export const anchorLabelClass = css({
+  fontSize: '10px',
+  position: 'absolute',
+  color: 'viewer.anchor',
+});
+
 export const tooltipClass = css({
   position: 'absolute',
   backgroundColor: 'background.tooltip',
@@ -47,6 +53,12 @@ export const groundTruthPointClass = css({
   height: 'groundTruthPoint',
   width: 'groundTruthPoint',
   backgroundColor: 'viewer.groundTruthPoint',
+});
+
+export const measuredPointLabelClass = css({
+  fontSize: '10px',
+  position: 'absolute',
+  color: 'viewer.groundTruthPoint',
 });
 
 export const tooltipLabelClass = css({

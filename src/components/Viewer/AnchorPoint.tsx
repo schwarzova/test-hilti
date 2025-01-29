@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { ANCHOR_SIZE } from '../../constants/consts';
 import { Anchor } from '../../types';
-import { anchorClass, tooltipClass } from './styles';
+import { anchorClass, anchorLabelClass, tooltipClass } from './styles';
 
 type Props = {
   anchor: Anchor;
@@ -34,10 +34,9 @@ function AnchorPoint(props: Props) {
         }}
       />
       <span
+        className={anchorLabelClass}
         style={{
-          fontSize: '14px',
           top: top + 5,
-          position: 'absolute',
           left: left + 5,
         }}
       >
