@@ -76,28 +76,28 @@ export const mockedTags1: Tag[] = [
   {
     tagId: '2222',
     position: {
-      x: -0.5274726092280309,
-      y: -0.14396243916810192,
-      z: -1.1808511304685392,
+      x: -8.256795438109275,
+      y: -0.7752587170327425,
+      z: -1.743765534446407,
     },
     los: 'a1a2a3a4',
-    error2d: 13,
-    error3d: 45,
+    error2d: 11,
+    error3d: 19,
     batteryLevel: 85,
-    timestamp: '1738146250',
+    timestamp: '1738146349',
   },
   {
     tagId: '3333',
     position: {
-      x: -0.5255643229410668,
-      y: -0.08378042425439332,
-      z: -1.2080846404861073,
+      x: -3.8026854,
+      y: 0.4318713,
+      z: -4.58586295,
     },
     los: 'a1a2a3a4',
-    error2d: 8,
-    error3d: 36,
+    error2d: 153,
+    error3d: 357,
     batteryLevel: 85,
-    timestamp: '1738146251',
+    timestamp: '1738146360',
   },
 ];
 
@@ -109,9 +109,9 @@ export const mockedTags2: Tag[] = [
       y: -0.14396243916810192,
       z: -1.1808511304685392,
     },
-    error2d: 11,
-    error3d: 19,
     los: 'a1a2a3a4',
+    error2d: 13,
+    error3d: 45,
     batteryLevel: 85,
     timestamp: '1738146250',
   },
@@ -131,35 +131,6 @@ export const mockedTags2: Tag[] = [
   {
     tagId: '3333',
     position: {
-      x: -8.240016412089021,
-      y: -0.7835736929520743,
-      z: -1.6479335364263972,
-    },
-    los: 'a1a2a3a4',
-    error2d: 10,
-    error3d: 23,
-    batteryLevel: 85,
-    timestamp: '1738146351',
-  },
-];
-
-export const mockedTags3: Tag[] = [
-  {
-    tagId: '1111',
-    position: {
-      x: -3.8026854,
-      y: 0.4318713,
-      z: -4.58586295,
-    },
-    error2d: 153,
-    error3d: 257,
-    los: 'a1a2a3a4',
-    batteryLevel: 85,
-    timestamp: '1738146360',
-  },
-  {
-    tagId: '2222',
-    position: {
       x: -3.4339728,
       y: 1.9534661,
       z: -1.4373713,
@@ -169,6 +140,35 @@ export const mockedTags3: Tag[] = [
     error3d: 10,
     batteryLevel: 85,
     timestamp: '1738146361',
+  },
+];
+
+export const mockedTags3: Tag[] = [
+  {
+    tagId: '1111',
+    position: {
+      x: -0.5255643229410668,
+      y: -0.08378042425439332,
+      z: -1.2080846404861073,
+    },
+    los: 'a1a2a3a4',
+    error2d: 8,
+    error3d: 36,
+    batteryLevel: 85,
+    timestamp: '1738146251',
+  },
+  {
+    tagId: '2222',
+    position: {
+      x: -8.240016412089021,
+      y: -0.7835736929520743,
+      z: -1.6479335364263972,
+    },
+    los: 'a1a2a3a4',
+    error2d: 10,
+    error3d: 23,
+    batteryLevel: 85,
+    timestamp: '1738146351',
   },
   {
     tagId: '3333',
@@ -189,19 +189,19 @@ export const mockedTools: Tool[] = [
   {
     id: 't1',
     tagId: '1111',
-    name: 'Tool 1111',
+    name: 'Tool P1',
     imgUrl: '/src/assets/tool1.png',
   },
   {
     id: 't2',
     tagId: '2222',
-    name: 'Tool 2222',
+    name: 'Tool P2',
     imgUrl: '/src/assets/tool2.png',
   },
   {
     id: 't3',
     tagId: '3333',
-    name: 'Tool 3333',
+    name: 'Tool P4',
     imgUrl: '/src/assets/tool3.png',
   },
 ];
