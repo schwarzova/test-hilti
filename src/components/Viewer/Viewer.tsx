@@ -26,12 +26,13 @@ function Viewer(props: Props) {
   const viewerRef = useViewerRef();
   const [tool, onChangeTool] = useState<Tool>(TOOL_PAN);
   const [value, onChangeValue] = useState<Value>({} as Value);
+  const [currentZoom, setCurrentZoom] = useState(1);
 
   const [tooltipTag, setTooltipTag] = useState<Tag | undefined>(undefined);
-  const currentZoom = viewerRef?.current?.getValue().d || 1;
 
   useEffect(() => {
     const svgEl = document.getElementsByClassName('injected-svg')[0];
+    setCurrentZoom(viewerRef?.current?.getValue().d || 1);
 
     if (props.svgScaleX === 1 && svgEl) {
       const originalWidth = svgEl.getBoundingClientRect().width;

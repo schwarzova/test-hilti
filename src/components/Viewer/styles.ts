@@ -60,6 +60,6 @@ export const tooltipNotEmphasizedLabelClass = css({
 export const tagImageClass = css({
   zIndex: 1,
   position: 'absolute',
-  height: '20px',
-  width: 'auto',
+  height: 'auto',
+  width: '20px',
 });

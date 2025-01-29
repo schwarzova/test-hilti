@@ -196,12 +196,12 @@ export const mockedTools: Tool[] = [
     id: 't2',
     tagId: '2222',
     name: 'Tool 2222',
-    imgUrl: '/src/assets/tool1.png',
+    imgUrl: '/src/assets/tool2.png',
   },
   {
     id: 't3',
     tagId: '3333',
     name: 'Tool 3333',
-    imgUrl: '/src/assets/tool1.png',
+    imgUrl: '/src/assets/tool3.png',
   },
 ];
