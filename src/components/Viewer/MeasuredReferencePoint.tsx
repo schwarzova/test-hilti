@@ -1,8 +1,10 @@
+import { cx } from '../../../styled-system/css';
 import { Point } from '../../types';
-import { measuredPointClass } from './styles';
+import { measuredPointClass, groundTruthPointClass } from './styles';
 
 type Props = {
   point: Point;
+  isGroundTruthPoint?: boolean;
 };
 
 function MeasuredReferencePoint(props: Props) {
@@ -11,7 +13,10 @@ function MeasuredReferencePoint(props: Props) {
 
   return (
     <div
-      className={measuredPointClass}
+      className={cx(
+        measuredPointClass,
+        props.isGroundTruthPoint && groundTruthPointClass,
+      )}
       style={{
         left: `${left}px`,
         top: `${top}px`,

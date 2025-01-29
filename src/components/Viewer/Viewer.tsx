@@ -3,7 +3,7 @@ import { ReactSVGPanZoom, Tool, TOOL_PAN, Value } from 'react-svg-pan-zoom';
 import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
 
 import Spinner from '../Spinner';
-import { Anchor, Point, Tag } from '../../types';
+import { Anchor, MeasurementPoint, Point, Tag } from '../../types';
 import { viewerWrapClass } from './styles';
 import AnchorLayer from './AnchorLayer';
 import { useViewerRef } from '../../hooks/useViewerRef';
@@ -12,26 +12,28 @@ import { TAG_ZOOM_SCALE } from '../../constants/consts';
 
 type Props = {
   anchors: Anchor[];
-  measuredPoints: Point[];
+  groundTruthPoints: MeasurementPoint[];
   isFetching: boolean;
+  measuredPoints: Point[];
+  onSvgScaleSet: (scaleX: number, scaleY: number) => void;
   planHeight: number;
   planSvgUrl: string;
   planWidth: number;
-  tags: Tag[];
   svgScaleX: number;
-  onSvgScaleSet: (scaleX: number, scaleY: number) => void;
+  tags: Tag[];
 };
 
 function Viewer(props: Props) {
   const viewerRef = useViewerRef();
   const [tool, onChangeTool] = useState<Tool>(TOOL_PAN);
   const [value, onChangeValue] = useState<Value>({} as Value);
+  const [currentZoom, setCurrentZoom] = useState(1);
 
   const [tooltipTag, setTooltipTag] = useState<Tag | undefined>(undefined);
-  const currentZoom = viewerRef?.current?.getValue().d || 1;
 
   useEffect(() => {
     const svgEl = document.getElementsByClassName('injected-svg')[0];
+    setCurrentZoom(viewerRef?.current?.getValue().d || 1);
 
     if (props.svgScaleX === 1 && svgEl) {
       const originalWidth = svgEl.getBoundingClientRect().width;
@@ -79,11 +81,12 @@ function Viewer(props: Props) {
                 >
                   <AnchorLayer
                     anchors={props.anchors}
-                    showTagImage={currentZoom >= TAG_ZOOM_SCALE}
-                    tags={props.tags}
+                    focusedTag={tooltipTag}
+                    groundTruthPoints={props.groundTruthPoints}
                     measuredPoints={props.measuredPoints}
                     onTooltipVisibilityChange={handleTooltipVisibilityChange}
-                    focusedTag={tooltipTag}
+                    showTagImage={currentZoom >= TAG_ZOOM_SCALE}
+                    tags={props.tags}
                   />
                 </foreignObject>
               </>

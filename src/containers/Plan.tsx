@@ -8,6 +8,7 @@ import { useSidebarStore } from '../components/Sidebar/store';
 import Viewer from '../components/Viewer/Viewer';
 import {
   getConvertedAnchors,
+  getConvertedGroundTruthPoints,
   getConvertedMeasuredPoints,
   getConvertedTags,
 } from '../components/Plan/selectors';
@@ -32,6 +33,7 @@ function Plan() {
   const fetchTags = usePlanStore((state) => state.fetchTags);
   const tags = usePlanStore(getConvertedTags);
   const measuredPoints = usePlanStore(getConvertedMeasuredPoints);
+  const groundTruthPoints = usePlanStore(getConvertedGroundTruthPoints);
   const svgScaleX = usePlanStore((state) => state.svgScaleX);
   const setSvgScale = usePlanStore((state) => state.setSvgScale);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
@@ -76,14 +78,15 @@ function Plan() {
       {selectedPlan && selectedPlanSvgUrl && planRef.current ? (
         <Viewer
           anchors={anchors}
+          groundTruthPoints={groundTruthPoints}
           isFetching={isFetching}
           measuredPoints={measuredPoints}
+          onSvgScaleSet={setSvgScale}
           planHeight={planRef.current.getBoundingClientRect().height}
           planSvgUrl={selectedPlanSvgUrl}
           planWidth={planRef.current.getBoundingClientRect().width}
-          tags={tags}
           svgScaleX={svgScaleX}
-          onSvgScaleSet={setSvgScale}
+          tags={tags}
         />
       ) : (
         <PlanSelection

@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
 import { PlanState } from './store';
-import { Anchor, Point, Tag } from '../../types';
+import { Anchor, MeasurementPoint, Point, Tag } from '../../types';
 import { MEASURED_POINTS, transformPointWithScale } from './utils';
+import { GROUND_TRUTH_POINTS } from '../../mocks/mocks';
 
 export const getConvertedAnchors = createSelector(
   [
@@ -62,5 +63,24 @@ export const getConvertedMeasuredPoints = createSelector(
     return MEASURED_POINTS.map((p) =>
       transformPointWithScale(p, transformMatrix, svgScaleX, svgScaleY),
     );
+  },
+);
+
+export const getConvertedGroundTruthPoints = createSelector(
+  [
+    (state: PlanState) => state.svgScaleX,
+    (state: PlanState) => state.svgScaleY,
+    (state: PlanState) => state.parsedSvgData.transformMatrix,
+  ],
+  (svgScaleX, svgScaleY, transformMatrix): MeasurementPoint[] => {
+    return GROUND_TRUTH_POINTS.map((p) => {
+      const point = transformPointWithScale(
+        { x: p.x, y: p.y },
+        transformMatrix,
+        svgScaleX,
+        svgScaleY,
+      );
+      return { ...p, x: point.x, y: point.y };
+    });
   },
 );
