@@ -47,7 +47,6 @@ function EmphasizedLabel(props: EmphasizedLabelProps) {
 function TagTooltip(props: Props) {
   const tool = findToolForTag(props.tag.tagId);
 
-
   function getHeight(): string {
     let special: string = '';
     if (props.tag.position.z < 0.3) {
@@ -68,15 +67,14 @@ function TagTooltip(props: Props) {
     return `${special} (${heightString})`;
   }
 
-  function getTimeLabel(){
+  function getTimeLabel() {
     const [hours, minutes, seconds] = getDifferenceTime(props.tag.timestamp);
 
-    if (hours > 0){
+    if (hours > 0) {
       return `${hours} h and ${minutes} min`;
     }
 
-    return `${minutes} min` 
-
+    return `${minutes} min`;
   }
 
   return (
@@ -91,9 +89,7 @@ function TagTooltip(props: Props) {
         {`(${props.tag.tagId})`}
       </TooltipLabel>
       <br />
-      <TooltipLabel>
-        Last seen:{ getTimeLabel()}
-      </TooltipLabel>
+      <TooltipLabel>Last seen:{getTimeLabel()}</TooltipLabel>
 
       <TooltipLabel>Height: {getHeight()}</TooltipLabel>
       <TooltipLabel>

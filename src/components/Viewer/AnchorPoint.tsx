@@ -14,7 +14,7 @@ function AnchorPoint(props: Props) {
   const left = props.anchor.x - ANCHOR_SIZE / 2;
 
   function handleMouseOver() {
-    props.onTooltipVisibilityChange({x: left, y: top}, props.anchor.id);
+    props.onTooltipVisibilityChange({ x: left, y: top }, props.anchor.id);
   }
 
   function handleMouseOut() {

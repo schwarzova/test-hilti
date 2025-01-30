@@ -84,7 +84,6 @@ export const tagImageClass = css({
   width: '20px',
 });
 
-
 export const lineOfSightClass = css({
   position: 'absolute',
   height: '1px',

@@ -35,10 +35,10 @@ export default defineConfig({
           },
           viewer: {
             tag: { value: '#008000' },
-            anchor: { value: '#B71C1C' }, 
+            anchor: { value: '#B71C1C' },
             measuredPoint: { value: '#000000' },
             groundTruthPoint: { value: '#0047AB' },
-            lineOfSight: {value: '#424242'}
+            lineOfSight: { value: '#424242' },
           },
         },
         spacing: {

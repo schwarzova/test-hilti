@@ -55,4 +55,4 @@ export type MeasurementPoint = Point & { id: string; z: number };
 export type SimpleTooltip = {
   point: Point;
   text: string;
-}
+};

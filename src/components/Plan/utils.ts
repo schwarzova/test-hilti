@@ -246,10 +246,9 @@ export function transformPointWithScale(
   return rotatePoint({ x: xTransformed, y: yTransformed }, { x: 0, y: 0 }, 0);
 }
 
- function convertMillisecondsToHoursMinutesSeconds(
+function convertMillisecondsToHoursMinutesSeconds(
   milliseconds: number,
 ): [number, number, number] {
-
   const seconds = Math.floor(milliseconds / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
@@ -257,16 +256,10 @@ export function transformPointWithScale(
   const minutesRest = minutes % 60;
   const secondsRest = seconds % 60;
 
-  return [
-    hours,
-    minutesRest,
-    secondsRest,
-  ];
+  return [hours, minutesRest, secondsRest];
 }
 
-export function getDifferenceTime(
-  unixTime: string,
-): [number, number, number] {
+export function getDifferenceTime(unixTime: string): [number, number, number] {
   const now = new Date().getTime();
   const jsTime = new Date(Number(unixTime) * 1000).getTime();
 
