@@ -15,7 +15,6 @@ import AnchorLayer from './AnchorLayer';
 import { useViewerRef } from '../../hooks/useViewerRef';
 import TagTooltip from './TagTooltip';
 import { TAG_ZOOM_SCALE } from '../../constants/consts';
-
 type Props = {
   anchors: Anchor[];
   groundTruthPoints: MeasurementPoint[];
@@ -66,10 +65,21 @@ function Viewer(props: Props) {
   function handleSimpleTooltipVisibilityChange(point?: Point, text?: string) {
     if (point && text) {
       setSimpleTooltip({ point, text });
-      console.log('point');
     } else {
       setSimpleTooltip(undefined);
     }
+  }
+
+  function getTooltipOffset() {
+    if (value?.d < 3.5) {
+      return 10;
+    }
+
+    if (value?.d < 10) {
+      return 7;
+    }
+
+    return 5;
   }
 
   if (props.isFetching) {
@@ -89,6 +99,7 @@ function Viewer(props: Props) {
             onChangeValue={onChangeValue}
             tool={tool}
             onChangeTool={onChangeTool}
+            defaultTool="none"
           >
             <svg width={props.planWidth} height={props.planHeight}>
               <>
@@ -109,33 +120,36 @@ function Viewer(props: Props) {
                     showTagImage={currentZoom >= TAG_ZOOM_SCALE}
                     tags={props.tags}
                   />
+
+                  {simpleTooltip && (
+                    <div
+                      className={tooltipClass}
+                      style={{
+                        top: simpleTooltip.point.y + getTooltipOffset(),
+                        transform: `scale(${1 / value?.d || 1})`,
+                        left: simpleTooltip.point.x + getTooltipOffset(),
+                      }}
+                    >
+                      {simpleTooltip.text}
+                    </div>
+                  )}
+
+                  {tooltipTag && (
+                    <TagTooltip
+                      style={{
+                        top: tooltipTag.position.y + getTooltipOffset(),
+                        left: tooltipTag.position.x + getTooltipOffset(),
+                        transform: `scale(${1 / value?.d || 1})`,
+                      }}
+                      tag={tooltipTag}
+                    />
+                  )}
                 </foreignObject>
               </>
             </svg>
           </ReactSVGPanZoom>
         )}
       />
-      {tooltipTag && (
-        <TagTooltip
-          style={{
-            position: 'absolute',
-            top: tooltipTag.position.y + 10,
-            left: tooltipTag.position.x + 10,
-          }}
-          tag={tooltipTag}
-        />
-      )}
-      {simpleTooltip && (
-        <div
-          className={tooltipClass}
-          style={{
-            top: simpleTooltip.point.y + 10,
-            left: simpleTooltip.point.x + 10,
-          }}
-        >
-          {simpleTooltip.text}
-        </div>
-      )}
     </div>
   );
 }

@@ -38,6 +38,8 @@ export const tooltipClass = css({
   padding: '5px 10px',
   borderRadius: '5px',
   pointerEvents: 'none',
+  transformOrigin: 'top left',
+  zIndex: 999999,
 });
 
 export const measuredPointClass = css({
