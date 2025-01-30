@@ -98,8 +98,8 @@ function Viewer(props: Props) {
         <TagTooltip
           style={{
             position: 'absolute',
-            top: tooltipTag.position.y + 10,
-            left: tooltipTag.position.x + 10,
+            top: tooltipTag.position.y,
+            left: tooltipTag.position.x,
           }}
           tag={tooltipTag}
         />

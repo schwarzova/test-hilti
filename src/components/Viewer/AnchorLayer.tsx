@@ -37,6 +37,7 @@ function AnchorLayer(props: Props) {
           key={`${point.x}_${point.y}`}
           point={point}
           isGroundTruthPoint
+          id={point.id}
         />
       ))}
       {props.focusedTag && (

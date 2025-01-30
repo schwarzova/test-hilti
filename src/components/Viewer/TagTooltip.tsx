@@ -6,7 +6,10 @@ import {
   tooltipEmphasizedLabelClass,
   tooltipNotEmphasizedLabelClass,
 } from './styles';
-import { convertMillisecondsToMinutesAndSeconds } from '../Plan/utils';
+import {
+  convertMillisecondsToMinutesAndSeconds,
+  findToolForTag,
+} from '../Plan/utils';
 import { cx } from '../../../styled-system/css';
 
 type Props = {
@@ -16,6 +19,7 @@ type Props = {
 
 type LabelProps = {
   children: React.ReactNode;
+  style?: CSSProperties;
 };
 
 type EmphasizedLabelProps = LabelProps & {
@@ -23,7 +27,11 @@ type EmphasizedLabelProps = LabelProps & {
 };
 
 function TooltipLabel(props: LabelProps) {
-  return <span className={tooltipLabelClass}>{props.children}</span>;
+  return (
+    <span style={{ ...props.style }} className={tooltipLabelClass}>
+      {props.children}
+    </span>
+  );
 }
 
 function EmphasizedLabel(props: EmphasizedLabelProps) {
@@ -40,6 +48,7 @@ function EmphasizedLabel(props: EmphasizedLabelProps) {
 }
 
 function TagTooltip(props: Props) {
+  const tool = findToolForTag(props.tag.tagId);
   const time = new Date(Number(props.tag.timestamp)).getTime();
   const now = new Date().getTime();
 
@@ -57,7 +66,7 @@ function TagTooltip(props: Props) {
       special = 'Ceiling';
     }
 
-    const heightString = `${props.tag.position.z}`;
+    const heightString = `${Number(props.tag.position.z).toFixed(2)}`;
     if (special.length === 0) {
       return heightString;
     }
@@ -72,7 +81,10 @@ function TagTooltip(props: Props) {
         ...props.style,
       }}
     >
-      <TooltipLabel>{props.tag.tagId}</TooltipLabel>
+      <TooltipLabel style={{ display: 'flex', justifyContent: 'center' }}>
+        {tool?.name}
+        {`(${props.tag.tagId})`}
+      </TooltipLabel>
       <br />
       <TooltipLabel>
         Last seen: {minutes} min {seconds} s
