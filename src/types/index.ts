@@ -51,3 +51,8 @@ export type Tool = {
 export type TransformMatrix = [number, number, number, number, number, number];
 
 export type MeasurementPoint = Point & { id: string; z: number };
+
+export type SimpleTooltip = {
+  point: Point;
+  text: string;
+};

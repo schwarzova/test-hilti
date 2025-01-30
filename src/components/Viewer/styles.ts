@@ -38,6 +38,8 @@ export const tooltipClass = css({
   padding: '5px 10px',
   borderRadius: '5px',
   pointerEvents: 'none',
+  transformOrigin: 'top left',
+  zIndex: 999999,
 });
 
 export const measuredPointClass = css({
@@ -80,4 +82,11 @@ export const tagImageClass = css({
   position: 'absolute',
   height: 'auto',
   width: '20px',
+});
+
+export const lineOfSightClass = css({
+  position: 'absolute',
+  height: '1px',
+  backgroundColor: 'viewer.lineOfSight',
+  transformOrigin: '0 0',
 });

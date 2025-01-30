@@ -1,4 +1,5 @@
 import { Anchor, Tag } from '../../types';
+import { lineOfSightClass } from './styles';
 
 type Props = {
   tag: Tag;
@@ -26,25 +27,14 @@ function LinesOfSight(props: Props) {
 
           return (
             <div
+              className={lineOfSightClass}
               style={{
-                position: 'absolute',
-                height: '1px',
-                backgroundColor: 'black',
                 left: `${x}px`,
                 top: `${y}px`,
                 width: `${length}px`,
                 transform: `rotate(${angle}deg)`,
-                transformOrigin: '0 0',
               }}
             />
-            // <line
-            //   x1={props.tag.position.x}
-            //   y1={props.tag.position.y}
-            //   x2={anchor.x}
-            //   y2={anchor.y}
-            //   stroke="black"
-            //   stroke-width="2"
-            // ></line>
           );
         }
         return null;

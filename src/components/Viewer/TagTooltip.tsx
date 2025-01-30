@@ -6,10 +6,7 @@ import {
   tooltipEmphasizedLabelClass,
   tooltipNotEmphasizedLabelClass,
 } from './styles';
-import {
-  convertMillisecondsToMinutesAndSeconds,
-  findToolForTag,
-} from '../Plan/utils';
+import { getDifferenceTime, findToolForTag } from '../Plan/utils';
 import { cx } from '../../../styled-system/css';
 
 type Props = {
@@ -49,10 +46,6 @@ function EmphasizedLabel(props: EmphasizedLabelProps) {
 
 function TagTooltip(props: Props) {
   const tool = findToolForTag(props.tag.tagId);
-  const time = new Date(Number(props.tag.timestamp)).getTime();
-  const now = new Date().getTime();
-
-  const [minutes, seconds] = convertMillisecondsToMinutesAndSeconds(now - time);
 
   function getHeight(): string {
     let special: string = '';
@@ -74,6 +67,16 @@ function TagTooltip(props: Props) {
     return `${special} (${heightString})`;
   }
 
+  function getTimeLabel() {
+    const [hours, minutes, seconds] = getDifferenceTime(props.tag.timestamp);
+
+    if (hours > 0) {
+      return `${hours} h and ${minutes} min`;
+    }
+
+    return `${minutes} min`;
+  }
+
   return (
     <div
       className={tooltipClass}
@@ -86,9 +89,7 @@ function TagTooltip(props: Props) {
         {`(${props.tag.tagId})`}
       </TooltipLabel>
       <br />
-      <TooltipLabel>
-        Last seen: {minutes} min {seconds} s
-      </TooltipLabel>
+      <TooltipLabel>Last seen:{getTimeLabel()}</TooltipLabel>
 
       <TooltipLabel>Height: {getHeight()}</TooltipLabel>
       <TooltipLabel>
