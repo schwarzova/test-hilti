@@ -81,3 +81,11 @@ export const tagImageClass = css({
   height: 'auto',
   width: '20px',
 });
+
+
+export const lineOfSightClass = css({
+  position: 'absolute',
+  height: '1px',
+  backgroundColor: 'viewer.lineOfSight',
+  transformOrigin: '0 0',
+});

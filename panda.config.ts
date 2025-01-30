@@ -34,10 +34,11 @@ export default defineConfig({
             tooltip: { value: 'rgba(0, 0, 0, 0.7)' },
           },
           viewer: {
-            tag: { value: '#B71C1C' },
-            anchor: { value: '#A46BFA' },
-            measuredPoint: { value: '#Affe33' },
+            tag: { value: '#008000' },
+            anchor: { value: '#B71C1C' }, 
+            measuredPoint: { value: '#000000' },
             groundTruthPoint: { value: '#0047AB' },
+            lineOfSight: {value: '#424242'}
           },
         },
         spacing: {
