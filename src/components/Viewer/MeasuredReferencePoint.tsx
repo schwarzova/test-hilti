@@ -7,14 +7,26 @@ import {
 } from './styles';
 
 type Props = {
-  point: Point;
-  isGroundTruthPoint?: boolean;
+  displayId?: boolean;
   id?: string;
+  isGroundTruthPoint?: boolean;
+  onTooltipVisibilityChange?: (point?: Point, text?: string) => void;
+  point: Point;
 };
 
 function MeasuredReferencePoint(props: Props) {
   const top = props.point.y;
   const left = props.point.x;
+
+  function handleMouseOver() {
+    if (props.id) {
+      props.onTooltipVisibilityChange?.({ x: left, y: top }, props.id);
+    }
+  }
+
+  function handleMouseOut() {
+    props.onTooltipVisibilityChange?.();
+  }
 
   return (
     <>
@@ -23,12 +35,14 @@ function MeasuredReferencePoint(props: Props) {
           measuredPointClass,
           props.isGroundTruthPoint && groundTruthPointClass,
         )}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
         style={{
           left: `${left}px`,
           top: `${top}px`,
         }}
       />
-      {props.id && (
+      {props.displayId && props.id && (
         <span
           className={measuredPointLabelClass}
           style={{ top: top + 5, left: left + 5 }}

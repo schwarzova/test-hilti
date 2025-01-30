@@ -10,6 +10,7 @@ type Props = {
   focusedTag?: Tag;
   groundTruthPoints: MeasurementPoint[];
   measuredPoints: Point[];
+  onSimpleTooltipVisibilityChange: (point?: Point, text?: string) => void;
   onTooltipVisibilityChange: (tag?: Tag) => void;
   showTagImage: boolean;
   tags: Tag[];
@@ -19,14 +20,18 @@ function AnchorLayer(props: Props) {
   return (
     <>
       {props.anchors.map((a) => (
-        <AnchorPoint key={a.id} anchor={{ ...a, x: a.x, y: a.y }} />
+        <AnchorPoint
+          anchor={{ ...a, x: a.x, y: a.y }}
+          key={a.id}
+          onTooltipVisibilityChange={props.onSimpleTooltipVisibilityChange}
+        />
       ))}
       {props.tags.map((tag) => (
         <TagPoint
           key={tag.tagId}
-          tag={tag}
           onTooltipVisibilityChange={props.onTooltipVisibilityChange}
           showTagImage={props.showTagImage}
+          tag={tag}
         />
       ))}
       {props.measuredPoints.map((point) => (
@@ -34,10 +39,11 @@ function AnchorLayer(props: Props) {
       ))}
       {props.groundTruthPoints.map((point) => (
         <MeasuredReferencePoint
-          key={`${point.x}_${point.y}`}
-          point={point}
-          isGroundTruthPoint
           id={point.id}
+          isGroundTruthPoint
+          key={`${point.x}_${point.y}`}
+          onTooltipVisibilityChange={props.onSimpleTooltipVisibilityChange}
+          point={point}
         />
       ))}
       {props.focusedTag && (

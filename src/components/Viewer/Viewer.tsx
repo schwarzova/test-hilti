@@ -3,8 +3,14 @@ import { ReactSVGPanZoom, Tool, TOOL_PAN, Value } from 'react-svg-pan-zoom';
 import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
 
 import Spinner from '../Spinner';
-import { Anchor, MeasurementPoint, Point, Tag } from '../../types';
-import { viewerWrapClass } from './styles';
+import {
+  Anchor,
+  MeasurementPoint,
+  Point,
+  SimpleTooltip,
+  Tag,
+} from '../../types';
+import { tooltipClass, viewerWrapClass } from './styles';
 import AnchorLayer from './AnchorLayer';
 import { useViewerRef } from '../../hooks/useViewerRef';
 import TagTooltip from './TagTooltip';
@@ -30,6 +36,9 @@ function Viewer(props: Props) {
   const [currentZoom, setCurrentZoom] = useState(1);
 
   const [tooltipTag, setTooltipTag] = useState<Tag | undefined>(undefined);
+  const [simpleTooltip, setSimpleTooltip] = useState<SimpleTooltip | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     const svgEl = document.getElementsByClassName('injected-svg')[0];
@@ -52,6 +61,15 @@ function Viewer(props: Props) {
 
   function handleTooltipVisibilityChange(tag?: Tag) {
     setTooltipTag(tag);
+  }
+
+  function handleSimpleTooltipVisibilityChange(point?: Point, text?: string) {
+    if (point && text) {
+      setSimpleTooltip({ point, text });
+      console.log('point');
+    } else {
+      setSimpleTooltip(undefined);
+    }
   }
 
   if (props.isFetching) {
@@ -85,6 +103,9 @@ function Viewer(props: Props) {
                     groundTruthPoints={props.groundTruthPoints}
                     measuredPoints={props.measuredPoints}
                     onTooltipVisibilityChange={handleTooltipVisibilityChange}
+                    onSimpleTooltipVisibilityChange={
+                      handleSimpleTooltipVisibilityChange
+                    }
                     showTagImage={currentZoom >= TAG_ZOOM_SCALE}
                     tags={props.tags}
                   />
@@ -98,11 +119,22 @@ function Viewer(props: Props) {
         <TagTooltip
           style={{
             position: 'absolute',
-            top: tooltipTag.position.y,
-            left: tooltipTag.position.x,
+            top: tooltipTag.position.y + 10,
+            left: tooltipTag.position.x + 10,
           }}
           tag={tooltipTag}
         />
+      )}
+      {simpleTooltip && (
+        <div
+          className={tooltipClass}
+          style={{
+            top: simpleTooltip.point.y + 10,
+            left: simpleTooltip.point.x + 10,
+          }}
+        >
+          {simpleTooltip.text}
+        </div>
       )}
     </div>
   );

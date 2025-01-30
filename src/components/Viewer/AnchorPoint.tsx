@@ -1,25 +1,24 @@
 // import anchorImg from '../../assets/anchor.png';
-import { useState } from 'react';
 import { ANCHOR_SIZE } from '../../constants/consts';
-import { Anchor } from '../../types';
-import { anchorClass, anchorLabelClass, tooltipClass } from './styles';
+import { Anchor, Point } from '../../types';
+import { anchorClass, anchorLabelClass } from './styles';
 
 type Props = {
   anchor: Anchor;
+  onTooltipVisibilityChange: (point?: Point, text?: string) => void;
+  displayId?: boolean;
 };
 
 function AnchorPoint(props: Props) {
-  const [isTooltipVisible, setTooltipVisible] = useState(false);
-
   const top = props.anchor.y - ANCHOR_SIZE / 2;
   const left = props.anchor.x - ANCHOR_SIZE / 2;
 
   function handleMouseOver() {
-    setTooltipVisible(true);
+    props.onTooltipVisibilityChange({x: left, y: top}, props.anchor.id);
   }
 
   function handleMouseOut() {
-    setTooltipVisible(false);
+    props.onTooltipVisibilityChange();
   }
 
   return (
@@ -33,25 +32,16 @@ function AnchorPoint(props: Props) {
           top: `${top}px`,
         }}
       />
-      <span
-        className={anchorLabelClass}
-        style={{
-          top: top + 5,
-          left: left + 5,
-        }}
-      >
-        {props.anchor.id.split(' ')[1]}
-      </span>
-      {isTooltipVisible && (
-        <div
-          className={tooltipClass}
+      {props.displayId && (
+        <span
+          className={anchorLabelClass}
           style={{
-            top: top + 10,
-            left: left + 10,
+            top: top + 5,
+            left: left + 5,
           }}
         >
-          Id: {props.anchor.id}
-        </div>
+          {props.anchor.id.split(' ')[1]}
+        </span>
       )}
     </>
   );

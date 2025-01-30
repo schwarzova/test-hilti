@@ -246,13 +246,22 @@ export function transformPointWithScale(
   return rotatePoint({ x: xTransformed, y: yTransformed }, { x: 0, y: 0 }, 0);
 }
 
-export function convertMillisecondsToMinutesAndSeconds(
+ function convertMillisecondsToMinutesAndSeconds(
   milliseconds: number,
 ): [number, number] {
   const totalSeconds = Math.floor(milliseconds / 1000);
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   return [minutes, seconds];
+}
+
+export function getDifferenceTime(
+  unixTime: string,
+): [number, number] {
+  const now = new Date().getTime();
+  const jsTime = new Date(Number(unixTime) * 1000).getTime();
+
+  return convertMillisecondsToMinutesAndSeconds(now - jsTime);
 }
 
 export function findToolForTag(tagId: string) {
