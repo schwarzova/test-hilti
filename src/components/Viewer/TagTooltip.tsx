@@ -68,7 +68,7 @@ function TagTooltip(props: Props) {
   }
 
   function getTimeLabel() {
-    const [hours, minutes, seconds] = getDifferenceTime(props.tag.timestamp);
+    const [hours, minutes] = getDifferenceTime(props.tag.timestamp);
 
     if (hours > 0) {
       return `${hours} h and ${minutes} min`;
