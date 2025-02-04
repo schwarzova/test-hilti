@@ -16,6 +16,16 @@ export const tagClass = css({
   borderRadius: '50%',
 });
 
+export const tagErrorClass = css({
+  zIndex: 0,
+  borderColor: 'viewer.tag',
+  opacity: 0.2,
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+});
+
 export const anchorClass = css({
   position: 'absolute',
   zIndex: 1,

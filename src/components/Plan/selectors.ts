@@ -1,7 +1,11 @@
 import { createSelector } from 'reselect';
 import { PlanState } from './store';
 import { Anchor, MeasurementPoint, Point, Tag } from '../../types';
-import { MEASURED_POINTS, transformPointWithScale } from './utils';
+import {
+  convertCmToPx,
+  MEASURED_POINTS,
+  transformPointWithScale,
+} from './utils';
 import { GROUND_TRUTH_POINTS } from '../../mocks/mocks';
 
 export const getConvertedAnchors = createSelector(
@@ -31,8 +35,9 @@ export const getConvertedTags = createSelector(
     (state: PlanState) => state.svgScaleX,
     (state: PlanState) => state.svgScaleY,
     (state: PlanState) => state.parsedSvgData.transformMatrix,
+    (state: PlanState) => state.parsedSvgData.scale,
   ],
-  (tags, svgScaleX, svgScaleY, transformMatrix): Tag[] => {
+  (tags, svgScaleX, svgScaleY, transformMatrix, scale): Tag[] => {
     return tags.map<Tag>((t) => {
       const newPosition = transformPointWithScale(
         { x: t.position.x, y: t.position.y },
@@ -40,9 +45,12 @@ export const getConvertedTags = createSelector(
         svgScaleX,
         svgScaleY,
       );
+      // error * 2 to get diameter
+      const error2dInPx = convertCmToPx(t.error2d * 2, scale);
 
       return {
         ...t,
+        error2d: error2dInPx,
         position: {
           ...t.position,
           x: newPosition.x,

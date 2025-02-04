@@ -272,3 +272,10 @@ export function findToolForTag(tagId: string) {
 
   return tool;
 }
+
+export function convertCmToPx(errorCm: number, scale: number): number {
+  const multiplier = 10; // add multiplier because scale is too small
+  const errorMeters = errorCm / 100; // meters
+
+  return errorMeters * scale * multiplier;
+}
