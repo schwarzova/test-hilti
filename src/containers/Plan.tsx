@@ -34,8 +34,6 @@ function Plan() {
   const tags = usePlanStore(getConvertedTags);
   const measuredPoints = usePlanStore(getConvertedMeasuredPoints);
   const groundTruthPoints = usePlanStore(getConvertedGroundTruthPoints);
-  const svgScaleX = usePlanStore((state) => state.svgScaleX);
-  const setSvgScale = usePlanStore((state) => state.setSvgScale);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
   useEffect(() => {
@@ -81,11 +79,9 @@ function Plan() {
           groundTruthPoints={groundTruthPoints}
           isFetching={isFetching}
           measuredPoints={measuredPoints}
-          onSvgScaleSet={setSvgScale}
           planHeight={planRef.current.getBoundingClientRect().height}
           planSvgUrl={selectedPlanSvgUrl}
           planWidth={planRef.current.getBoundingClientRect().width}
-          svgScaleX={svgScaleX}
           tags={tags}
         />
       ) : (
