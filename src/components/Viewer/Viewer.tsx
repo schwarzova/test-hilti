@@ -15,21 +15,21 @@ import AnchorLayer from './AnchorLayer';
 import { useViewerRef } from '../../hooks/useViewerRef';
 import TagTooltip from './TagTooltip';
 import { TAG_ZOOM_SCALE } from '../../constants/consts';
+import { useViewerResize } from '../../hooks/useViewerResize';
 type Props = {
   anchors: Anchor[];
   groundTruthPoints: MeasurementPoint[];
   isFetching: boolean;
   measuredPoints: Point[];
-  onSvgScaleSet: (scaleX: number, scaleY: number) => void;
   planHeight: number;
   planSvgUrl: string;
   planWidth: number;
-  svgScaleX: number;
   tags: Tag[];
 };
 
 function Viewer(props: Props) {
   const viewerRef = useViewerRef();
+  const { resizeInitialSvg } = useViewerResize();
   const [tool, onChangeTool] = useState<Tool>(TOOL_PAN);
   const [value, onChangeValue] = useState<Value>({} as Value);
   const [currentZoom, setCurrentZoom] = useState(1);
@@ -40,22 +40,8 @@ function Viewer(props: Props) {
   );
 
   useEffect(() => {
-    const svgEl = document.getElementsByClassName('injected-svg')[0];
     setCurrentZoom(viewerRef?.current?.getValue().d || 1);
-
-    if (props.svgScaleX === 1 && svgEl) {
-      const originalWidth = svgEl.getBoundingClientRect().width;
-      const originalHeight = svgEl.getBoundingClientRect().height;
-
-      svgEl.setAttribute('width', '100%');
-      svgEl.setAttribute('height', '100%');
-      svgEl.setAttribute('preserveAspectRatio', 'xMinYMin meet');
-
-      const newWidth = svgEl.getBoundingClientRect().width;
-      const newHeight = svgEl.getBoundingClientRect().height;
-      props.onSvgScaleSet(newWidth / originalWidth, newHeight / originalHeight);
-      viewerRef?.current?.fitToViewer();
-    }
+    resizeInitialSvg();
   }, [value]);
 
   function handleTooltipVisibilityChange(tag?: Tag) {
