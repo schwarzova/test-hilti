@@ -37,6 +37,9 @@ const initialParsed: SvgParsedData = {
   referencePoints: [],
   transformMatrix: [0, 0, 0, 0, 0, 0],
   originOfTSL: { xSvg: 0, ySvg: 0, yReal: 0, xReal: 0 },
+  realDistance: 0,
+  svgDistance: 0,
+  tlsDistance: 0,
   scale: 1,
   angle: 0,
 };

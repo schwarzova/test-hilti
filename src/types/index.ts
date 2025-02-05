@@ -31,6 +31,9 @@ export type ReferencePoint = {
 export type SvgParsedData = {
   referencePoints: ReferencePoint[];
   originOfTSL: ReferencePoint;
+  realDistance: number;
+  svgDistance: number;
+  tlsDistance: number;
   scale: number;
   angle: number;
   transformMatrix: TransformMatrix;

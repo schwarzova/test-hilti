@@ -36,9 +36,13 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
       referencePoints[1],
       referencePoints[2],
     );
-    const svgDistance = calculateDistance(
+    const svgDistance = calculateSvgDistance(
       referencePoints[1],
       referencePoints[2],
+    );
+    const tlsDistance = calculateTlsDistance(
+      MEASURED_POINTS[1],
+      MEASURED_POINTS[2],
     );
 
     const scale = realDistance / svgDistance;
@@ -56,6 +60,9 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
     return {
       referencePoints,
       originOfTSL: referencePoints[0],
+      realDistance,
+      svgDistance,
+      tlsDistance,
       scale,
       angle: 0,
       transformMatrix,
@@ -95,12 +102,20 @@ function haversineDistance(
   return distance;
 }
 
-function calculateDistance(
+function calculateSvgDistance(
   pointA: ReferencePoint,
   pointB: ReferencePoint,
 ): number {
   const dx = pointB.xSvg - pointA.xSvg;
   const dy = pointB.ySvg - pointA.ySvg;
+
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+function calculateTlsDistance(pointA: Point, pointB: Point): number {
+  const dx = pointB.x - pointA.x;
+  const dy = pointB.y - pointA.y;
+
   return Math.sqrt(dx * dx + dy * dy);
 }
 
@@ -273,9 +288,23 @@ export function findToolForTag(tagId: string) {
   return tool;
 }
 
-export function convertCmToPx(errorCm: number, scale: number): number {
-  const multiplier = 10; // add multiplier because scale is too small
-  const errorMeters = errorCm / 100; // meters
+export function convertCmToPx(
+  errorCm: number,
+  svgDistance: number,
+  realDistance: number,
+): number {
+  const errorMeters = errorCm / 100;
+  const scalePxPerMeter = svgDistance / realDistance;
 
-  return errorMeters * scale * multiplier;
+  return errorMeters * scalePxPerMeter;
+}
+
+export function convertZToMeters(
+  zTls: number,
+  realDistance: number,
+  tlsDistance: number,
+) {
+  const scaleMetersPerTls = realDistance / tlsDistance;
+
+  return zTls * scaleMetersPerTls;
 }
