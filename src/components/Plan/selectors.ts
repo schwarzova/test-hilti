@@ -3,6 +3,7 @@ import { PlanState } from './store';
 import { Anchor, MeasurementPoint, Point, Tag } from '../../types';
 import {
   convertCmToPx,
+  convertZToMeters,
   MEASURED_POINTS,
   transformPointWithScale,
 } from './utils';
@@ -35,9 +36,19 @@ export const getConvertedTags = createSelector(
     (state: PlanState) => state.svgScaleX,
     (state: PlanState) => state.svgScaleY,
     (state: PlanState) => state.parsedSvgData.transformMatrix,
-    (state: PlanState) => state.parsedSvgData.scale,
+    (state: PlanState) => state.parsedSvgData.realDistance,
+    (state: PlanState) => state.parsedSvgData.svgDistance,
+    (state: PlanState) => state.parsedSvgData.tlsDistance,
   ],
-  (tags, svgScaleX, svgScaleY, transformMatrix, scale): Tag[] => {
+  (
+    tags,
+    svgScaleX,
+    svgScaleY,
+    transformMatrix,
+    realDistance,
+    svgDistance,
+    tlsDistance,
+  ): Tag[] => {
     return tags.map<Tag>((t) => {
       const newPosition = transformPointWithScale(
         { x: t.position.x, y: t.position.y },
@@ -45,8 +56,17 @@ export const getConvertedTags = createSelector(
         svgScaleX,
         svgScaleY,
       );
-      // error * 2 to get diameter
-      const error2dInPx = convertCmToPx(t.error2d * 2, scale);
+      const error2dDiameter = t.error2d * 2;
+      const error2dInPx = convertCmToPx(
+        error2dDiameter,
+        svgDistance,
+        realDistance,
+      );
+      const zInMeters = convertZToMeters(
+        t.position.z,
+        realDistance,
+        tlsDistance,
+      );
 
       return {
         ...t,
@@ -55,6 +75,7 @@ export const getConvertedTags = createSelector(
           ...t.position,
           x: newPosition.x,
           y: newPosition.y,
+          z: zInMeters,
         },
       };
     });
