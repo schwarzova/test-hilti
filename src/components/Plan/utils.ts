@@ -7,8 +7,14 @@ import {
 import { useSidebarStore } from '../Sidebar/store';
 
 // firstly defined
-const TLS_0: Point = { x: -45.56, y: 20.35 }; // [0]
-const TLS_1: Point = { x: -33.64, y: 9.98 }; // south [1]
+const TLS_0: Point = {
+  x: -4.398401260376,
+  y: 8.022876739502,
+}; // anchor 3
+const TLS_1: Point = {
+  x: -8.698121070862,
+  y: -0.969426512718,
+}; // anchor 4
 const TLS_2: Point = { x: 0, y: 0 }; // origin
 
 
@@ -247,16 +253,16 @@ export function transformPointWithScale(
 ): Point {
   const newPoint = transformPoint(point, transformMatrix);
 
-  const scaleX: number = 0.9;
-  const scaleY: number = 0.75;
-  const offsetX: number = 95;
-  const offsetY: number = 87;
+  const scaleX: number = 1;
+  const scaleY: number = 1;
+  const offsetX: number = 0;
+  const offsetY: number = 0;
 
   // Scale and offset
   const xTransformed = newPoint.x * svgScaleX * scaleX + offsetX;
   const yTransformed = newPoint.y * svgScaleY * scaleY + offsetY;
 
-  return rotatePoint({ x: xTransformed, y: yTransformed }, TLS_2, 0);
+  return { x: xTransformed, y: yTransformed }
 }
 
 function convertMillisecondsToHoursMinutesSeconds(

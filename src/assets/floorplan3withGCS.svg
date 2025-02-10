@@ -1,7 +1,7 @@
 <svg width="1000" height="350" viewBox="0 0 1000 350" fill="none" xmlns="http://www.w3.org/2000/svg">
   <metadata>
-    <gcp x_svg="81" y_svg="230" x_real="47.18195252123139" y_real="9.526969989876045"/> <!--466.01-->
-    <gcp x_svg="213" y_svg="289" x_real="47.181901020796296" y_real="9.526762789241188"/> <!--466.44 south-->
+    <gcp x_svg="481" y_svg="181" x_real="47.18195252123139" y_real="9.526969989876045"/> <!-- anchor 3-->
+    <gcp x_svg="478" y_svg="271" x_real="47.181901020796296" y_real="9.526762789241188"/> <!-- anchor 4--> 
     <gcp x_svg="551" y_svg="231" x_real="47.18162739073401" y_real="9.526455210602615"/> <!--TLS Origin-->
   </metadata>
   <g clip-path="url(#clip0_2_5944)">
