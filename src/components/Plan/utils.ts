@@ -36,9 +36,13 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
       referencePoints[1],
       referencePoints[2],
     );
-    const svgDistance = calculateDistance(
+    const svgDistance = calculateSvgDistance(
       referencePoints[1],
       referencePoints[2],
+    );
+    const tlsDistance = calculateTlsDistance(
+      MEASURED_POINTS[1],
+      MEASURED_POINTS[2],
     );
 
     const scale = realDistance / svgDistance;
@@ -56,6 +60,9 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
     return {
       referencePoints,
       originOfTSL: referencePoints[0],
+      realDistance,
+      svgDistance,
+      tlsDistance,
       scale,
       angle: 0,
       transformMatrix,
@@ -95,12 +102,20 @@ function haversineDistance(
   return distance;
 }
 
-function calculateDistance(
+function calculateSvgDistance(
   pointA: ReferencePoint,
   pointB: ReferencePoint,
 ): number {
   const dx = pointB.xSvg - pointA.xSvg;
   const dy = pointB.ySvg - pointA.ySvg;
+
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+function calculateTlsDistance(pointA: Point, pointB: Point): number {
+  const dx = pointB.x - pointA.x;
+  const dy = pointB.y - pointA.y;
+
   return Math.sqrt(dx * dx + dy * dy);
 }
 
@@ -246,13 +261,24 @@ export function transformPointWithScale(
   return rotatePoint({ x: xTransformed, y: yTransformed }, { x: 0, y: 0 }, 0);
 }
 
-export function convertMillisecondsToMinutesAndSeconds(
+function convertMillisecondsToHoursMinutesSeconds(
   milliseconds: number,
-): [number, number] {
-  const totalSeconds = Math.floor(milliseconds / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return [minutes, seconds];
+): [number, number, number] {
+  const seconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+
+  const minutesRest = minutes % 60;
+  const secondsRest = seconds % 60;
+
+  return [hours, minutesRest, secondsRest];
+}
+
+export function getDifferenceTime(unixTime: string): [number, number, number] {
+  const now = new Date().getTime();
+  const jsTime = new Date(Number(unixTime) * 1000).getTime();
+
+  return convertMillisecondsToHoursMinutesSeconds(now - jsTime);
 }
 
 export function findToolForTag(tagId: string) {
@@ -260,4 +286,25 @@ export function findToolForTag(tagId: string) {
   const tool = tools.find((t) => t.tagId === tagId);
 
   return tool;
+}
+
+export function convertCmToPx(
+  errorCm: number,
+  svgDistance: number,
+  realDistance: number,
+): number {
+  const errorMeters = errorCm / 100;
+  const scalePxPerMeter = svgDistance / realDistance;
+
+  return errorMeters * scalePxPerMeter;
+}
+
+export function convertZToMeters(
+  zTls: number,
+  realDistance: number,
+  tlsDistance: number,
+) {
+  const scaleMetersPerTls = realDistance / tlsDistance;
+
+  return zTls * scaleMetersPerTls;
 }

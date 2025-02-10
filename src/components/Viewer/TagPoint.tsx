@@ -1,7 +1,7 @@
 import { TAG_SIZE } from '../../constants/consts';
 import { Tag } from '../../types';
 import { findToolForTag } from '../Plan/utils';
-import { tagClass, tagImageClass } from './styles';
+import { tagClass, tagErrorClass, tagImageClass } from './styles';
 
 type Props = {
   tag: Tag;
@@ -39,7 +39,19 @@ function TagPoint(props: Props) {
         left: `${left}px`,
         top: `${top}px`,
       }}
-    />
+    >
+      {props.tag.error2d && props.tag.error2d > 1 && (
+        <div
+          className={tagErrorClass}
+          style={{
+            width: `${TAG_SIZE + props.tag.error2d}px`,
+            height: `${TAG_SIZE + props.tag.error2d}px`,
+            borderRadius: `${TAG_SIZE + props.tag.error2d}px`,
+            borderWidth: `${props.tag.error2d}px`,
+          }}
+        ></div>
+      )}
+    </div>
   );
 }
 
