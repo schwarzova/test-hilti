@@ -17,7 +17,6 @@ const TLS_1: Point = {
 }; // anchor 4
 const TLS_2: Point = { x: 0, y: 0 }; // origin
 
-
 export const MEASURED_POINTS: Point[] = [TLS_0, TLS_1, TLS_2];
 
 export function parseSvg(svgInString: string): null | SvgParsedData {
@@ -262,7 +261,7 @@ export function transformPointWithScale(
   const xTransformed = newPoint.x * svgScaleX * scaleX + offsetX;
   const yTransformed = newPoint.y * svgScaleY * scaleY + offsetY;
 
-  return { x: xTransformed, y: yTransformed }
+  return { x: xTransformed, y: yTransformed };
 }
 
 function convertMillisecondsToHoursMinutesSeconds(
