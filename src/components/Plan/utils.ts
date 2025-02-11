@@ -7,14 +7,17 @@ import {
 import { useSidebarStore } from '../Sidebar/store';
 
 // firstly defined
-const TLS_0: Point = { x: -45.56, y: 20.35 }; // [0]
-const TLS_1: Point = { x: -33.64, y: 9.98 }; // south [1]
+const TLS_0: Point = {
+  x: -4.398401260376,
+  y: 8.022876739502,
+}; // anchor 3
+const TLS_1: Point = {
+  x: -8.698121070862,
+  y: -0.969426512718,
+}; // anchor 4
+const TLS_2: Point = { x: 0, y: 0 }; // origin
 
-// adjusted sligthly
-//  const TLS_0: Point ={ x: -45.549, y: 20.338 }; // [0]
-//  const TLS_1: Point = { x: -33.627, y: 9.965 }; // south [1]
-
-export const MEASURED_POINTS: Point[] = [TLS_0, TLS_1, { x: 0, y: 0 }];
+export const MEASURED_POINTS: Point[] = [TLS_0, TLS_1, TLS_2];
 
 export function parseSvg(svgInString: string): null | SvgParsedData {
   const parser = new DOMParser();
@@ -49,7 +52,7 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
 
     // TLS, SVG points
     const transformMatrix = calculateAffineTransformation(
-      [TLS_0, TLS_1, { x: 0, y: 0 }],
+      [TLS_0, TLS_1, TLS_2],
       [
         { x: referencePoints[0].xSvg, y: referencePoints[0].ySvg },
         { x: referencePoints[1].xSvg, y: referencePoints[1].ySvg },
@@ -249,16 +252,16 @@ export function transformPointWithScale(
 ): Point {
   const newPoint = transformPoint(point, transformMatrix);
 
-  const scaleX: number = 0.9;
-  const scaleY: number = 0.75;
-  const offsetX: number = 95;
-  const offsetY: number = 87;
+  const scaleX: number = 1;
+  const scaleY: number = 1;
+  const offsetX: number = 0;
+  const offsetY: number = 0;
 
   // Scale and offset
   const xTransformed = newPoint.x * svgScaleX * scaleX + offsetX;
   const yTransformed = newPoint.y * svgScaleY * scaleY + offsetY;
 
-  return rotatePoint({ x: xTransformed, y: yTransformed }, { x: 0, y: 0 }, 0);
+  return { x: xTransformed, y: yTransformed };
 }
 
 function convertMillisecondsToHoursMinutesSeconds(
