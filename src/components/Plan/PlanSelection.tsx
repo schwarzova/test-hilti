@@ -6,11 +6,11 @@ type Props = {
   isFetching: boolean;
   onPlansLoad: () => void;
   onPlanSelect: (plan: Plan) => void;
-
   plans: Plan[];
 };
 
 function PlanSelection(props: Props) {
+  const dummy = 0;
   if (props.isFetching) {
     return <Spinner />;
   }

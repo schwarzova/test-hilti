@@ -19,4 +19,6 @@ jobs:
         run: npx prettier . --check
       - name: Run build
         run: npm run build
+      - name: Fail CI if some step fails
+        run: exit 1 # Forces the workflow to fail if any previous step fails
       - run: echo "💼 This job's status is ${{ job.status }}."
