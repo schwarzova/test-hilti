@@ -52,7 +52,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   // this is for quick floor plan load for debugging anchors and tags
   quickInit: () => {
     set({
-      selectedPlanSvgUrl: '/src/assets/floorplan3withGCS.svg',
+      selectedPlanSvgUrl: '/public/assets/floorplan3withGCS.svg',
       anchors: mockedAnchors,
       tags: mockedTags1,
       selectedPlan: mockedPlans[0],
@@ -131,14 +131,14 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
     if (planId === '1') {
-      set({ selectedPlanSvgUrl: '/src/assets/floorplan.svg' });
+      set({ selectedPlanSvgUrl: '/assets/floorplan.svg' });
     } else if (planId === '2') {
-      set({ selectedPlanSvgUrl: '/src/assets/floorplan2.svg' });
+      set({ selectedPlanSvgUrl: '/assets/floorplan2.svg' });
     } else {
-      set({ selectedPlanSvgUrl: '/src/assets/floorplan3withGCS.svg' });
+      set({ selectedPlanSvgUrl: '/assets/floorplan3withGCS.svg' });
 
       // Parse the SVG and extract metadata
-      const response = await fetch('/src/assets/floorplan3withGCS.svg');
+      const response = await fetch('/assets/floorplan3withGCS.svg');
       const text = await response.text();
 
       const parsedData: SvgParsedData | null = parseSvg(text);
