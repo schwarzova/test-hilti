@@ -11,8 +11,6 @@ type Props = {
 };
 
 function PlanSelection(props: Props) {
-  const dummy = 0;
-
   if (props.isFetching) {
     return <Spinner />;
   }
