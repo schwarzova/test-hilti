@@ -6,6 +6,7 @@ type Props = {
   isFetching: boolean;
   onPlansLoad: () => void;
   onPlanSelect: (plan: Plan) => void;
+
   plans: Plan[];
 };
 
