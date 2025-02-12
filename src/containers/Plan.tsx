@@ -37,8 +37,9 @@ function Plan() {
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
   const connectFetchTags = usePlanStore((state) => state.connectFetchTags);
-  const disconnectFetchTags = usePlanStore((state) => state.disconnectFetchTags);
-
+  const disconnectFetchTags = usePlanStore(
+    (state) => state.disconnectFetchTags,
+  );
 
   useEffect(() => {
     if (selectedPlan) {
@@ -65,14 +66,12 @@ function Plan() {
   // }, [isDone, fetchSvgUrl, quickInit])
 
   useEffect(() => {
-    connectFetchTags()
+    connectFetchTags();
 
-      return () => {
-        disconnectFetchTags();
-      };
-    }
-  , [connectFetchTags, disconnectFetchTags]);
-
+    return () => {
+      disconnectFetchTags();
+    };
+  }, [connectFetchTags, disconnectFetchTags]);
 
   function handlePlansLoad() {
     fetchPlans();

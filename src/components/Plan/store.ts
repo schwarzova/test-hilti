@@ -166,7 +166,16 @@ export const usePlanStore = create<PlanState>((set, get) => ({
 
     socket.onopen = () => {
       console.log('WebSocket connected!');
-      setInterval(() => socket.send(JSON.stringify({ action: "sendMessage", message: "slo from React" })),1000); // Test message
+      setInterval(
+        () =>
+          socket.send(
+            JSON.stringify({
+              action: 'sendMessage',
+              message: 'slo from React',
+            }),
+          ),
+        1000,
+      ); // Test message
       set({ socketReal: socket, isSocketConnected: true });
     };
 
