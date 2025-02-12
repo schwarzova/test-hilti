@@ -31,6 +31,10 @@ export type PlanState = {
   setSelectedPlan: (plan: Plan) => void;
   quickInit: () => void;
   setSvgScale: (svgScaleX: number, svgScaleY: number) => void;
+  isSocketConnected: boolean;
+  socketReal: WebSocket | null;
+  connectFetchTags: () => void;
+  disconnectFetchTags: () => void;
 };
 
 const initialParsed: SvgParsedData = {
@@ -149,4 +153,47 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     set({ isFetching: false });
   },
   setSvgScale: (svgScaleX, svgScaleY) => set({ svgScaleX, svgScaleY }),
+
+  isSocketConnected: false,
+  socketReal: null,
+
+  connectFetchTags: () => {
+    if (get().socketReal) return; // Prevent duplicate connections
+
+    const socket = new WebSocket(
+      'wss://3csw55e5tj.execute-api.eu-west-1.amazonaws.com/production/',
+    );
+
+    socket.onopen = () => {
+      console.log('WebSocket connected!');
+      setInterval(() => socket.send(JSON.stringify({ action: "sendMessage", message: "slo from React" })),1000); // Test message
+      set({ socketReal: socket, isSocketConnected: true });
+    };
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      console.log('Message received:', event.data);
+      console.log('data:', data);
+    };
+
+    socket.onclose = () => {
+      console.log('WebSocket disconnected!');
+      set({ socket: null, isSocketConnected: false });
+    };
+
+    socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    set({ socketReal: socket });
+  },
+  disconnectFetchTags: () => {
+    console.log('disconnectFetchTags');
+    const socket = get().socket;
+    if (socket) {
+      socket.close();
+      set({ socketReal: null, isSocketConnected: false });
+    }
+  },
 }));
