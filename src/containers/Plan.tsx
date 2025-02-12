@@ -36,6 +36,11 @@ function Plan() {
   const groundTruthPoints = usePlanStore(getConvertedGroundTruthPoints);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
+  const connectFetchTags = usePlanStore((state) => state.connectFetchTags);
+  const disconnectFetchTags = usePlanStore(
+    (state) => state.disconnectFetchTags,
+  );
+
   useEffect(() => {
     if (selectedPlan) {
       const socket = fetchTags();
@@ -59,6 +64,14 @@ function Plan() {
   //   }
 
   // }, [isDone, fetchSvgUrl, quickInit])
+
+  useEffect(() => {
+    connectFetchTags();
+
+    return () => {
+      disconnectFetchTags();
+    };
+  }, [connectFetchTags, disconnectFetchTags]);
 
   function handlePlansLoad() {
     fetchPlans();
