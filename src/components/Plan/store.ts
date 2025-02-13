@@ -10,6 +10,8 @@ import {
   mockedTags3,
 } from '../../mocks/mocks';
 import { parseSvg } from './utils';
+import { REST_API_URL } from '../../constants/consts';
+import axios from 'axios';
 
 export type PlanState = {
   anchors: Anchor[];
@@ -35,6 +37,9 @@ export type PlanState = {
   socketReal: WebSocket | null;
   connectFetchTags: () => void;
   disconnectFetchTags: () => void;
+  allTags: Tag[],
+  isLoadingAllTags: boolean,
+  fetchAllTags: () => void,
 };
 
 const initialParsed: SvgParsedData = {
@@ -174,7 +179,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
               message: 'Receiving messages from API in Dashboard',
             }),
           ),
-        1000,
+      9000,
       ); // Test message
       set({ socketReal: socket, isSocketConnected: true });
     };
@@ -182,7 +187,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     socket.onmessage = (event) => {
       const data: Tag[] = JSON.parse(event.data);
 
-      console.log('Received data:', data);
+      // console.log('Received data:', data);
     };
 
     socket.onclose = () => {
@@ -202,6 +207,26 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     if (socket) {
       socket.close();
       set({ socketReal: null, isSocketConnected: false });
+    }
+  },
+
+  allTags: [],
+  isLoadingAllTags: false,
+  fetchAllTags: async () => {
+    set({ isLoadingAllTags: true });
+
+    try {
+      const response = await axios.get(
+       `${REST_API_URL}/getAllTags`
+      );
+
+      const data = response.data.body;
+      const resultTags = typeof data === 'string' ? JSON.parse(data) : undefined;
+
+      set({ allTags: resultTags, isLoadingAllTags: false });
+    } catch (error) {
+      console.error("Error fetching all tags:", error);
+      set({ isLoadingAllTags: false });
     }
   },
 }));
