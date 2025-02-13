@@ -180,7 +180,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     };
 
     socket.onmessage = (event) => {
-      const data : Tag[] = JSON.parse(event.data);
+      const data: Tag[] = JSON.parse(event.data);
 
       console.log('Received data:', data);
     };
