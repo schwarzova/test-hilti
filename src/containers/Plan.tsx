@@ -55,7 +55,7 @@ function Plan() {
 
   useEffect(() => {
     fetchAllTags();
-  })
+  });
 
   // uncomment for quick init
   // const quickInit = usePlanStore((state) => state.quickInit);

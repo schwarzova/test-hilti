@@ -37,9 +37,9 @@ export type PlanState = {
   socketReal: WebSocket | null;
   connectFetchTags: () => void;
   disconnectFetchTags: () => void;
-  allTags: Tag[],
-  isLoadingAllTags: boolean,
-  fetchAllTags: () => void,
+  allTags: Tag[];
+  isLoadingAllTags: boolean;
+  fetchAllTags: () => void;
 };
 
 const initialParsed: SvgParsedData = {
@@ -179,7 +179,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
               message: 'Receiving messages from API in Dashboard',
             }),
           ),
-      9000,
+        9000,
       ); // Test message
       set({ socketReal: socket, isSocketConnected: true });
     };
@@ -216,16 +216,15 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     set({ isLoadingAllTags: true });
 
     try {
-      const response = await axios.get(
-       `${REST_API_URL}/getAllTags`
-      );
+      const response = await axios.get(`${REST_API_URL}/getAllTags`);
 
       const data = response.data.body;
-      const resultTags = typeof data === 'string' ? JSON.parse(data) : undefined;
+      const resultTags =
+        typeof data === 'string' ? JSON.parse(data) : undefined;
 
       set({ allTags: resultTags, isLoadingAllTags: false });
     } catch (error) {
-      console.error("Error fetching all tags:", error);
+      console.error('Error fetching all tags:', error);
       set({ isLoadingAllTags: false });
     }
   },
