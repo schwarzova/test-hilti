@@ -19,6 +19,7 @@ export type Tag = {
   error3d: number;
   batteryLevel: number;
   timestamp: string;
+  measureName: string;
 };
 
 export type ReferencePoint = {

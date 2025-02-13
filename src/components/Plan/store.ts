@@ -171,7 +171,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
           socket.send(
             JSON.stringify({
               action: 'sendMessage',
-              message: 'slo from React',
+              message: 'Receiving messages from API in Dashboard',
             }),
           ),
         1000,
@@ -180,10 +180,9 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     };
 
     socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+      const data : Tag[] = JSON.parse(event.data);
 
-      console.log('Message received:', event.data);
-      console.log('data:', data);
+      console.log('Received data:', data);
     };
 
     socket.onclose = () => {
