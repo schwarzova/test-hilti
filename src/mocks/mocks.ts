@@ -62,6 +62,7 @@ export const mockedAnchors: Anchor[] = [
 export const mockedTags1: Tag[] = [
   {
     tagId: '1111',
+    measureName: 'sensor_data',
     position: {
       x: -0.5110425320785901,
       y: -0.12287860453565639,
@@ -75,6 +76,7 @@ export const mockedTags1: Tag[] = [
   },
   {
     tagId: '2222',
+    measureName: 'sensor_data',
     position: {
       x: -8.256795438109275,
       y: -0.7752587170327425,
@@ -88,6 +90,7 @@ export const mockedTags1: Tag[] = [
   },
   {
     tagId: '3333',
+    measureName: 'sensor_data',
     position: {
       x: -3.8026854,
       y: 0.4318713,
@@ -104,6 +107,7 @@ export const mockedTags1: Tag[] = [
 export const mockedTags2: Tag[] = [
   {
     tagId: '1111',
+    measureName: 'sensor_data',
     position: {
       x: -0.5274726092280309,
       y: -0.14396243916810192,
@@ -117,6 +121,7 @@ export const mockedTags2: Tag[] = [
   },
   {
     tagId: '2222',
+    measureName: 'sensor_data',
     position: {
       x: -8.23502907812362,
       y: -0.7821089068416865,
@@ -130,6 +135,7 @@ export const mockedTags2: Tag[] = [
   },
   {
     tagId: '3333',
+    measureName: 'sensor_data',
     position: {
       x: -3.4339728,
       y: 1.9534661,
@@ -146,6 +152,7 @@ export const mockedTags2: Tag[] = [
 export const mockedTags3: Tag[] = [
   {
     tagId: '1111',
+    measureName: 'sensor_data',
     position: {
       x: -0.5255643229410668,
       y: -0.08378042425439332,
@@ -159,6 +166,7 @@ export const mockedTags3: Tag[] = [
   },
   {
     tagId: '2222',
+    measureName: 'sensor_data',
     position: {
       x: -8.240016412089021,
       y: -0.7835736929520743,
@@ -172,6 +180,7 @@ export const mockedTags3: Tag[] = [
   },
   {
     tagId: '3333',
+    measureName: 'sensor_data',
     position: {
       x: -4.3321433,
       y: -2.0508021,
