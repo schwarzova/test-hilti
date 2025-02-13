@@ -36,6 +36,7 @@ function Plan() {
   const groundTruthPoints = usePlanStore(getConvertedGroundTruthPoints);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
+  const fetchAllTags = usePlanStore((state) => state.fetchAllTags);
   const connectFetchTags = usePlanStore((state) => state.connectFetchTags);
   const disconnectFetchTags = usePlanStore(
     (state) => state.disconnectFetchTags,
@@ -51,6 +52,10 @@ function Plan() {
       };
     }
   }, [fetchTags, selectedPlan]);
+
+  useEffect(() => {
+    fetchAllTags();
+  });
 
   // uncomment for quick init
   // const quickInit = usePlanStore((state) => state.quickInit);
