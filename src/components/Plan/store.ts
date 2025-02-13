@@ -179,15 +179,14 @@ export const usePlanStore = create<PlanState>((set, get) => ({
               message: 'Receiving messages from API in Dashboard',
             }),
           ),
-        9000,
+        5000,
       ); // Test message
       set({ socketReal: socket, isSocketConnected: true });
     };
 
     socket.onmessage = (event) => {
       const data: Tag[] = JSON.parse(event.data);
-
-      // console.log('Received data:', data);
+      console.log('Received data:', data);
     };
 
     socket.onclose = () => {
