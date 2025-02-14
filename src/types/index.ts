@@ -1,4 +1,4 @@
-export type Plan = { id: string; name: string };
+export type Plan = { id: string; name: string, url: string };
 
 export type Anchor = {
   id: string;
@@ -27,16 +27,20 @@ export type ReferencePoint = {
   ySvg: number;
   xReal: number;
   yReal: number;
+  xTls: number;
+  yTls: number;
 };
+
+export type PlanAnchorsMap = {
+  [planId : string]: Anchor[];
+}
 
 export type SvgParsedData = {
   referencePoints: ReferencePoint[];
-  originOfTSL: ReferencePoint;
   realDistance: number;
   svgDistance: number;
   tlsDistance: number;
   scale: number;
-  angle: number;
   transformMatrix: TransformMatrix;
 };
 

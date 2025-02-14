@@ -8,6 +8,7 @@ import {
   mockedTags1,
   mockedTags2,
   mockedTags3,
+  PLAN_ANCHORS_MOCKED_MAP,
 } from '../../mocks/mocks';
 import { parseSvg } from './utils';
 import { REST_API_URL } from '../../constants/consts';
@@ -27,7 +28,7 @@ export type PlanState = {
   svgScaleY: number;
   fetchAnchors: () => Promise<void>;
   fetchPlans: () => Promise<void>;
-  fetchPlanSvgUrl: (planId: string) => Promise<void>;
+  fetchPlanSvgUrl: (plan: Plan) => Promise<void>;
   fetchTags: () => MockWebSocket | null;
   resetSelectedPlan: () => void;
   setSelectedPlan: (plan: Plan) => void;
@@ -45,12 +46,10 @@ export type PlanState = {
 const initialParsed: SvgParsedData = {
   referencePoints: [],
   transformMatrix: [0, 0, 0, 0, 0, 0],
-  originOfTSL: { xSvg: 0, ySvg: 0, yReal: 0, xReal: 0 },
   realDistance: 0,
   svgDistance: 0,
   tlsDistance: 0,
   scale: 1,
-  angle: 0,
 };
 
 export const usePlanStore = create<PlanState>((set, get) => ({
@@ -61,7 +60,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   // this is for quick floor plan load for debugging anchors and tags
   quickInit: () => {
     set({
-      selectedPlanSvgUrl: '/public/assets/floorplan3withGCS.svg',
+      selectedPlanSvgUrl: '/public/assets/floorPlan.svg',
       anchors: mockedAnchors,
       tags: mockedTags1,
       selectedPlan: mockedPlans[0],
@@ -91,8 +90,8 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   anchors: [],
   fetchAnchors: async () => {
     set({ isFetching: true });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    set({ anchors: mockedAnchors });
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    set((state) => ({ anchors:  state.selectedPlan?.id ? PLAN_ANCHORS_MOCKED_MAP[state.selectedPlan.id] : [] }));
     set({ isFetching: false });
   },
 
@@ -136,26 +135,21 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   },
 
   referencePoints: [],
-  fetchPlanSvgUrl: async (planId) => {
+  fetchPlanSvgUrl: async (plan) => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    if (planId === '1') {
-      set({ selectedPlanSvgUrl: '/assets/floorplan.svg' });
-    } else if (planId === '2') {
-      set({ selectedPlanSvgUrl: '/assets/floorplan2.svg' });
-    } else {
-      set({ selectedPlanSvgUrl: '/assets/floorplan3withGCS.svg' });
-
-      // Parse the SVG and extract metadata
-      const response = await fetch('/assets/floorplan3withGCS.svg');
-      const text = await response.text();
-
-      const parsedData: SvgParsedData | null = parseSvg(text);
-      if (parsedData) {
-        set({ parsedSvgData: parsedData });
-      }
-    }
+    
+    set({ selectedPlanSvgUrl: `/assets/${plan.url}` });
     set({ isFetching: false });
+
+     // Parse the SVG and extract metadata
+     const response = await fetch(`/assets/${plan.url}`);
+     const text = await response.text();
+
+     const parsedData: SvgParsedData | null = parseSvg(text);
+     if (parsedData) {
+       set({ parsedSvgData: parsedData });
+     }
   },
   setSvgScale: (svgScaleX, svgScaleY) => set({ svgScaleX, svgScaleY }),
 

@@ -82,19 +82,6 @@ export const getConvertedTags = createSelector(
   },
 );
 
-export const getConvertedMeasuredPoints = createSelector(
-  [
-    (state: PlanState) => state.svgScaleX,
-    (state: PlanState) => state.svgScaleY,
-    (state: PlanState) => state.parsedSvgData.transformMatrix,
-  ],
-  (svgScaleX, svgScaleY, transformMatrix): Point[] => {
-    return MEASURED_POINTS.map((p) =>
-      transformPointWithScale(p, transformMatrix, svgScaleX, svgScaleY),
-    );
-  },
-);
-
 export const getConvertedGroundTruthPoints = createSelector(
   [
     (state: PlanState) => state.svgScaleX,
