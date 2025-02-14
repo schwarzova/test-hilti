@@ -7,9 +7,9 @@ import LinesOfSight from './LinesOfSight';
 
 type Props = {
   anchors: Anchor[];
+  enableGroundTruthPoints?: boolean;
   focusedTag?: Tag;
   groundTruthPoints: MeasurementPoint[];
-  measuredPoints: Point[];
   onSimpleTooltipVisibilityChange: (point?: Point, text?: string) => void;
   onTooltipVisibilityChange: (tag?: Tag) => void;
   showTagImage: boolean;
@@ -34,18 +34,16 @@ function AnchorLayer(props: Props) {
           tag={tag}
         />
       ))}
-      {props.measuredPoints.map((point) => (
-        <MeasuredReferencePoint key={`${point.x}_${point.y}`} point={point} />
-      ))}
-      {props.groundTruthPoints.map((point) => (
-        <MeasuredReferencePoint
-          id={point.id}
-          isGroundTruthPoint
-          key={`${point.x}_${point.y}`}
-          onTooltipVisibilityChange={props.onSimpleTooltipVisibilityChange}
-          point={point}
-        />
-      ))}
+      {props.enableGroundTruthPoints &&
+        props.groundTruthPoints.map((point) => (
+          <MeasuredReferencePoint
+            id={point.id}
+            isGroundTruthPoint
+            key={`${point.x}_${point.y}`}
+            onTooltipVisibilityChange={props.onSimpleTooltipVisibilityChange}
+            point={point}
+          />
+        ))}
       {props.focusedTag && (
         <LinesOfSight tag={props.focusedTag} anchors={props.anchors} />
       )}

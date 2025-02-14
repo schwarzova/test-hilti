@@ -20,7 +20,6 @@ type Props = {
   anchors: Anchor[];
   groundTruthPoints: MeasurementPoint[];
   isFetching: boolean;
-  measuredPoints: Point[];
   planHeight: number;
   planSvgUrl: string;
   planWidth: number;
@@ -98,7 +97,6 @@ function Viewer(props: Props) {
                     anchors={props.anchors}
                     focusedTag={tooltipTag}
                     groundTruthPoints={props.groundTruthPoints}
-                    measuredPoints={props.measuredPoints}
                     onTooltipVisibilityChange={handleTooltipVisibilityChange}
                     onSimpleTooltipVisibilityChange={
                       handleSimpleTooltipVisibilityChange

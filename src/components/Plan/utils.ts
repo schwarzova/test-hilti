@@ -6,19 +6,6 @@ import {
 } from '../../types';
 import { useSidebarStore } from '../Sidebar/store';
 
-// firstly defined
-const TLS_0: Point = {
-  x: -4.398401260376,
-  y: 8.022876739502,
-}; // anchor 3
-const TLS_1: Point = {
-  x: -8.698121070862,
-  y: -0.969426512718,
-}; // anchor 4
-const TLS_2: Point = { x: 0, y: 0 }; // origin
-
-export const MEASURED_POINTS: Point[] = [TLS_0, TLS_1, TLS_2];
-
 export function parseSvg(svgInString: string): null | SvgParsedData {
   const parser = new DOMParser();
   const svgDocument = parser.parseFromString(svgInString, 'image/svg+xml');
@@ -32,6 +19,8 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
         ySvg: Number(gcp.getAttribute('y_svg')!),
         xReal: Number(gcp.getAttribute('x_real')!),
         yReal: Number(gcp.getAttribute('y_real')!),
+        xTls: Number(gcp.getAttribute('x_tls')!),
+        yTls: Number(gcp.getAttribute('y_tls')!),
       }),
     );
 
@@ -44,15 +33,19 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
       referencePoints[2],
     );
     const tlsDistance = calculateTlsDistance(
-      MEASURED_POINTS[1],
-      MEASURED_POINTS[2],
+      referencePoints[1],
+      referencePoints[2],
     );
 
     const scale = realDistance / svgDistance;
 
     // TLS, SVG points
     const transformMatrix = calculateAffineTransformation(
-      [TLS_0, TLS_1, TLS_2],
+      [
+        { x: referencePoints[0].xTls, y: referencePoints[0].yTls },
+        { x: referencePoints[1].xTls, y: referencePoints[1].yTls },
+        { x: referencePoints[2].xTls, y: referencePoints[2].yTls },
+      ],
       [
         { x: referencePoints[0].xSvg, y: referencePoints[0].ySvg },
         { x: referencePoints[1].xSvg, y: referencePoints[1].ySvg },
@@ -62,12 +55,10 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
 
     return {
       referencePoints,
-      originOfTSL: referencePoints[0],
       realDistance,
       svgDistance,
       tlsDistance,
       scale,
-      angle: 0,
       transformMatrix,
     };
   }
@@ -115,36 +106,14 @@ function calculateSvgDistance(
   return Math.sqrt(dx * dx + dy * dy);
 }
 
-function calculateTlsDistance(pointA: Point, pointB: Point): number {
-  const dx = pointB.x - pointA.x;
-  const dy = pointB.y - pointA.y;
+function calculateTlsDistance(
+  pointA: ReferencePoint,
+  pointB: ReferencePoint,
+): number {
+  const dx = pointB.xTls - pointA.xTls;
+  const dy = pointB.yTls - pointA.yTls;
 
   return Math.sqrt(dx * dx + dy * dy);
-}
-
-export function rotatePoint(
-  point: Point,
-  center: Point,
-  angleDegrees: number,
-): Point {
-  // Convert degrees to radians
-  const angleRadians = (angleDegrees * Math.PI) / 180;
-
-  // Translate point, to center of rotation
-  const translatedX = point.x - center.x;
-  const translatedY = point.y - center.y;
-
-  // Rotation matrix
-  const rotatedX =
-    translatedX * Math.cos(angleRadians) - translatedY * Math.sin(angleRadians);
-  const rotatedY =
-    translatedX * Math.sin(angleRadians) + translatedY * Math.cos(angleRadians);
-
-  // Translate point back
-  return {
-    x: rotatedX + center.x,
-    y: rotatedY + center.y,
-  };
 }
 
 export function getRealDistance(
