@@ -91,7 +91,11 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   fetchAnchors: async () => {
     set({ isFetching: true });
     // await new Promise((resolve) => setTimeout(resolve, 2000));
-    set((state) => ({ anchors:  state.selectedPlan?.id ? PLAN_ANCHORS_MOCKED_MAP[state.selectedPlan.id] : [] }));
+    set((state) => ({
+      anchors: state.selectedPlan?.id
+        ? PLAN_ANCHORS_MOCKED_MAP[state.selectedPlan.id]
+        : [],
+    }));
     set({ isFetching: false });
   },
 
@@ -138,18 +142,18 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   fetchPlanSvgUrl: async (plan) => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    
+
     set({ selectedPlanSvgUrl: `/assets/${plan.url}` });
     set({ isFetching: false });
 
-     // Parse the SVG and extract metadata
-     const response = await fetch(`/assets/${plan.url}`);
-     const text = await response.text();
+    // Parse the SVG and extract metadata
+    const response = await fetch(`/assets/${plan.url}`);
+    const text = await response.text();
 
-     const parsedData: SvgParsedData | null = parseSvg(text);
-     if (parsedData) {
-       set({ parsedSvgData: parsedData });
-     }
+    const parsedData: SvgParsedData | null = parseSvg(text);
+    if (parsedData) {
+      set({ parsedSvgData: parsedData });
+    }
   },
   setSvgScale: (svgScaleX, svgScaleY) => set({ svgScaleX, svgScaleY }),
 

@@ -1,8 +1,15 @@
-import { Anchor, MeasurementPoint, Plan, Tag, Tool ,PlanAnchorsMap} from '../types';
+import {
+  Anchor,
+  MeasurementPoint,
+  Plan,
+  Tag,
+  Tool,
+  PlanAnchorsMap,
+} from '../types';
 
 export const mockedPlans: Plan[] = [
-  { id: '3', name: 'Floor plan', url: 'floorPlan.svg', },
-  { id: '1', name: 'Creative room', url:  'creativeRoom.svg'},
+  { id: '3', name: 'Floor plan', url: 'floorPlan.svg' },
+  { id: '1', name: 'Creative room', url: 'creativeRoom.svg' },
 ];
 
 export const mockedAnchors: Anchor[] = [
@@ -56,37 +63,37 @@ export const mockedAnchors: Anchor[] = [
   },
 ];
 
-const mockedAnchors2 : Anchor[] = [
+const mockedAnchors2: Anchor[] = [
   {
-   id: "Anchor 1",
+    id: 'Anchor 1',
     x: 0,
     y: 0,
-    z: 2
+    z: 2,
   },
   {
-   id: "Anchor 2",
+    id: 'Anchor 2',
     x: 0,
     y: 8,
-    z: 2
+    z: 2,
   },
   {
-   id: "Anchor 3",
+    id: 'Anchor 3',
     x: -8,
     y: 8,
-    z: 2
+    z: 2,
   },
   {
-   id: "Anchor 4",
+    id: 'Anchor 4',
     x: -8,
     y: 0,
-    z: 2
-  }
-]
+    z: 2,
+  },
+];
 
-export const PLAN_ANCHORS_MOCKED_MAP : PlanAnchorsMap = {
+export const PLAN_ANCHORS_MOCKED_MAP: PlanAnchorsMap = {
   '3': mockedAnchors,
-  '1': mockedAnchors2
-}
+  '1': mockedAnchors2,
+};
 
 /* eslint-disable no-loss-of-precision */
 

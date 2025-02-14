@@ -34,15 +34,16 @@ function AnchorLayer(props: Props) {
           tag={tag}
         />
       ))}
-      {props.enableGroundTruthPoints && props.groundTruthPoints.map((point) => (
-        <MeasuredReferencePoint
-          id={point.id}
-          isGroundTruthPoint
-          key={`${point.x}_${point.y}`}
-          onTooltipVisibilityChange={props.onSimpleTooltipVisibilityChange}
-          point={point}
-        />
-      ))}
+      {props.enableGroundTruthPoints &&
+        props.groundTruthPoints.map((point) => (
+          <MeasuredReferencePoint
+            id={point.id}
+            isGroundTruthPoint
+            key={`${point.x}_${point.y}`}
+            onTooltipVisibilityChange={props.onSimpleTooltipVisibilityChange}
+            point={point}
+          />
+        ))}
       {props.focusedTag && (
         <LinesOfSight tag={props.focusedTag} anchors={props.anchors} />
       )}
