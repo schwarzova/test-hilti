@@ -4,7 +4,6 @@ import { Anchor, MeasurementPoint, Point, Tag } from '../../types';
 import {
   convertCmToPx,
   convertZToMeters,
-  MEASURED_POINTS,
   transformPointWithScale,
 } from './utils';
 import { GROUND_TRUTH_POINTS } from '../../mocks/mocks';

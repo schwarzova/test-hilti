@@ -59,7 +59,6 @@ export function parseSvg(svgInString: string): null | SvgParsedData {
       svgDistance,
       tlsDistance,
       scale,
-      angle: 0,
       transformMatrix,
     };
   }
