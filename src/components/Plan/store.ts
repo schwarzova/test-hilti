@@ -175,8 +175,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
         () =>
           socket.send(
             JSON.stringify({
-              action: 'sendMessage',
-              message: 'Receiving messages from API in Dashboard',
+              action: 'getLatestTags',
             }),
           ),
         5000,
@@ -185,13 +184,14 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     };
 
     socket.onmessage = (event) => {
+      console.log('Received data event:', event);
       const data: Tag[] = JSON.parse(event.data);
       console.log('Received data:', data);
     };
 
     socket.onclose = () => {
       console.log('WebSocket disconnected!');
-      set({ socket: null, isSocketConnected: false });
+      set({ socketReal: null, isSocketConnected: false });
     };
 
     socket.onerror = (error) => {
@@ -201,10 +201,10 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     set({ socketReal: socket });
   },
   disconnectFetchTags: () => {
-    console.log('disconnectFetchTags');
-    const socket = get().socket;
-    if (socket) {
-      socket.close();
+    const socketReal = get().socketReal;
+    console.log('disconnectFetchTags', socketReal);
+    if (socketReal) {
+      socketReal.close();
       set({ socketReal: null, isSocketConnected: false });
     }
   },
