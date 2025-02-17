@@ -9,6 +9,7 @@ export type Anchor = {
 
 export type Tag = {
   tagId: string;
+  jobsite?: string;
   position: {
     x: number;
     y: number;

@@ -29,7 +29,6 @@ function Plan() {
   const anchors = usePlanStore(getConvertedAnchors);
   const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
   const selectedPlanSvgUrl = usePlanStore((state) => state.selectedPlanSvgUrl);
-  const fetchTags = usePlanStore((state) => state.fetchTags);
   const tags = usePlanStore(getConvertedTags);
   const groundTruthPoints = usePlanStore(getConvertedGroundTruthPoints);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
@@ -39,17 +38,6 @@ function Plan() {
   const disconnectFetchTags = usePlanStore(
     (state) => state.disconnectFetchTags,
   );
-
-  useEffect(() => {
-    if (selectedPlan) {
-      const socket = fetchTags();
-
-      return () => {
-        // temporary solution, with real socket we can have separate action in store to close it
-        socket?.close();
-      };
-    }
-  }, [fetchTags, selectedPlan]);
 
   useEffect(() => {
     fetchAllTags();
@@ -69,12 +57,14 @@ function Plan() {
   // }, [isDone, fetchSvgUrl, quickInit])
 
   useEffect(() => {
-    connectFetchTags();
+    if (selectedPlan) {
+      connectFetchTags();
+    }
 
     return () => {
       disconnectFetchTags();
     };
-  }, [connectFetchTags, disconnectFetchTags]);
+  }, [connectFetchTags, disconnectFetchTags, selectedPlan]);
 
   function handlePlansLoad() {
     fetchPlans();
