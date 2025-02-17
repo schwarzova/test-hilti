@@ -8,8 +8,8 @@ import {
 } from '../types';
 
 export const mockedPlans: Plan[] = [
-  { id: '3', name: 'Floor plan', url: 'floorPlan.svg' },
-  { id: '1', name: 'Creative room', url: 'creativeRoom.svg' },
+  { id: 'TradeHall', name: 'Floor plan', url: 'floorPlan.svg' },
+  { id: 'CreativeRoom', name: 'Creative room', url: 'creativeRoom.svg' },
 ];
 
 export const mockedAnchors: Anchor[] = [
@@ -91,8 +91,8 @@ const mockedAnchors2: Anchor[] = [
 ];
 
 export const PLAN_ANCHORS_MOCKED_MAP: PlanAnchorsMap = {
-  '3': mockedAnchors,
-  '1': mockedAnchors2,
+  TradeHall: mockedAnchors,
+  CreativeRoom: mockedAnchors2,
 };
 
 /* eslint-disable no-loss-of-precision */
@@ -241,13 +241,13 @@ export const mockedTools: Tool[] = [
   },
   {
     id: 't2',
-    tagId: '2222',
+    tagId: '1112',
     name: 'Tool P2',
     imgUrl: '/assets/tool2.png',
   },
   {
     id: 't3',
-    tagId: '3333',
+    tagId: '1113',
     name: 'Tool P4',
     imgUrl: '/assets/tool3.png',
   },

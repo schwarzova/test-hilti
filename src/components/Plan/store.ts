@@ -1,13 +1,10 @@
 import { create } from 'zustand';
-import { WebSocket as MockWebSocket, Server } from 'mock-socket';
 
 import { Anchor, Plan, SvgParsedData, Tag } from '../../types';
 import {
   mockedAnchors,
   mockedPlans,
   mockedTags1,
-  mockedTags2,
-  mockedTags3,
   PLAN_ANCHORS_MOCKED_MAP,
 } from '../../mocks/mocks';
 import { parseSvg } from './utils';
@@ -23,13 +20,11 @@ export type PlanState = {
   selectedPlan?: Plan;
   selectedPlanSvgUrl?: string;
   tags: Tag[];
-  socket: MockWebSocket | null;
   svgScaleX: number;
   svgScaleY: number;
   fetchAnchors: () => Promise<void>;
   fetchPlans: () => Promise<void>;
   fetchPlanSvgUrl: (plan: Plan) => Promise<void>;
-  fetchTags: () => MockWebSocket | null;
   resetSelectedPlan: () => void;
   setSelectedPlan: (plan: Plan) => void;
   quickInit: () => void;
@@ -102,52 +97,17 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   isFetchingTags: false,
   tags: [],
   socket: null,
-  fetchTags: () => {
-    if (get().socket) return null;
-
-    // Mocked server
-    const mockServer = new Server('wss://mockserver.com/socket');
-
-    mockServer.on('connection', (socket) => {
-      const mockedTags = [mockedTags1, mockedTags2, mockedTags3];
-      let currentIndex = 0;
-      let currentTags = mockedTags[currentIndex];
-
-      // Send tags coordinates each 3s
-      setInterval(() => {
-        currentTags = mockedTags[currentIndex];
-
-        socket.send(JSON.stringify({ tags: currentTags }));
-
-        // Move to the next index, 0 → 1 → 2 → 0
-        currentIndex = (currentIndex + 1) % mockedTags.length;
-      }, 3000);
-    });
-
-    // Create mocked socket connected to server
-    const socket = new MockWebSocket('wss://mockserver.com/socket');
-    set({ socket });
-
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.tags) {
-        set({ tags: data.tags });
-      }
-    };
-
-    return socket;
-  },
 
   referencePoints: [],
   fetchPlanSvgUrl: async (plan) => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    set({ selectedPlanSvgUrl: `/assets/${plan.url}` });
+    set({ selectedPlanSvgUrl: `public/assets/${plan.url}` });
     set({ isFetching: false });
 
     // Parse the SVG and extract metadata
-    const response = await fetch(`/assets/${plan.url}`);
+    const response = await fetch(`public/assets/${plan.url}`);
     const text = await response.text();
 
     const parsedData: SvgParsedData | null = parseSvg(text);
@@ -173,8 +133,8 @@ export const usePlanStore = create<PlanState>((set, get) => ({
         () =>
           socket.send(
             JSON.stringify({
-              action: 'sendMessage',
-              message: 'Receiving messages from API in Dashboard',
+              action: 'getLatestTags',
+              jobsite: get().selectedPlan?.id,
             }),
           ),
         5000,
@@ -185,11 +145,12 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     socket.onmessage = (event) => {
       const data: Tag[] = JSON.parse(event.data);
       console.log('Received data:', data);
+      set({ tags: data });
     };
 
     socket.onclose = () => {
       console.log('WebSocket disconnected!');
-      set({ socket: null, isSocketConnected: false });
+      set({ socketReal: null, isSocketConnected: false });
     };
 
     socket.onerror = (error) => {
@@ -199,10 +160,10 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     set({ socketReal: socket });
   },
   disconnectFetchTags: () => {
-    console.log('disconnectFetchTags');
-    const socket = get().socket;
-    if (socket) {
-      socket.close();
+    const socketReal = get().socketReal;
+    console.log('disconnectFetchTags', socketReal);
+    if (socketReal) {
+      socketReal.close();
       set({ socketReal: null, isSocketConnected: false });
     }
   },
