@@ -9,7 +9,6 @@ import Viewer from '../components/Viewer/Viewer';
 import {
   getConvertedAnchors,
   getConvertedGroundTruthPoints,
-  getConvertedMeasuredPoints,
   getConvertedTags,
 } from '../components/Plan/selectors';
 
@@ -32,7 +31,6 @@ function Plan() {
   const selectedPlanSvgUrl = usePlanStore((state) => state.selectedPlanSvgUrl);
   const fetchTags = usePlanStore((state) => state.fetchTags);
   const tags = usePlanStore(getConvertedTags);
-  const measuredPoints = usePlanStore(getConvertedMeasuredPoints);
   const groundTruthPoints = usePlanStore(getConvertedGroundTruthPoints);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
@@ -85,7 +83,7 @@ function Plan() {
   function handlePlanSelect(plan: PlanType) {
     setSelectedPlan(plan);
     fetchAnchors();
-    fetchSvgUrl(plan.id);
+    fetchSvgUrl(plan);
     fetchSidebarTools();
   }
 
@@ -96,7 +94,6 @@ function Plan() {
           anchors={anchors}
           groundTruthPoints={groundTruthPoints}
           isFetching={isFetching}
-          measuredPoints={measuredPoints}
           planHeight={planRef.current.getBoundingClientRect().height}
           planSvgUrl={selectedPlanSvgUrl}
           planWidth={planRef.current.getBoundingClientRect().width}
