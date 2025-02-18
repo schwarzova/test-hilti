@@ -10,7 +10,7 @@ import {
 export const mockedPlans: Plan[] = [
   // svg has to be stored in public folder
   // id has to be the same that is in database
-  { id: 'TradeHall', name: 'Trade hall', url: 'floorPlan.svg' },
+  { id: 'TradeHall', name: 'Trade hall', url: 'floorplan.svg' },
   { id: 'CreativeRoom', name: 'Creative room', url: 'creativeRoom.svg' },
 ];
 
