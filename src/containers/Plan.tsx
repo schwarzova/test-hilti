@@ -40,7 +40,9 @@ function Plan() {
   );
 
   useEffect(() => {
-    fetchAllTags();
+    if (selectedPlan) {
+      fetchAllTags();
+    }
   });
 
   // uncomment for quick init

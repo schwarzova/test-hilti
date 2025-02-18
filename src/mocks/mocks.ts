@@ -8,7 +8,9 @@ import {
 } from '../types';
 
 export const mockedPlans: Plan[] = [
-  { id: 'TradeHall', name: 'Floor plan', url: 'floorPlan.svg' },
+  // svg has to be stored in public folder
+  // id has to be the same that is in database
+  { id: 'TradeHall', name: 'Trade hall', url: 'floorPlan.svg' },
   { id: 'CreativeRoom', name: 'Creative room', url: 'creativeRoom.svg' },
 ];
 
