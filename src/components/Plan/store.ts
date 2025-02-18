@@ -55,7 +55,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   // this is for quick floor plan load for debugging anchors and tags
   quickInit: () => {
     set({
-      selectedPlanSvgUrl: '/assets/floorPlan.svg',
+      selectedPlanSvgUrl: '/assets/floorplan.svg',
       anchors: mockedAnchors,
       tags: mockedTags1,
       selectedPlan: mockedPlans[0],
