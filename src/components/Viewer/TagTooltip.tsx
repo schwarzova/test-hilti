@@ -71,7 +71,7 @@ function TagTooltip(props: Props) {
     const [days, hours, minutes] = getDifferenceTime(props.tag.timestamp);
 
     if (days > 0){
-      return `${days} days ${hours} h and ${minutes} min ago`;
+      return `${days} days and ${hours} h ago`;
     }
 
     if (hours > 0) {

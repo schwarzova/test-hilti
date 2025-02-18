@@ -13,9 +13,9 @@ import {
 import { tooltipClass, viewerWrapClass } from './styles';
 import AnchorLayer from './AnchorLayer';
 import { useViewerRef } from '../../hooks/useViewerRef';
-import TagTooltip from './TagTooltip';
 import { TAG_ZOOM_SCALE } from '../../constants/consts';
 import { useViewerResize } from '../../hooks/useViewerResize';
+import AdvancedTagTooltip from './AdvancedTagTooltip';
 type Props = {
   anchors: Anchor[];
   groundTruthPoints: MeasurementPoint[];
@@ -118,8 +118,18 @@ function Viewer(props: Props) {
                     </div>
                   )}
 
-                  {tooltipTag && (
+                  {/* {tooltipTag && (
                     <TagTooltip
+                      style={{
+                        top: tooltipTag.position.y + getTooltipOffset(),
+                        left: tooltipTag.position.x + getTooltipOffset(),
+                        transform: `scale(${1 / value?.d || 1})`,
+                      }}
+                      tag={tooltipTag}
+                    />
+                  )} */}
+                  {tooltipTag && (
+                    <AdvancedTagTooltip
                       style={{
                         top: tooltipTag.position.y + getTooltipOffset(),
                         left: tooltipTag.position.x + getTooltipOffset(),

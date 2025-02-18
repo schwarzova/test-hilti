@@ -78,6 +78,10 @@ export const tooltipLabelClass = css({
   paddingBottom: '4px',
 });
 
+export const advancedTooltipLabelClass = css({
+  display: 'flex',
+});
+
 export const tooltipEmphasizedLabelClass = css({
   color: 'text.highlighted',
 });

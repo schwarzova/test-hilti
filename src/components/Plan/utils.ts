@@ -241,10 +241,11 @@ function convertMillisecondsToHoursMinutesSeconds(
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
+  const hoursRest = hours % 24;
   const minutesRest = minutes % 60;
   const secondsRest = seconds % 60;
 
-  return [days, hours, minutesRest, secondsRest];
+  return [days, hoursRest, minutesRest, secondsRest];
 }
 
 export function getDifferenceTime(unixTime: string): [number, number, number, number] {
