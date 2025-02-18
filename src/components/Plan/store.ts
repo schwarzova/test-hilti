@@ -172,9 +172,11 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   isLoadingAllTags: false,
   fetchAllTags: async () => {
     set({ isLoadingAllTags: true });
-
+    const plan = get().selectedPlan;
     try {
-      const response = await axios.get(`${REST_API_URL}/getAllTags`);
+      const response = await axios.get(`${REST_API_URL}/getAllTags`, {
+        params: { jobSite: plan?.id },
+      });
 
       const data = response.data.body;
       const resultTags =
