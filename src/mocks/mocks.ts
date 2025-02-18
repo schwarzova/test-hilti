@@ -109,14 +109,14 @@ const mockedAnchors3 : Anchor[] = [
   },
   {
     id: "Anchor 3",
-    x: -8,
-    y: 8,
+    x: 0,
+    y: 7.5,
     z: 2
   },
   {
     id: "Anchor 4",
-    x: -8,
-    y: 0,
+    x: -4.5,
+    y: 7.5,
     z: 2
   }
 ]
