@@ -20,15 +20,13 @@ type Props = {
   anchors: Anchor[];
   groundTruthPoints: MeasurementPoint[];
   isFetching: boolean;
-  planHeight: number;
   planSvgUrl: string;
-  planWidth: number;
   tags: Tag[];
 };
 
 function Viewer(props: Props) {
   const viewerRef = useViewerRef();
-  const { resizeInitialSvg } = useViewerResize();
+  const { planHeight, planWidth } = useViewerResize();
   const [tool, onChangeTool] = useState<Tool>(TOOL_PAN);
   const [value, onChangeValue] = useState<Value>({} as Value);
   const [currentZoom, setCurrentZoom] = useState(1);
@@ -40,7 +38,6 @@ function Viewer(props: Props) {
 
   useEffect(() => {
     setCurrentZoom(viewerRef?.current?.getValue().d || 1);
-    resizeInitialSvg();
   }, [value]);
 
   function handleTooltipVisibilityChange(tag?: Tag) {
@@ -78,21 +75,18 @@ function Viewer(props: Props) {
         render={(content) => (
           <ReactSVGPanZoom
             ref={viewerRef}
-            width={props.planWidth}
-            height={props.planHeight}
+            width={planWidth}
+            height={planHeight}
             value={value}
             onChangeValue={onChangeValue}
             tool={tool}
             onChangeTool={onChangeTool}
             defaultTool="none"
           >
-            <svg width={props.planWidth} height={props.planHeight}>
+            <svg width={planWidth} height={planHeight}>
               <>
                 {content}
-                <foreignObject
-                  width={props.planWidth}
-                  height={props.planHeight}
-                >
+                <foreignObject width={planWidth} height={planHeight}>
                   <AnchorLayer
                     anchors={props.anchors}
                     focusedTag={tooltipTag}

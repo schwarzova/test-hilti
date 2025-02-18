@@ -138,7 +138,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
               jobsite: get().selectedPlan?.id,
             }),
           ),
-        5000,
+        1000,
       ); // Test message
       set({ socketReal: socket, isSocketConnected: true });
     };
