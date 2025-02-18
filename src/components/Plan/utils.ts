@@ -235,20 +235,22 @@ export function transformPointWithScale(
 
 function convertMillisecondsToHoursMinutesSeconds(
   milliseconds: number,
-): [number, number, number] {
+): [number, number, number, number] {
   const seconds = Math.floor(milliseconds / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
 
   const minutesRest = minutes % 60;
   const secondsRest = seconds % 60;
 
-  return [hours, minutesRest, secondsRest];
+  return [days, hours, minutesRest, secondsRest];
 }
 
-export function getDifferenceTime(unixTime: string): [number, number, number] {
+export function getDifferenceTime(unixTime: string): [number, number, number, number] {
+
   const now = new Date().getTime();
-  const jsTime = new Date(Number(unixTime) * 1000).getTime();
+  const jsTime = new Date(unixTime).getTime();
 
   return convertMillisecondsToHoursMinutesSeconds(now - jsTime);
 }
