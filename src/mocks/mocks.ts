@@ -7,10 +7,9 @@ import {
   PlanAnchorsMap,
 } from '../types';
 
-  // svg has to be stored in public folder
-  // id has to be the same that is in database (column jobsite) 
+// svg has to be stored in public folder
+// id has to be the same that is in database (column jobsite)
 export const mockedPlans: Plan[] = [
- 
   { id: 'TradeHall', name: 'Trade hall', url: 'floorplan.svg' },
   { id: 'CreativeRoom', name: 'Creative room', url: 'creativeRoom.svg' },
   { id: 'opticslab', name: 'Optics lab', url: 'opticsLab.svg' },
@@ -94,32 +93,32 @@ const mockedAnchors2: Anchor[] = [
   },
 ];
 
-const mockedAnchors3 : Anchor[] = [
+const mockedAnchors3: Anchor[] = [
   {
-    id: "Anchor 1",
+    id: 'Anchor 1',
     x: 0,
     y: 0,
-    z: 2
+    z: 2,
   },
   {
-    id: "Anchor 2",
+    id: 'Anchor 2',
     x: -4.5,
     y: 0,
-    z: 2
+    z: 2,
   },
   {
-    id: "Anchor 3",
+    id: 'Anchor 3',
     x: 0,
     y: 7.5,
-    z: 2
+    z: 2,
   },
   {
-    id: "Anchor 4",
+    id: 'Anchor 4',
     x: -4.5,
     y: 7.5,
-    z: 2
-  }
-]
+    z: 2,
+  },
+];
 
 export const PLAN_ANCHORS_MOCKED_MAP: PlanAnchorsMap = {
   TradeHall: mockedAnchors,
