@@ -1,9 +1,9 @@
-import { sidebarBoxStyles } from './styles';
+import { newSidebarBoxStyles,newSidebarLabel } from './styles';
 
 function Tasks() {
   return (
-    <div className={sidebarBoxStyles}>
-      <h3>Tasks</h3>
+    <div className={newSidebarBoxStyles}>
+      <h3 className={newSidebarLabel}>Tasks</h3>
     </div>
   );
 }

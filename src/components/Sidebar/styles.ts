@@ -12,6 +12,24 @@ export const sidebarBoxStyles = css({
   _last: { mb: 0 },
 });
 
+export const newSidebarBoxStyles = css({
+  flex: '1',
+  mb: 'basePy',
+  px: 'basePx',
+  py: 'basePy',
+  backgroundColor: 'background.light',
+  color: 'text.primary',
+  _last: { mb: 0 },
+  boxShadow: '0 0 .625rem #00000026',
+});
+
+export const newSidebarLabel = css({
+  fontSize: '1.2rem',
+  fontWeight: 'bold',
+  color: 'text.highlighted',
+  textTransform: 'uppercase',
+});
+
 export const listItemStyles = css({
   borderBottom: '1px solid #ccc',
   px: 'basePx',

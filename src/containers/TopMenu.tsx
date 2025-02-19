@@ -1,5 +1,5 @@
 import { css } from '../../styled-system/css';
-import hiltiLogo from '../assets/hilti-logo.png';
+import hiltiLogo from '../assets/logo.svg';
 
 const menuStyles = css({
   display: 'flex',
@@ -9,6 +9,7 @@ const menuStyles = css({
   backgroundColor: 'boxBg',
   fontSize: '16px',
   height: '45px',
+  marginBottom: '16px',
 });
 
 const logoStyles = css({
