@@ -1,4 +1,4 @@
-import { css, } from '../../styled-system/css';
+import { css } from '../../styled-system/css';
 import { getConvertedTags } from '../components/Plan/selectors';
 import { usePlanStore } from '../components/Plan/store';
 import AdvancedTools from '../components/Sidebar/AdvancedTools';
@@ -18,6 +18,7 @@ function Sidebar() {
   const viewerRef = useViewerRef();
   const isFetchingTools = useSidebarStore((state) => state.isFetchingTools);
   const tools = useSidebarStore((state) => state.tools);
+  const selectedPLan = usePlanStore((state) => state.selectedPlan);
   const tags = usePlanStore(getConvertedTags);
 
   function handleLocateTool(tagId: string) {
@@ -35,7 +36,7 @@ function Sidebar() {
 
   return (
     <div className={sidebarStyles}>
-      <Tasks />
+      <Tasks displayData={Boolean(selectedPLan)} isFetching={isFetchingTools} />
       <AdvancedTools
         isFetching={isFetchingTools}
         onToolClick={handleLocateTool}

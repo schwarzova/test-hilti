@@ -78,12 +78,6 @@ export const loadingStyle = css({
   justifyContent: 'center',
 })
 
-export const toolImageNewStyles = css({
-  height: 'auto',
-  width: '60px',
-  mr: 'basePx',
-  ml: '-basePx',
-});
 
 export const iconLabel = css({
   fontSize: '0.8rem',
