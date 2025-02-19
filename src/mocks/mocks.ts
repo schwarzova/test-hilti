@@ -292,15 +292,6 @@ export const MOCKED_TOOLS: Tool[] = [
     order: '#5',
     model: 'TE 2000-22',
   },
-  // {
-  //   id: 't4',
-  //   tagId: '1114',
-  //   name: 'Cordless jackhammer',
-  //   imgUrl: '/assets/tool1.png',
-  //   order: '#2',
-  //   runTime: '0 min',
-  //   model: 'TE 2000-22',
-  // },
 ];
 
 export const GROUND_TRUTH_POINTS: MeasurementPoint[] = [
