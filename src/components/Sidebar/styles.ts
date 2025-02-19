@@ -28,6 +28,7 @@ export const newSidebarLabel = css({
   fontWeight: 'bold',
   color: 'text.highlighted',
   textTransform: 'uppercase',
+  marginBottom: '16px',
 });
 
 export const listItemStyles = css({
@@ -55,4 +56,36 @@ export const toolImageStyles = css({
   width: '60px',
   mr: 'basePx',
   ml: '-basePx',
+});
+
+
+export const secondaryLabel = css({
+  fontSize: '0.8rem',
+  color: 'text.secondary'
+});
+
+export const primarySidebarLabel = css({
+  fontSize: '0.9rem',
+  color: 'text.primary'
+});
+
+export const loadingStyle = css({
+  padding: 50,
+  borderRadius: 4,
+  width: '100%',
+  height: '200px',
+  display: 'flex',
+  justifyContent: 'center',
+})
+
+export const toolImageNewStyles = css({
+  height: 'auto',
+  width: '60px',
+  mr: 'basePx',
+  ml: '-basePx',
+});
+
+export const iconLabel = css({
+  fontSize: '0.8rem',
+  color: 'text.secondary',
 });

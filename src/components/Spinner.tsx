@@ -1,26 +1,19 @@
-import { css } from '../../styled-system/css';
+import { Spin } from 'antd';
+import { loadingStyle } from './Sidebar/styles';
 
-const wrapStyles = css({
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-});
+type Props = {
+  fitToHeight?: boolean;
+};
 
-const spinnerStyles = css({
-  animation: 'spin',
-  w: '25px',
-  h: '25px',
-  borderRadius: '4px',
-  bg: 'neutral.main',
-});
-
-function Spinner() {
+function Spinner(props: Props) {
   return (
-    <div className={wrapStyles}>
-      <div className={spinnerStyles} />
-    </div>
+    <Spin
+      tip="Loading"
+      size="large"
+      style={{ height: props.fitToHeight ? '100%' : undefined }}
+    >
+      <div className={loadingStyle} />
+    </Spin>
   );
 }
 

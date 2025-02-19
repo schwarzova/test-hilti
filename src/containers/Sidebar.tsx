@@ -1,11 +1,10 @@
-import { css } from '../../styled-system/css';
+import { css, } from '../../styled-system/css';
 import { getConvertedTags } from '../components/Plan/selectors';
 import { usePlanStore } from '../components/Plan/store';
+import AdvancedTools from '../components/Sidebar/AdvancedTools';
 
-import DailyRuntime from '../components/Sidebar/DailyRuntime';
 import { useSidebarStore } from '../components/Sidebar/store';
 import Tasks from '../components/Sidebar/Tasks';
-import Tools from '../components/Sidebar/Tools';
 import { TAG_SELECTION_PADDING } from '../constants/consts';
 import { useViewerRef } from '../hooks/useViewerRef';
 
@@ -37,12 +36,11 @@ function Sidebar() {
   return (
     <div className={sidebarStyles}>
       <Tasks />
-      <Tools
+      <AdvancedTools
         isFetching={isFetchingTools}
         onToolClick={handleLocateTool}
         tools={tools}
       />
-      <DailyRuntime />
     </div>
   );
 }

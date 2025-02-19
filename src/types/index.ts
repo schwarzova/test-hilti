@@ -55,6 +55,9 @@ export type Tool = {
   tagId: string;
   name: string;
   imgUrl: string;
+  order: string;
+  runTime: string;
+  model: string;
 };
 
 export type TransformMatrix = [number, number, number, number, number, number];
@@ -65,3 +68,9 @@ export type SimpleTooltip = {
   point: Point;
   text: string;
 };
+
+export type Task = {
+  place: string;
+  name: string;
+  completion: number;
+}
