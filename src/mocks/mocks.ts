@@ -271,7 +271,7 @@ export const MOCKED_TOOLS: Tool[] = [
     name: 'Cordless rotary hammer',
     imgUrl: '/assets/tool2.png',
     order: '#6',
-    runTime:  '25 min',
+    runTime: '25 min',
     model: 'TE 6-22',
   },
   {

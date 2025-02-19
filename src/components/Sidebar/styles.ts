@@ -58,15 +58,14 @@ export const toolImageStyles = css({
   ml: '-basePx',
 });
 
-
 export const secondaryLabel = css({
   fontSize: '0.8rem',
-  color: 'text.secondary'
+  color: 'text.secondary',
 });
 
 export const primarySidebarLabel = css({
   fontSize: '0.9rem',
-  color: 'text.primary'
+  color: 'text.primary',
 });
 
 export const loadingStyle = css({
@@ -76,8 +75,7 @@ export const loadingStyle = css({
   height: '200px',
   display: 'flex',
   justifyContent: 'center',
-})
-
+});
 
 export const iconLabel = css({
   fontSize: '0.8rem',

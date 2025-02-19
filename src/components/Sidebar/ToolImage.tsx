@@ -1,7 +1,7 @@
 type Props = {
-    src: string;
-    alt: string;
-}
+  src: string;
+  alt: string;
+};
 
 function ToolImage(props: Props) {
   const containerStyle: React.CSSProperties = {
@@ -25,7 +25,6 @@ function ToolImage(props: Props) {
       <img src={props.src} alt={props.alt} style={imageStyle} />
     </div>
   );
-
 }
 
 export default ToolImage;

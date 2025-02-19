@@ -186,7 +186,13 @@ function AdvancedTagTooltip(props: Props) {
       >
         {tool?.name}
       </TooltipLabel>
-      <div style={{ display: 'flex', justifyContent: 'space-between' , alignItems: 'center'}}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <div style={{ paddingRight: '16px' }}>
           <CircleImage src={tool?.imgUrl} />
         </div>

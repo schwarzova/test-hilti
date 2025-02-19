@@ -73,4 +73,4 @@ export type Task = {
   place: string;
   name: string;
   completion: number;
-}
+};
