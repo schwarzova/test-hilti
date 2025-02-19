@@ -13,22 +13,20 @@ import {
 import { tooltipClass, viewerWrapClass } from './styles';
 import AnchorLayer from './AnchorLayer';
 import { useViewerRef } from '../../hooks/useViewerRef';
-import TagTooltip from './TagTooltip';
 import { TAG_ZOOM_SCALE } from '../../constants/consts';
 import { useViewerResize } from '../../hooks/useViewerResize';
+import AdvancedTagTooltip from './AdvancedTagTooltip';
 type Props = {
   anchors: Anchor[];
   groundTruthPoints: MeasurementPoint[];
   isFetching: boolean;
-  planHeight: number;
   planSvgUrl: string;
-  planWidth: number;
   tags: Tag[];
 };
 
 function Viewer(props: Props) {
   const viewerRef = useViewerRef();
-  const { resizeInitialSvg } = useViewerResize();
+  const { planHeight, planWidth } = useViewerResize();
   const [tool, onChangeTool] = useState<Tool>(TOOL_PAN);
   const [value, onChangeValue] = useState<Value>({} as Value);
   const [currentZoom, setCurrentZoom] = useState(1);
@@ -40,7 +38,6 @@ function Viewer(props: Props) {
 
   useEffect(() => {
     setCurrentZoom(viewerRef?.current?.getValue().d || 1);
-    resizeInitialSvg();
   }, [value]);
 
   function handleTooltipVisibilityChange(tag?: Tag) {
@@ -78,21 +75,18 @@ function Viewer(props: Props) {
         render={(content) => (
           <ReactSVGPanZoom
             ref={viewerRef}
-            width={props.planWidth}
-            height={props.planHeight}
+            width={planWidth}
+            height={planHeight}
             value={value}
             onChangeValue={onChangeValue}
             tool={tool}
             onChangeTool={onChangeTool}
             defaultTool="none"
           >
-            <svg width={props.planWidth} height={props.planHeight}>
+            <svg width={planWidth} height={planHeight}>
               <>
                 {content}
-                <foreignObject
-                  width={props.planWidth}
-                  height={props.planHeight}
-                >
+                <foreignObject width={planWidth} height={planHeight}>
                   <AnchorLayer
                     anchors={props.anchors}
                     focusedTag={tooltipTag}
@@ -118,8 +112,18 @@ function Viewer(props: Props) {
                     </div>
                   )}
 
-                  {tooltipTag && (
+                  {/* {tooltipTag && (
                     <TagTooltip
+                      style={{
+                        top: tooltipTag.position.y + getTooltipOffset(),
+                        left: tooltipTag.position.x + getTooltipOffset(),
+                        transform: `scale(${1 / value?.d || 1})`,
+                      }}
+                      tag={tooltipTag}
+                    />
+                  )} */}
+                  {tooltipTag && (
+                    <AdvancedTagTooltip
                       style={{
                         top: tooltipTag.position.y + getTooltipOffset(),
                         left: tooltipTag.position.x + getTooltipOffset(),

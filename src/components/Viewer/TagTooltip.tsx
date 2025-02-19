@@ -68,13 +68,17 @@ function TagTooltip(props: Props) {
   }
 
   function getTimeLabel() {
-    const [hours, minutes] = getDifferenceTime(props.tag.timestamp);
+    const [days, hours, minutes] = getDifferenceTime(props.tag.timestamp);
 
-    if (hours > 0) {
-      return `${hours} h and ${minutes} min`;
+    if (days > 0){
+      return `${days} days and ${hours} h ago`;
     }
 
-    return `${minutes} min`;
+    if (hours > 0) {
+      return `${hours} h and ${minutes} min ago`;
+    }
+
+    return `${minutes} min ago`;
   }
 
   return (
@@ -89,7 +93,7 @@ function TagTooltip(props: Props) {
         {`(${props.tag.tagId})`}
       </TooltipLabel>
       <br />
-      <TooltipLabel>Last seen:{getTimeLabel()}</TooltipLabel>
+      <TooltipLabel>Last seen: {getTimeLabel()}</TooltipLabel>
 
       <TooltipLabel>Height: {getHeight()}</TooltipLabel>
       <TooltipLabel>

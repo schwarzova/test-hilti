@@ -3,17 +3,43 @@ import debounce from 'lodash/debounce';
 
 import { usePlanStore } from '../components/Plan/store';
 import { useViewerRef } from './useViewerRef';
+import { useWindowSize } from '@react-hook/window-size';
 
 export function useViewerResize() {
   const viewerRef = useViewerRef();
+  const [windowWidth, windowHeight] = useWindowSize();
   const svgScaleX = usePlanStore((state) => state.svgScaleX);
   const setSvgScale = usePlanStore((state) => state.setSvgScale);
 
   const [originalWidth, setOriginalWidth] = useState(0);
   const [originalHeight, setOriginalHeight] = useState(0);
+  const [planWidth, setPlanWidth] = useState(0);
+  const [planHeight, setPlanHeight] = useState(0);
 
-  function handleResize() {
-    const svgEl = document.getElementsByClassName('injected-svg')[0];
+  const svgEl = document.getElementsByClassName('injected-svg')[0];
+
+  useEffect(() => {
+    resizeInitialSvg();
+  }, [svgEl]);
+
+  // wait for 200ms until svg is resized
+  const handleRecalculateSvgScaleDebounced = debounce(
+    handleRecalculateSvgScale,
+    200,
+  );
+
+  useEffect(() => {
+    const SIDEBAR_WIDTH = 0.8; // 80%
+    const X_MARGIN = 45;
+    const Y_MARGIN = 65;
+    const BORDER = 2;
+
+    setPlanWidth(windowWidth * SIDEBAR_WIDTH - X_MARGIN - BORDER);
+    setPlanHeight(windowHeight - Y_MARGIN - BORDER);
+    handleRecalculateSvgScaleDebounced();
+  }, [windowHeight, windowWidth]);
+
+  function handleRecalculateSvgScale() {
     if (svgEl && originalWidth && originalHeight) {
       const newWidth = svgEl.getBoundingClientRect().width;
       const newHeight = svgEl.getBoundingClientRect().height;
@@ -21,19 +47,10 @@ export function useViewerResize() {
     }
   }
 
-  // wait for 2s until svg is resized
-  const handleResizeDebounced = debounce(handleResize, 2000);
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResizeDebounced);
-
-    return () => window.removeEventListener('resize', handleResizeDebounced);
-  }, [handleResizeDebounced]);
-
   function resizeInitialSvg() {
-    const svgEl = document.getElementsByClassName('injected-svg')[0];
+    if (svgScaleX !== 1) return;
 
-    if (svgScaleX === 1 && svgEl) {
+    if (svgEl) {
       let svgWidth = 0;
       let svgHeight = 0;
 
@@ -51,9 +68,10 @@ export function useViewerResize() {
       const newWidth = svgEl.getBoundingClientRect().width;
       const newHeight = svgEl.getBoundingClientRect().height;
       setSvgScale(newWidth / svgWidth, newHeight / svgHeight);
+
       viewerRef?.current?.fitToViewer();
     }
   }
 
-  return { resizeInitialSvg };
+  return { planWidth, planHeight };
 }

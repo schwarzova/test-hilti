@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { css } from '../../styled-system/css';
 
 import { usePlanStore } from '../components/Plan/store';
@@ -19,7 +19,6 @@ const planWrapStyles = css({
 });
 
 function Plan() {
-  const planRef = useRef<HTMLDivElement>(null);
   const fetchPlans = usePlanStore((state) => state.fetchPlans);
   const isFetching = usePlanStore((state) => state.isFetching);
   const plans = usePlanStore((state) => state.plans);
@@ -80,15 +79,13 @@ function Plan() {
   }
 
   return (
-    <div className={planWrapStyles} ref={planRef}>
-      {selectedPlan && selectedPlanSvgUrl && planRef.current ? (
+    <div className={planWrapStyles}>
+      {selectedPlan && selectedPlanSvgUrl ? (
         <Viewer
           anchors={anchors}
           groundTruthPoints={groundTruthPoints}
           isFetching={isFetching}
-          planHeight={planRef.current.getBoundingClientRect().height}
           planSvgUrl={selectedPlanSvgUrl}
-          planWidth={planRef.current.getBoundingClientRect().width}
           tags={tags}
         />
       ) : (
