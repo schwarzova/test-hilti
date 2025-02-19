@@ -1,6 +1,7 @@
-import { Flex } from 'antd';
+import { Flex, Select } from 'antd';
 import { css } from '../../styled-system/css';
 import logoSrc from '../assets/logo.svg';
+import { Plan } from '../types';
 
 const menuStyles = css({
   display: 'flex',
@@ -15,7 +16,6 @@ const menuStyles = css({
   boxShadow: '0 -.625rem .625rem .625rem #00000026',
 });
 
-
 function LogoImage() {
   const containerStyle: React.CSSProperties = {
     width: '130px',
@@ -25,7 +25,6 @@ function LogoImage() {
   const imageStyle: React.CSSProperties = {
     height: '60px',
     objectFit: 'contain',
-   
   };
 
   return (
@@ -35,15 +34,30 @@ function LogoImage() {
   );
 }
 
+type Props = {
+  onPlanSelect: (plan?: Plan) => void;
+  plans: Plan[];
+  selectedPlan?: Plan;
+};
 
-function TopMenu() {
+function TopMenu(props: Props) {
+  function handleChange(value: string) {
+    props.onPlanSelect(props.plans.find((p) => p.id === value));
+  }
+
   return (
     <div className={menuStyles}>
       <Flex align="center">
         <LogoImage />
         Location-aware Tools | Digital Twin
       </Flex>
-      <div>John Doe</div>
+      {/* {props.plans.length > 0 && (
+        <Select
+          style={{ width: 200 }}
+          onChange={handleChange}
+          options={props.plans.map((p) => ({ value: p.id, label: p.name }))}
+        />
+      )} */}
     </div>
   );
 }

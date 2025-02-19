@@ -1,21 +1,46 @@
 import { css } from '../styled-system/css';
-import { ConfigProvider } from "antd";
+import { ConfigProvider } from 'antd';
 
 import TopMenu from './containers/TopMenu';
 import Sidebar from './containers/Sidebar';
 import Plan from './containers/Plan';
-
+import { Plan as PlanType } from './types';
+import { useSidebarStore } from './components/Sidebar/store';
+import { usePlanStore } from './components/Plan/store';
 
 const theme = {
   token: {
-    colorPrimary: "text.primary",
+    colorPrimary: 'text.primary',
   },
 };
 
 function App() {
+  const plans = usePlanStore((state) => state.plans);
+  const selectedPlan = usePlanStore((state) => state.selectedPlan);
+  const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
+  const resetSelectedPlan = usePlanStore((state) => state.resetSelectedPlan);
+  const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
+  const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
+  const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
+
+  function handlePlanSelect(plan?: PlanType) {
+    if (plan) {
+      setSelectedPlan(plan);
+      fetchAnchors();
+      fetchSvgUrl(plan);
+      fetchSidebarTools();
+    } else {
+      resetSelectedPlan();
+    }
+  }
+
   return (
     <ConfigProvider theme={theme}>
-      <TopMenu />
+      <TopMenu
+        onPlanSelect={handlePlanSelect}
+        plans={plans}
+        selectedPlan={selectedPlan}
+      />
       <div
         className={css({
           display: 'flex',
@@ -28,7 +53,7 @@ function App() {
         <Sidebar />
         <Plan />
       </div>
-      </ConfigProvider>
+    </ConfigProvider>
   );
 }
 
