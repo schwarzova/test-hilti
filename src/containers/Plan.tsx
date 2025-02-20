@@ -11,6 +11,7 @@ import {
   getConvertedGroundTruthPoints,
   getConvertedTags,
 } from '../components/Plan/selectors';
+import Spinner from '../components/Spinner';
 
 const planWrapStyles = css({
   marginLeft: 'basePx',
@@ -31,28 +32,13 @@ function Plan() {
   const tags = usePlanStore(getConvertedTags);
   const groundTruthPoints = usePlanStore(getConvertedGroundTruthPoints);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
-
-  const fetchAllTags = usePlanStore((state) => state.fetchAllTags);
   const connectFetchTags = usePlanStore((state) => state.connectFetchTags);
-  const disconnectFetchTags = usePlanStore(
-    (state) => state.disconnectFetchTags,
-  );
-
-  useEffect(() => {
-    if (selectedPlan) {
-      fetchAllTags();
-    }
-  });
 
   useEffect(() => {
     if (selectedPlan) {
       connectFetchTags();
     }
-
-    return () => {
-      disconnectFetchTags();
-    };
-  }, [connectFetchTags, disconnectFetchTags, selectedPlan]);
+  }, [connectFetchTags, selectedPlan]);
 
   function handlePlansLoad() {
     fetchPlans();
@@ -67,11 +53,12 @@ function Plan() {
 
   return (
     <div className={planWrapStyles}>
-      {selectedPlan && selectedPlanSvgUrl ? (
+      {isFetching || (!selectedPlanSvgUrl && selectedPlan) ? (
+        <Spinner />
+      ) : selectedPlan && selectedPlanSvgUrl ? (
         <Viewer
           anchors={anchors}
           groundTruthPoints={groundTruthPoints}
-          isFetching={isFetching}
           planSvgUrl={selectedPlanSvgUrl}
           tags={tags}
         />

@@ -29,10 +29,12 @@ export function useViewerResize() {
   );
 
   useEffect(() => {
+    // reset Zoom
+    viewerRef.current?.reset();
     const SIDEBAR_WIDTH = 0.8; // 80%
     const X_MARGIN = 45;
-    const Y_MARGIN = 65;
-    const BORDER = 2;
+    const Y_MARGIN = 80;
+    const BORDER = 0;
 
     setPlanWidth(windowWidth * SIDEBAR_WIDTH - X_MARGIN - BORDER);
     setPlanHeight(windowHeight - Y_MARGIN - BORDER);

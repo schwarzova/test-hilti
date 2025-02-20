@@ -1,7 +1,8 @@
-import { Flex } from 'antd';
+import { Flex, Select } from 'antd';
 import { css } from '../../styled-system/css';
 import logoSrc from '../assets/logo.svg';
-import { Plan } from '../types';
+import { usePlanStore } from '../components/Plan/store';
+import { useSidebarStore } from '../components/Sidebar/store';
 
 const menuStyles = css({
   display: 'flex',
@@ -12,7 +13,6 @@ const menuStyles = css({
   backgroundColor: 'background.light',
   fontSize: '16px',
   height: '60px',
-  marginBottom: '4px',
   boxShadow: '0 -.625rem .625rem .625rem #00000026',
 });
 
@@ -34,16 +34,28 @@ function LogoImage() {
   );
 }
 
-type Props = {
-  onPlanSelect: (plan?: Plan) => void;
-  plans: Plan[];
-  selectedPlan?: Plan;
-};
+function TopMenu() {
+  const plans = usePlanStore((state) => state.plans);
+  const selectedPlan = usePlanStore((state) => state.selectedPlan);
+  const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
+  const resetSelectedPlan = usePlanStore((state) => state.resetSelectedPlan);
+  const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
+  const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
+  const fetchAllTags = usePlanStore((state) => state.fetchAllTags);
+  const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
-function TopMenu(props: Props) {
-  // function handleChange(value: string) {
-  //   props.onPlanSelect(props.plans.find((p) => p.id === value));
-  // }
+  function handleChange(value: string) {
+    resetSelectedPlan();
+    const newPlan = plans.find((p) => p.id === value);
+
+    if (newPlan) {
+      setSelectedPlan(newPlan);
+      fetchSvgUrl(newPlan);
+      fetchAnchors();
+      fetchAllTags();
+      fetchSidebarTools();
+    }
+  }
 
   return (
     <div className={menuStyles}>
@@ -51,14 +63,14 @@ function TopMenu(props: Props) {
         <LogoImage />
         Location-aware Tools | Digital Twin
       </Flex>
-      {props.selectedPlan?.name}
-      {/* {props.plans.length > 0 && (
+      {plans.length > 0 && (
         <Select
           style={{ width: 200 }}
           onChange={handleChange}
-          options={props.plans.map((p) => ({ value: p.id, label: p.name }))}
+          options={plans.map((p) => ({ value: p.id, label: p.name }))}
+          value={selectedPlan ? selectedPlan.id : null}
         />
-      )} */}
+      )}
     </div>
   );
 }

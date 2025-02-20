@@ -19,8 +19,7 @@ import AdvancedTagTooltip from './AdvancedTagTooltip';
 type Props = {
   anchors: Anchor[];
   groundTruthPoints: MeasurementPoint[];
-  isFetching: boolean;
-  planSvgUrl: string;
+  planSvgUrl?: string;
   tags: Tag[];
 };
 
@@ -64,7 +63,7 @@ function Viewer(props: Props) {
     return 5;
   }
 
-  if (props.isFetching) {
+  if (!planWidth || !planHeight) {
     return <Spinner />;
   }
 

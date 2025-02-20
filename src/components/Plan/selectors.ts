@@ -31,6 +31,7 @@ export const getConvertedAnchors = createSelector(
 
 export const getConvertedTags = createSelector(
   [
+    (state: PlanState) => state.anchors,
     (state: PlanState) => state.tags,
     (state: PlanState) => state.svgScaleX,
     (state: PlanState) => state.svgScaleY,
@@ -40,6 +41,7 @@ export const getConvertedTags = createSelector(
     (state: PlanState) => state.parsedSvgData.tlsDistance,
   ],
   (
+    anchors,
     tags,
     svgScaleX,
     svgScaleY,
@@ -61,7 +63,10 @@ export const getConvertedTags = createSelector(
         svgDistance,
         realDistance,
       );
+      // 2 is hardcoded for Trade Hall
+      const anchorOriginZ = anchors.find((a) => a.x === 0 && a.y === 0)?.z || 2;
       const zInMeters = convertZToMeters(
+        anchorOriginZ,
         t.position.z,
         realDistance,
         tlsDistance,
