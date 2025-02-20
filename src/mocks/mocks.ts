@@ -5,6 +5,7 @@ import {
   Tag,
   Tool,
   PlanAnchorsMap,
+  Task,
 } from '../types';
 
 // svg has to be stored in public folder
@@ -263,24 +264,33 @@ export const mockedTags3: Tag[] = [
   },
 ];
 
-export const mockedTools: Tool[] = [
-  {
-    id: 't1',
-    tagId: '1111',
-    name: 'Tool P1',
-    imgUrl: '/assets/tool1.png',
-  },
+export const MOCKED_TOOLS: Tool[] = [
   {
     id: 't2',
     tagId: '1112',
-    name: 'Tool P2',
+    name: 'Cordless rotary hammer',
     imgUrl: '/assets/tool2.png',
+    order: '#6',
+    runTime: '25 min',
+    model: 'TE 6-22',
   },
   {
     id: 't3',
     tagId: '1113',
-    name: 'Tool P4',
+    name: 'Cordless oscillating multi tool',
     imgUrl: '/assets/tool3.png',
+    order: '#2',
+    runTime: '11 min',
+    model: 'SMT 6-22',
+  },
+  {
+    id: 't1',
+    tagId: '1111',
+    name: 'Cordless jackhammer',
+    imgUrl: '/assets/tool1.png',
+    runTime: '1h 26 min',
+    order: '#5',
+    model: 'TE 2000-22',
   },
 ];
 
@@ -302,5 +312,28 @@ export const GROUND_TRUTH_POINTS: MeasurementPoint[] = [
     x: -3.386,
     y: 1.903,
     z: -1.361,
+  },
+];
+
+export const MOCKED_TASKS: Task[] = [
+  {
+    name: 'Pipe installation',
+    place: 'Room 1',
+    completion: 15,
+  },
+  {
+    name: 'Pipe installation',
+    place: 'Room 2',
+    completion: 19,
+  },
+  {
+    name: 'Pipe installation',
+    place: 'Hall',
+    completion: 70,
+  },
+  {
+    name: 'Pipe installation',
+    place: 'Room 3',
+    completion: 90,
   },
 ];

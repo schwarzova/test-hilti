@@ -26,7 +26,7 @@ export default defineConfig({
             primary: { value: '#212121' }, // Almost Black
             secondary: { value: '#636363' }, // Gray Text
             disabled: { value: '#BDBDBD' }, // Disabled Text
-            highlighted: { value: '#FF564A' },
+            highlighted: { value: '#d2051e' },
           },
           background: {
             light: { value: '#FFFFFF' }, // White for Light Theme
@@ -35,7 +35,7 @@ export default defineConfig({
           },
           viewer: {
             tag: { value: '#008000' },
-            anchor: { value: '#B71C1C' },
+            anchor: { value: '#d2051e' },
             measuredPoint: { value: '#000000' },
             groundTruthPoint: { value: '#0047AB' },
             lineOfSight: { value: '#424242' },

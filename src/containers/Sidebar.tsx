@@ -1,11 +1,10 @@
 import { css } from '../../styled-system/css';
 import { getConvertedTags } from '../components/Plan/selectors';
 import { usePlanStore } from '../components/Plan/store';
+import AdvancedTools from '../components/Sidebar/AdvancedTools';
 
-import DailyRuntime from '../components/Sidebar/DailyRuntime';
 import { useSidebarStore } from '../components/Sidebar/store';
 import Tasks from '../components/Sidebar/Tasks';
-import Tools from '../components/Sidebar/Tools';
 import { TAG_SELECTION_PADDING } from '../constants/consts';
 import { useViewerRef } from '../hooks/useViewerRef';
 
@@ -19,6 +18,7 @@ function Sidebar() {
   const viewerRef = useViewerRef();
   const isFetchingTools = useSidebarStore((state) => state.isFetchingTools);
   const tools = useSidebarStore((state) => state.tools);
+  const selectedPLan = usePlanStore((state) => state.selectedPlan);
   const tags = usePlanStore(getConvertedTags);
 
   function handleLocateTool(tagId: string) {
@@ -36,13 +36,12 @@ function Sidebar() {
 
   return (
     <div className={sidebarStyles}>
-      <Tasks />
-      <Tools
+      <Tasks displayData={Boolean(selectedPLan)} isFetching={isFetchingTools} />
+      <AdvancedTools
         isFetching={isFetchingTools}
         onToolClick={handleLocateTool}
         tools={tools}
       />
-      <DailyRuntime />
     </div>
   );
 }

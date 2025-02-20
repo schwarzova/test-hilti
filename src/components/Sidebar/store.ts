@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Tool } from '../../types';
-import { mockedTools } from '../../mocks/mocks';
+import { MOCKED_TOOLS } from '../../mocks/mocks';
 
 type SidebarState = {
   tools: Tool[];
@@ -14,7 +14,7 @@ export const useSidebarStore = create<SidebarState>((set) => ({
   fetchTools: async () => {
     set({ isFetchingTools: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    set({ tools: mockedTools });
+    set({ tools: MOCKED_TOOLS });
     set({ isFetchingTools: false });
   },
 }));

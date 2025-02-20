@@ -111,17 +111,6 @@ function Viewer(props: Props) {
                       {simpleTooltip.text}
                     </div>
                   )}
-
-                  {/* {tooltipTag && (
-                    <TagTooltip
-                      style={{
-                        top: tooltipTag.position.y + getTooltipOffset(),
-                        left: tooltipTag.position.x + getTooltipOffset(),
-                        transform: `scale(${1 / value?.d || 1})`,
-                      }}
-                      tag={tooltipTag}
-                    />
-                  )} */}
                   {tooltipTag && (
                     <AdvancedTagTooltip
                       style={{
