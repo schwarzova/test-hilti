@@ -40,7 +40,7 @@ type Props = {
   selectedPlan?: Plan;
 };
 
-function TopMenu(props : Props) {
+function TopMenu(props: Props) {
   // function handleChange(value: string) {
   //   props.onPlanSelect(props.plans.find((p) => p.id === value));
   // }
