@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { css } from '../../styled-system/css';
 
 import { usePlanStore } from '../components/Plan/store';
@@ -11,6 +11,7 @@ import {
   getConvertedGroundTruthPoints,
   getConvertedTags,
 } from '../components/Plan/selectors';
+import HistoryReplayConfig from '../components/Plan/HistoryReplayConfig';
 
 const planWrapStyles = css({
   marginLeft: 'basePx',
@@ -37,6 +38,8 @@ function Plan() {
   const disconnectFetchTags = usePlanStore(
     (state) => state.disconnectFetchTags,
   );
+
+  const [isPopoverOpen, setPopoverOpen] = useState(false);
 
   useEffect(() => {
     if (selectedPlan) {
@@ -65,16 +68,27 @@ function Plan() {
     fetchSidebarTools();
   }
 
+  function handlePopoverOpenChange() {
+    setPopoverOpen(!isPopoverOpen);
+  }
+
   return (
     <div className={planWrapStyles}>
       {selectedPlan && selectedPlanSvgUrl ? (
-        <Viewer
-          anchors={anchors}
-          groundTruthPoints={groundTruthPoints}
-          isFetching={isFetching}
-          planSvgUrl={selectedPlanSvgUrl}
-          tags={tags}
-        />
+        <div>
+          <Viewer
+            anchors={anchors}
+            groundTruthPoints={groundTruthPoints}
+            isFetching={isFetching}
+            isPopoverOpen={isPopoverOpen}
+            onPopoverOpenChange={handlePopoverOpenChange}
+            planSvgUrl={selectedPlanSvgUrl}
+            tags={tags}
+          />
+          {isPopoverOpen && (
+            <HistoryReplayConfig onClose={() => setPopoverOpen(false)} />
+          )}
+        </div>
       ) : (
         <PlanSelection
           isFetching={isFetching}

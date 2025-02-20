@@ -37,3 +37,29 @@ export const listItemStyles = css({
     color: 'neutral.dark',
   },
 });
+
+export const toolbar = css({
+  position: 'absolute',
+  top: ' 8px',
+  right: '8px',
+  backgroundColor: 'background.toolbar',
+  borderRadius: '2px',
+});
+
+export const toolbarButton = css({
+  marginBottom: '8px',
+  height: '24px',
+  width: '24px',
+  color: 'white',
+  _hover: {
+    color: 'neutral.main'
+  }
+});
+
+export const selectedToolbarButton = css({
+  color: 'red',
+  _hover: {
+    color: 'text.highlighted'
+  }
+});
+
