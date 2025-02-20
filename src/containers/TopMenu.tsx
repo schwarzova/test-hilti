@@ -1,7 +1,7 @@
-import { Flex, Select } from 'antd';
+import { Flex } from 'antd';
 import { css } from '../../styled-system/css';
 import logoSrc from '../assets/logo.svg';
-import { Plan } from '../types';
+// import { Plan } from '../types';
 
 const menuStyles = css({
   display: 'flex',
@@ -34,16 +34,16 @@ function LogoImage() {
   );
 }
 
-type Props = {
-  onPlanSelect: (plan?: Plan) => void;
-  plans: Plan[];
-  selectedPlan?: Plan;
-};
+// type Props = {
+//   onPlanSelect: (plan?: Plan) => void;
+//   plans: Plan[];
+//   selectedPlan?: Plan;
+// };
 
-function TopMenu(props: Props) {
-  function handleChange(value: string) {
-    props.onPlanSelect(props.plans.find((p) => p.id === value));
-  }
+function TopMenu() {
+  // function handleChange(value: string) {
+  //   props.onPlanSelect(props.plans.find((p) => p.id === value));
+  // }
 
   return (
     <div className={menuStyles}>
