@@ -70,6 +70,7 @@ export type SimpleTooltip = {
 };
 
 export type Task = {
+  id: string;
   place: string;
   name: string;
   completion: number;

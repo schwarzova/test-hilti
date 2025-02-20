@@ -276,11 +276,13 @@ export function convertCmToPx(
 }
 
 export function convertZToMeters(
+  anchorOriginZTls: number,
   zTls: number,
   realDistance: number,
   tlsDistance: number,
 ) {
+  const adjustedZTls = zTls + anchorOriginZTls;
   const scaleMetersPerTls = realDistance / tlsDistance;
 
-  return zTls * scaleMetersPerTls;
+  return adjustedZTls * scaleMetersPerTls;
 }

@@ -36,7 +36,7 @@ function Tasks(props: Props) {
     return (
       <Flex gap="middle" vertical>
         {MOCKED_TASKS.map((task) => (
-          <Flex gap="small" align="center">
+          <Flex key={task.id} gap="small" align="center">
             <Progress
               percent={task.completion}
               steps={5}

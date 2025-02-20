@@ -27,6 +27,7 @@ function LinesOfSight(props: Props) {
 
           return (
             <div
+              key={anchorId}
               className={lineOfSightClass}
               style={{
                 left: `${x}px`,

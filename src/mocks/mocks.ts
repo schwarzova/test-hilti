@@ -317,21 +317,25 @@ export const GROUND_TRUTH_POINTS: MeasurementPoint[] = [
 
 export const MOCKED_TASKS: Task[] = [
   {
+    id: 'task1',
     name: 'Pipe installation',
     place: 'Room 1',
     completion: 15,
   },
   {
+    id: 'task2',
     name: 'Pipe installation',
     place: 'Room 2',
     completion: 19,
   },
   {
+    id: 'task3',
     name: 'Pipe installation',
     place: 'Hall',
     completion: 70,
   },
   {
+    id: 'task4',
     name: 'Pipe installation',
     place: 'Room 3',
     completion: 90,
