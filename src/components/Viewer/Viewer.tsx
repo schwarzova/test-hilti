@@ -24,7 +24,7 @@ type Props = {
   isFetching: boolean;
   isPopoverOpen: boolean;
   onPopoverOpenChange: () => void;
-  planSvgUrl: string;
+  planSvgUrl?: string;
   tags: Tag[];
 };
 
@@ -68,7 +68,7 @@ function Viewer(props: Props) {
     return 5;
   }
 
-  if (props.isFetching) {
+  if (!planWidth || !planHeight) {
     return <Spinner />;
   }
 
