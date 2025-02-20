@@ -10,7 +10,7 @@ const theme = {
     colorBorder: '#424242', // Border color
     colorSuccess: '#52c41a', // Success messages
     colorWarning: '#faad14', // Warnings
-    colorError: '#ff4d4f', // Errors    
+    colorError: '#ff4d4f', // Errors
     colorBgContainer: '#1f1f1f', // Input background
     colorTextPlaceholder: '#bfbfbf', // Placeholder text
     colorBgElevated: '#262626', // DatePicker dropdown bg
@@ -26,12 +26,11 @@ type Props = {
 };
 
 function HistoryReplayConfig(props: Props) {
-    const [value, setValue] = useState<Dayjs | null>(null);
+  const [value, setValue] = useState<Dayjs | null>(null);
 
-    function onChange  (time: Dayjs)  {
-      setValue(time);
-    };
-
+  function onChange(time: Dayjs) {
+    setValue(time);
+  }
 
   return (
     <ConfigProvider theme={theme}>
@@ -52,7 +51,9 @@ function HistoryReplayConfig(props: Props) {
           borderRadius: 0,
         }}
       >
-        <p><TimePicker value={value} onChange={onChange} /></p>
+        <p>
+          <TimePicker value={value} onChange={onChange} />
+        </p>
         <p>Card content</p>
         <p>Card content</p>
       </Card>

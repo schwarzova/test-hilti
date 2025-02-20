@@ -4,14 +4,13 @@ import {
   TOOL_ZOOM_OUT,
   TOOL_PAN,
   TOOL_NONE,
-
 } from 'react-svg-pan-zoom';
 
-import { Divider, Flex, Popover } from 'antd';
+import { Divider, Flex } from 'antd';
 import { toolbar, toolbarButton } from '../Plan/styles';
 import ToolButton, { STROKE_WIDTH } from './ToolButton';
 import { Fullscreen, History } from 'lucide-react';
-import { useState ,memo} from 'react';
+import { memo } from 'react';
 
 type Props = {
   viewer?: React.RefObject<ReactSVGPanZoom>;
@@ -21,8 +20,7 @@ type Props = {
   onPopoverOpenChange: () => void;
 };
 
-const Toolbar =  memo( (props: Props)  => {
- 
+const Toolbar = memo((props: Props) => {
   return (
     <Flex className={toolbar} vertical align="center">
       <Flex vertical align="center" style={{ padding: '12px 4px 6px' }}>
@@ -64,16 +62,16 @@ const Toolbar =  memo( (props: Props)  => {
         >
           <Fullscreen strokeWidth={STROKE_WIDTH} />
         </button>
-          <button
-            className={toolbarButton}
-            onClick={props.onPopoverOpenChange}
-            title="History playback"
-          >
-            <History strokeWidth={STROKE_WIDTH} />
-          </button>
+        <button
+          className={toolbarButton}
+          onClick={props.onPopoverOpenChange}
+          title="History playback"
+        >
+          <History strokeWidth={STROKE_WIDTH} />
+        </button>
       </Flex>
     </Flex>
   );
-})
+});
 
 export default Toolbar;

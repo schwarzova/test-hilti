@@ -52,14 +52,13 @@ export const toolbarButton = css({
   width: '24px',
   color: 'white',
   _hover: {
-    color: 'neutral.main'
-  }
+    color: 'neutral.main',
+  },
 });
 
 export const selectedToolbarButton = css({
   color: 'red',
   _hover: {
-    color: 'text.highlighted'
-  }
+    color: 'text.highlighted',
+  },
 });
-
