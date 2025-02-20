@@ -32,6 +32,7 @@ export default defineConfig({
             light: { value: '#FFFFFF' }, // White for Light Theme
             dark: { value: '#121212' }, // Black for Dark Theme
             tooltip: { value: 'rgba(0, 0, 0, 0.7)' },
+            toolbar: { value: 'rgba(19, 20, 22, 0.9)' },
           },
           viewer: {
             tag: { value: '#008000' },
