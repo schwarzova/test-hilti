@@ -44,19 +44,6 @@ function Plan() {
     }
   });
 
-  // uncomment for quick init
-  // const quickInit = usePlanStore((state) => state.quickInit);
-  // const [isDone, setDone] = useState(false);
-
-  // useEffect(() => {
-  //   if (!isDone){
-  //     quickInit();
-  //     fetchSvgUrl('3')
-  //     setDone(true);
-  //   }
-
-  // }, [isDone, fetchSvgUrl, quickInit])
-
   useEffect(() => {
     if (selectedPlan) {
       connectFetchTags();

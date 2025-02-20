@@ -15,6 +15,7 @@ import {
   Clock,
   Tag as TagIcon,
 } from 'lucide-react';
+import { ICON_COLOR_LIGHT } from '../../constants/consts';
 
 type Props = {
   tag: Tag;
@@ -123,7 +124,6 @@ function HeightImage(props: ImageProps) {
 function AdvancedTagTooltip(props: Props) {
   const tool = findToolForTag(props.tag.tagId);
 
-  const iconColor = '#C6C6C6';
   const iconSize = 24;
 
   function renderHeightIcon() {
@@ -154,7 +154,7 @@ function AdvancedTagTooltip(props: Props) {
   }
 
   function renderBatteryIcon(batteryLevel: number) {
-    const props = { size: iconSize + 4, color: iconColor };
+    const props = { size: iconSize + 4, color: ICON_COLOR_LIGHT };
 
     if (batteryLevel < 21) {
       return <BatteryLow {...props} />;
@@ -186,13 +186,19 @@ function AdvancedTagTooltip(props: Props) {
       >
         {tool?.name}
       </TooltipLabel>
-      <div style={{ display: 'flex', justifyContent: 'space-between' , alignItems: 'center'}}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <div style={{ paddingRight: '16px' }}>
           <CircleImage src={tool?.imgUrl} />
         </div>
         <div>
           <IconLabel
-            icon={<TagIcon size={iconSize} color={iconColor} />}
+            icon={<TagIcon size={iconSize} color={ICON_COLOR_LIGHT} />}
             label={<TooltipLabel>{props.tag.tagId}</TooltipLabel>}
           />
           <IconLabel
@@ -204,13 +210,13 @@ function AdvancedTagTooltip(props: Props) {
             }
           />
           <IconLabel
-            icon={<Clock size={iconSize} color={iconColor} />}
+            icon={<Clock size={iconSize} color={ICON_COLOR_LIGHT} />}
             label={<TooltipLabel>{getTimeLabel()}</TooltipLabel>}
           />
         </div>
       </div>
 
-      <hr style={{ color: iconColor, margin: '8px 0px' }} />
+      <hr style={{ color: ICON_COLOR_LIGHT, margin: '8px 0px' }} />
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {renderHeightIcon()}{' '}

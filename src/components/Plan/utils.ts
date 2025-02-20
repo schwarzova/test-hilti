@@ -248,8 +248,9 @@ function convertMillisecondsToHoursMinutesSeconds(
   return [days, hoursRest, minutesRest, secondsRest];
 }
 
-export function getDifferenceTime(unixTime: string): [number, number, number, number] {
-
+export function getDifferenceTime(
+  unixTime: string,
+): [number, number, number, number] {
   const now = new Date().getTime();
   const jsTime = new Date(unixTime).getTime();
 
