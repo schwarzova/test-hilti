@@ -48,7 +48,6 @@ const initialParsed: SvgParsedData = {
 };
 
 export const usePlanStore = create<PlanState>((set, get) => ({
-  originPoint: { x: 0, y: 0 },
   parsedSvgData: initialParsed,
   svgScaleX: 1,
   svgScaleY: 1,
@@ -79,6 +78,8 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       parsedSvgData: initialParsed,
       svgScaleX: 1,
       svgScaleY: 1,
+      allTags: [],
+      tags: [],
     }),
 
   isFetching: false,
@@ -98,7 +99,6 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   tags: [],
   socket: null,
 
-  referencePoints: [],
   fetchPlanSvgUrl: async (plan) => {
     set({ isFetching: true });
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -149,16 +149,9 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       set({ tags: data });
     };
 
-    socket.onclose = () => {
-      console.log('WebSocket disconnected!');
-      set({ socketReal: null, isSocketConnected: false });
-    };
-
     socket.onerror = (error) => {
       console.error('WebSocket error:', error);
     };
-
-    set({ socketReal: socket });
   },
   disconnectFetchTags: () => {
     const socketReal = get().socketReal;

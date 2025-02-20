@@ -4,8 +4,7 @@ import { ConfigProvider } from 'antd';
 import TopMenu from './containers/TopMenu';
 import Sidebar from './containers/Sidebar';
 import Plan from './containers/Plan';
-import { Plan as PlanType } from './types';
-import { useSidebarStore } from './components/Sidebar/store';
+import { useEffect } from 'react';
 import { usePlanStore } from './components/Plan/store';
 
 const theme = {
@@ -15,39 +14,20 @@ const theme = {
 };
 
 function App() {
-  const plans = usePlanStore((state) => state.plans);
-  const selectedPlan = usePlanStore((state) => state.selectedPlan);
-  const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
-  const resetSelectedPlan = usePlanStore((state) => state.resetSelectedPlan);
-  const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
-  const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
-  const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
+  const closeTagsSocket = usePlanStore((state) => state.disconnectFetchTags);
 
-  function handlePlanSelect(plan?: PlanType) {
-    if (plan) {
-      setSelectedPlan(plan);
-      fetchAnchors();
-      fetchSvgUrl(plan);
-      fetchSidebarTools();
-    } else {
-      resetSelectedPlan();
-    }
-  }
+  useEffect(() => () => closeTagsSocket(), []);
 
   return (
     <ConfigProvider theme={theme}>
-      <TopMenu
-        onPlanSelect={handlePlanSelect}
-        plans={plans}
-        selectedPlan={selectedPlan}
-      />
+      <TopMenu />
       <div
         className={css({
           display: 'flex',
           px: 'basePx',
           py: 'basePy',
-          // 64px is height of top menu
-          height: '[calc(100vh - 64px)]',
+          // 60px is height of top menu
+          height: '[calc(100vh - 60px)]',
         })}
       >
         <Sidebar />

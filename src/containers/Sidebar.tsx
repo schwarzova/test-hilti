@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { css } from '../../styled-system/css';
 import { getConvertedTags } from '../components/Plan/selectors';
 import { usePlanStore } from '../components/Plan/store';
@@ -21,6 +22,15 @@ function Sidebar() {
   const selectedPLan = usePlanStore((state) => state.selectedPlan);
   const tags = usePlanStore(getConvertedTags);
 
+  const [filteredTools, setFilteredTools] = useState(tools);
+
+  useEffect(() => {
+    const filtered = tools.filter((t) =>
+      tags.some((tg) => tg.tagId === t.tagId),
+    );
+    setFilteredTools(filtered);
+  }, [tags, tools]);
+
   function handleLocateTool(tagId: string) {
     const toolTag = tags.find((t) => t.tagId === tagId);
 
@@ -40,7 +50,7 @@ function Sidebar() {
       <AdvancedTools
         isFetching={isFetchingTools}
         onToolClick={handleLocateTool}
-        tools={tools}
+        tools={filteredTools}
       />
     </div>
   );
