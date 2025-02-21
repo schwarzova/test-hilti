@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { ReactSVGPanZoom, Tool, TOOL_PAN, Value } from 'react-svg-pan-zoom';
 import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
 
@@ -16,9 +16,14 @@ import { useViewerRef } from '../../hooks/useViewerRef';
 import { TAG_ZOOM_SCALE } from '../../constants/consts';
 import { useViewerResize } from '../../hooks/useViewerResize';
 import AdvancedTagTooltip from './AdvancedTagTooltip';
+import Toolbar from './Toolbar';
+
 type Props = {
   anchors: Anchor[];
   groundTruthPoints: MeasurementPoint[];
+  isFetching: boolean;
+  isPopoverOpen: boolean;
+  onPopoverOpenChange: () => void;
   planSvgUrl?: string;
   tags: Tag[];
 };
@@ -81,6 +86,15 @@ function Viewer(props: Props) {
             tool={tool}
             onChangeTool={onChangeTool}
             defaultTool="none"
+            customToolbar={memo(({ tool, onChangeTool }) => (
+              <Toolbar
+                isPopoverOpen={props.isPopoverOpen}
+                onChangeTool={onChangeTool}
+                onPopoverOpenChange={props.onPopoverOpenChange}
+                tool={tool}
+                viewer={viewerRef}
+              />
+            ))}
           >
             <svg width={planWidth} height={planHeight}>
               <>
