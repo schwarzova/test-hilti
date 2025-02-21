@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { Anchor, Plan, SvgParsedData, Tag } from '../../types';
+import { Anchor, Plan, PlanMode, SvgParsedData, Tag } from '../../types';
 import {
   mockedAnchors,
   mockedPlans,
@@ -10,11 +10,11 @@ import {
 import { parseSvg } from './utils';
 import { REST_API_URL } from '../../constants/consts';
 import axios from 'axios';
+import dayjs, { Dayjs } from 'dayjs';
 
 export type PlanState = {
   anchors: Anchor[];
   isFetching: boolean;
-  isFetchingTags: boolean;
   plans: Plan[];
   parsedSvgData: SvgParsedData;
   selectedPlan?: Plan;
@@ -34,8 +34,22 @@ export type PlanState = {
   connectFetchTags: () => void;
   disconnectFetchTags: () => void;
   allTags: Tag[];
-  isLoadingAllTags: boolean;
+  isFetchingAllTags: boolean;
   fetchAllTags: () => void;
+
+  planMode?: PlanMode;
+  changePlanMode: (mode?: PlanMode) => void;
+
+  replayDate?: Dayjs;
+  replayTime?: Dayjs;
+  replaySpeed: number;
+  setReplayDate: (date?: Dayjs) => void;
+  setReplayTime: (time?: Dayjs) => void;
+  setReplaySpeed: (speed: number) => void;
+  isReplayDataLoaded: boolean;
+  resetReplay: () => void;
+
+
 };
 
 const initialParsed: SvgParsedData = {
@@ -163,23 +177,34 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   },
 
   allTags: [],
-  isLoadingAllTags: false,
+  isFetchingAllTags: false,
   fetchAllTags: async () => {
-    set({ isLoadingAllTags: true });
+    set({ isFetchingAllTags: true, isReplayDataLoaded: false });
     const plan = get().selectedPlan;
     try {
       const response = await axios.get(`${REST_API_URL}/getAllTags`, {
         params: { jobSite: plan?.id },
       });
 
-      const data = response.data.body;
-      const resultTags =
-        typeof data === 'string' ? JSON.parse(data) : undefined;
-
-      set({ allTags: resultTags, isLoadingAllTags: false });
+      const data = response.data;
+      set({ allTags: data, isFetchingAllTags: false, isReplayDataLoaded: true, });
     } catch (error) {
       console.error('Error fetching all tags:', error);
-      set({ isLoadingAllTags: false });
+      set({ isFetchingAllTags: false ,isReplayDataLoaded: false});
     }
   },
+
+  planMode: undefined,
+  changePlanMode: (mode) => set({ planMode: mode }),
+  setReplayDate: (date) => set({ replayDate: date }),
+  setReplayTime: (time) => set({ replayTime: time }),
+  setReplaySpeed: (speed) => set({ replaySpeed: speed }),
+  resetReplay: () => {
+    set({replayTime: undefined, replaySpeed: 1, replayDate: dayjs(), isReplayDataLoaded: false})
+  },
+  isReplayDataLoaded: false,
+  replayDate: dayjs(),
+  replayTime: undefined,
+  replaySpeed: 1,
+
 }));

@@ -41,7 +41,6 @@ function TopMenu() {
   const resetSelectedPlan = usePlanStore((state) => state.resetSelectedPlan);
   const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
   const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
-  const fetchAllTags = usePlanStore((state) => state.fetchAllTags);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
 
   function handleChange(value: string) {
@@ -52,7 +51,6 @@ function TopMenu() {
       setSelectedPlan(newPlan);
       fetchSvgUrl(newPlan);
       fetchAnchors();
-      fetchAllTags();
       fetchSidebarTools();
     }
   }

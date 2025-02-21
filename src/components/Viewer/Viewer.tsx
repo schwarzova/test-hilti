@@ -6,6 +6,7 @@ import Spinner from '../Spinner';
 import {
   Anchor,
   MeasurementPoint,
+  PlanMode,
   Point,
   SimpleTooltip,
   Tag,
@@ -22,8 +23,9 @@ type Props = {
   anchors: Anchor[];
   groundTruthPoints: MeasurementPoint[];
   isFetching: boolean;
-  isPopoverOpen: boolean;
+  onLiveUpdateClick: () => void;
   onPopoverOpenChange: () => void;
+  planMode?: PlanMode;
   planSvgUrl?: string;
   tags: Tag[];
 };
@@ -88,9 +90,10 @@ function Viewer(props: Props) {
             defaultTool="none"
             customToolbar={memo(({ tool, onChangeTool }) => (
               <Toolbar
-                isPopoverOpen={props.isPopoverOpen}
+                planMode={props.planMode}
                 onChangeTool={onChangeTool}
                 onPopoverOpenChange={props.onPopoverOpenChange}
+                onLiveUpdateClick={props.onLiveUpdateClick}
                 tool={tool}
                 viewer={viewerRef}
               />
