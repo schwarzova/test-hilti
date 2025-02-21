@@ -104,3 +104,45 @@ export const getConvertedGroundTruthPoints = createSelector(
     });
   },
 );
+
+export const getTagsFromSelectedInterval = createSelector(
+  [
+    (state: PlanState) => state.allTags,
+    (state: PlanState) => state.replayDate,
+    (state: PlanState) => state.replayTime,
+  ],
+  (allTags, replayDate, replayTime): Tag[] => {
+    if (!replayDate) {
+      return allTags;
+    }
+
+    const startDate = replayDate.toDate();
+    startDate.setHours(0, 0, 0, 0);
+    if (replayTime) {
+      const hours = replayTime.hour();
+      const minutes = replayTime.minute();
+      const seconds = replayTime.second();
+
+      startDate.setHours(hours, minutes, seconds, 0);
+    }
+
+    const minimalValue = startDate.getTime();
+
+    return allTags.filter(tag => {
+      const tagTime = new Date(tag.timestamp).getTime()
+
+      return tagTime > minimalValue;
+    });
+  }
+);
+
+export const getUniqueTagCount = createSelector(
+  [
+    getTagsFromSelectedInterval
+  ],
+  (allTags): number => {
+    return [...new Set(allTags.map(t => t.tagId))].length
+  }
+);
+
+

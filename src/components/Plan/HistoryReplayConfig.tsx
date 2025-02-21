@@ -20,7 +20,7 @@ import {
   Square,
   TagIcon,
 } from 'lucide-react';
-import { getFilteredTags, getUniqueTagCount } from './selectors';
+import { getTagsFromSelectedInterval, getUniqueTagCount } from './selectors';
 import Spinner from '../Spinner';
 import { ICON_COLOR_LIGHT } from '../../constants/consts';
 
@@ -44,7 +44,7 @@ function HistoryReplayConfig(props: Props) {
   const planMode = usePlanStore((state) => state.planMode);
   const isFetchingAllTags = usePlanStore((state) => state.isFetchingAllTags);
 
-  const filteredTags = usePlanStore(getFilteredTags);
+  const filteredTags = usePlanStore(getTagsFromSelectedInterval);
   const uniqueTagsCount = usePlanStore(getUniqueTagCount);
 
   function onTimeChange(time: Dayjs) {
@@ -105,7 +105,7 @@ function HistoryReplayConfig(props: Props) {
 
           <Space direction="vertical" size={2}>
             <ConfigLabel>Select time</ConfigLabel>
-            <TimePicker value={replayTime} onChange={onTimeChange} />
+            <TimePicker value={replayTime} onChange={onTimeChange} format="HH:mm" />
           </Space>
         </Flex>
 
