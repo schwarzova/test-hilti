@@ -16,7 +16,9 @@ const theme = {
 function App() {
   const closeTagsSocket = usePlanStore((state) => state.disconnectFetchTags);
 
-  useEffect(() => () => closeTagsSocket(), []);
+  useEffect(() => () => {
+    closeTagsSocket();
+  });
 
   return (
     <ConfigProvider theme={theme}>
