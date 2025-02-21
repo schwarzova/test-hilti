@@ -249,10 +249,10 @@ function convertMillisecondsToHoursMinutesSeconds(
 }
 
 export function getDifferenceTime(
-  unixTime: string,
+  timeStamp: string,
 ): [number, number, number, number] {
   const now = new Date().getTime();
-  const jsTime = new Date(unixTime).getTime();
+  const jsTime = new Date(timeStamp).getTime();
 
   return convertMillisecondsToHoursMinutesSeconds(now - jsTime);
 }

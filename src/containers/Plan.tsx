@@ -34,14 +34,22 @@ function Plan() {
   const groundTruthPoints = usePlanStore(getConvertedGroundTruthPoints);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
   const connectFetchTags = usePlanStore((state) => state.connectFetchTags);
+  const changePlanMode = usePlanStore((state) => state.changePlanMode);
+  const planMode = usePlanStore((state) => state.planMode);
 
   const [isPopoverOpen, setPopoverOpen] = useState(false);
 
   useEffect(() => {
-    if (selectedPlan) {
+    if (selectedPlan && planMode === undefined) {
+      changePlanMode('latest');
+    }
+  }, [selectedPlan, planMode]);
+
+  useEffect(() => {
+    if (selectedPlan && planMode === 'latest') {
       connectFetchTags();
     }
-  }, [connectFetchTags, selectedPlan]);
+  }, [connectFetchTags, planMode]);
 
   function handlePlansLoad() {
     fetchPlans();
@@ -58,6 +66,11 @@ function Plan() {
     setPopoverOpen(!isPopoverOpen);
   }
 
+  function handleLiveUpdateClick() {
+    changePlanMode('latest');
+    // start web socked again and switch displayedTags to tags
+  }
+
   return (
     <div className={planWrapStyles}>
       {isFetching || (!selectedPlanSvgUrl && selectedPlan) ? (
@@ -68,8 +81,9 @@ function Plan() {
             anchors={anchors}
             groundTruthPoints={groundTruthPoints}
             isFetching={isFetching}
-            isPopoverOpen={isPopoverOpen}
+            planMode={planMode}
             onPopoverOpenChange={handlePopoverOpenChange}
+            onLiveUpdateClick={handleLiveUpdateClick}
             planSvgUrl={selectedPlanSvgUrl}
             tags={tags}
           />

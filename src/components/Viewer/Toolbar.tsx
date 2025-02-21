@@ -7,17 +7,20 @@ import {
 } from 'react-svg-pan-zoom';
 
 import { Divider, Flex } from 'antd';
-import { toolbar, toolbarButton } from '../Plan/styles';
+import { selectedToolbarButton, toolbar, toolbarButton } from '../Plan/styles';
 import ToolButton, { STROKE_WIDTH } from './ToolButton';
-import { Fullscreen, History } from 'lucide-react';
+import { Fullscreen, History, Radio } from 'lucide-react';
 import { memo } from 'react';
+import { PlanMode } from '../../types';
+import { cx } from '../../../styled-system/css';
 
 type Props = {
-  viewer?: React.RefObject<ReactSVGPanZoom>;
-  tool: string;
   onChangeTool: (tool: string) => void;
-  isPopoverOpen: boolean;
+  onLiveUpdateClick: () => void;
   onPopoverOpenChange: () => void;
+  planMode?: PlanMode;
+  tool: string;
+  viewer?: React.RefObject<ReactSVGPanZoom>;
 };
 
 const Toolbar = memo((props: Props) => {
@@ -44,17 +47,18 @@ const Toolbar = memo((props: Props) => {
           onClick={props.onChangeTool}
           isSelected={props.tool === TOOL_ZOOM_OUT}
         />
+        <Divider
+          type="horizontal"
+          style={{
+            width: '90%',
+            margin: '2px',
+            padding: '0px 2px',
+            backgroundColor: 'grey',
+          }}
+        />
       </Flex>
-      <Divider
-        type="horizontal"
-        style={{
-          width: '90%',
-          margin: '2px',
-          padding: '0px 2px',
-          backgroundColor: 'grey',
-        }}
-      />
-      <Flex vertical align="center" style={{ padding: '6px 4px 12px' }}>
+
+      <Flex vertical align="center" style={{ padding: '0px 4px 0px' }}>
         <button
           className={toolbarButton}
           onClick={() => props.viewer?.current?.reset()}
@@ -62,12 +66,38 @@ const Toolbar = memo((props: Props) => {
         >
           <Fullscreen strokeWidth={STROKE_WIDTH} />
         </button>
+        <Divider
+          type="horizontal"
+          style={{
+            width: '90%',
+            margin: '2px',
+            padding: '0px 2px',
+            backgroundColor: 'grey',
+          }}
+        />
+      </Flex>
+      <Flex vertical align="center" style={{ padding: '6px 4px 6px' }}>
         <button
-          className={toolbarButton}
+          className={cx(
+            toolbarButton,
+            props.planMode === 'history' && selectedToolbarButton,
+          )}
+          style={{}}
           onClick={props.onPopoverOpenChange}
           title="History playback"
         >
           <History strokeWidth={STROKE_WIDTH} />
+        </button>
+
+        <button
+          className={cx(
+            toolbarButton,
+            props.planMode === 'latest' && selectedToolbarButton,
+          )}
+          onClick={props.onLiveUpdateClick}
+          title="Live update"
+        >
+          <Radio strokeWidth={STROKE_WIDTH} />
         </button>
       </Flex>
     </Flex>

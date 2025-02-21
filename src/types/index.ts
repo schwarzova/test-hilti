@@ -75,3 +75,5 @@ export type Task = {
   name: string;
   completion: number;
 };
+
+export type PlanMode = 'history' | 'latest';
