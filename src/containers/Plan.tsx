@@ -40,16 +40,10 @@ function Plan() {
   const [isPopoverOpen, setPopoverOpen] = useState(false);
 
   useEffect(() => {
-    if (selectedPlan && planMode === undefined) {
-      changePlanMode('latest');
-    }
-  }, [selectedPlan, planMode]);
-
-  useEffect(() => {
     if (selectedPlan && planMode === 'latest') {
       connectFetchTags();
     }
-  }, [connectFetchTags, planMode]);
+  }, [connectFetchTags, planMode, selectedPlan]);
 
   function handlePlansLoad() {
     fetchPlans();

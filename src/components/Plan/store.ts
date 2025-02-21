@@ -136,13 +136,15 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   connectFetchTags: () => {
     if (get().socketReal) return; // Prevent duplicate connections
 
+    let interval: NodeJS.Timeout;
+
     const socket = new WebSocket(
       'wss://3csw55e5tj.execute-api.eu-west-1.amazonaws.com/production/',
     );
 
     socket.onopen = () => {
       console.log('WebSocket connected!');
-      setInterval(
+      interval = setInterval(
         () =>
           socket.send(
             JSON.stringify({
@@ -153,6 +155,10 @@ export const usePlanStore = create<PlanState>((set, get) => ({
         1000,
       ); // Test message
       set({ socketReal: socket, isSocketConnected: true });
+    };
+
+    socket.onclose = () => {
+      clearInterval(interval);
     };
 
     socket.onmessage = (event) => {
@@ -196,7 +202,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     }
   },
 
-  planMode: undefined,
+  planMode: 'latest',
   changePlanMode: (mode) => set({ planMode: mode }),
   setReplayDate: (date) => set({ replayDate: date }),
   setReplayTime: (time) => set({ replayTime: time }),

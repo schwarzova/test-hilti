@@ -15,11 +15,9 @@ const theme = {
 
 function App() {
   const closeTagsSocket = usePlanStore((state) => state.disconnectFetchTags);
-  const changePlanMode = usePlanStore((state) => state.changePlanMode);
 
   useEffect(() => () => {
     closeTagsSocket();
-    changePlanMode(undefined);
   });
 
   return (
