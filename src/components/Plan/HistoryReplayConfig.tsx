@@ -4,7 +4,7 @@ import {
   ConfigProvider,
   DatePicker,
   Flex,
-//   Radio,
+  //   Radio,
   Space,
   TimePicker,
 } from 'antd';
@@ -32,7 +32,7 @@ function HistoryReplayConfig(props: Props) {
   const fetchAllTags = usePlanStore((state) => state.fetchAllTags);
   const setReplayDate = usePlanStore((state) => state.setReplayDate);
   const setReplayTime = usePlanStore((state) => state.setReplayTime);
-//   const setReplaySpeed = usePlanStore((state) => state.setReplaySpeed);
+  //   const setReplaySpeed = usePlanStore((state) => state.setReplaySpeed);
   const resetReplay = usePlanStore((state) => state.resetReplay);
   const changePlanMode = usePlanStore((state) => state.changePlanMode);
   const closeTagsSocket = usePlanStore((state) => state.disconnectFetchTags);
@@ -40,7 +40,7 @@ function HistoryReplayConfig(props: Props) {
   const isReplayDataLoaded = usePlanStore((state) => state.isReplayDataLoaded);
   const replayDate = usePlanStore((state) => state.replayDate);
   const replayTime = usePlanStore((state) => state.replayTime);
-//   const replaySpeed = usePlanStore((state) => state.replaySpeed);
+  //   const replaySpeed = usePlanStore((state) => state.replaySpeed);
   const planMode = usePlanStore((state) => state.planMode);
   const isFetchingAllTags = usePlanStore((state) => state.isFetchingAllTags);
 
@@ -63,7 +63,7 @@ function HistoryReplayConfig(props: Props) {
     setReplayDate(date);
   }
 
-//   function handleSpeedChange() {}
+  //   function handleSpeedChange() {}
 
   function handleDownloadDataClick() {
     fetchAllTags();
@@ -105,7 +105,11 @@ function HistoryReplayConfig(props: Props) {
 
           <Space direction="vertical" size={2}>
             <ConfigLabel>Select time</ConfigLabel>
-            <TimePicker value={replayTime} onChange={onTimeChange} format="HH:mm" />
+            <TimePicker
+              value={replayTime}
+              onChange={onTimeChange}
+              format="HH:mm"
+            />
           </Space>
         </Flex>
 

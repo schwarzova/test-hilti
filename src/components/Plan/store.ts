@@ -48,8 +48,6 @@ export type PlanState = {
   setReplaySpeed: (speed: number) => void;
   isReplayDataLoaded: boolean;
   resetReplay: () => void;
-
-
 };
 
 const initialParsed: SvgParsedData = {
@@ -187,10 +185,14 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       });
 
       const data = response.data;
-      set({ allTags: data, isFetchingAllTags: false, isReplayDataLoaded: true, });
+      set({
+        allTags: data,
+        isFetchingAllTags: false,
+        isReplayDataLoaded: true,
+      });
     } catch (error) {
       console.error('Error fetching all tags:', error);
-      set({ isFetchingAllTags: false ,isReplayDataLoaded: false});
+      set({ isFetchingAllTags: false, isReplayDataLoaded: false });
     }
   },
 
@@ -200,11 +202,15 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   setReplayTime: (time) => set({ replayTime: time }),
   setReplaySpeed: (speed) => set({ replaySpeed: speed }),
   resetReplay: () => {
-    set({replayTime: undefined, replaySpeed: 1, replayDate: dayjs(), isReplayDataLoaded: false})
+    set({
+      replayTime: undefined,
+      replaySpeed: 1,
+      replayDate: dayjs(),
+      isReplayDataLoaded: false,
+    });
   },
   isReplayDataLoaded: false,
   replayDate: dayjs(),
   replayTime: undefined,
   replaySpeed: 1,
-
 }));

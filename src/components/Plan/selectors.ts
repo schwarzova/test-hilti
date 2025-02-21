@@ -128,21 +128,17 @@ export const getTagsFromSelectedInterval = createSelector(
 
     const minimalValue = startDate.getTime();
 
-    return allTags.filter(tag => {
-      const tagTime = new Date(tag.timestamp).getTime()
+    return allTags.filter((tag) => {
+      const tagTime = new Date(tag.timestamp).getTime();
 
       return tagTime > minimalValue;
     });
-  }
+  },
 );
 
 export const getUniqueTagCount = createSelector(
-  [
-    getTagsFromSelectedInterval
-  ],
+  [getTagsFromSelectedInterval],
   (allTags): number => {
-    return [...new Set(allTags.map(t => t.tagId))].length
-  }
+    return [...new Set(allTags.map((t) => t.tagId))].length;
+  },
 );
-
-

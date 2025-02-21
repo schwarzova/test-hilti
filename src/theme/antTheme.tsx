@@ -1,6 +1,6 @@
-import {type ThemeConfig} from 'antd';
+import { type ThemeConfig } from 'antd';
 
-export const darkTheme : ThemeConfig = {
+export const darkTheme: ThemeConfig = {
   token: {
     colorPrimary: '#ff4d4f', // main brand
     colorBgBase: '#141414', // Background color
@@ -18,11 +18,9 @@ export const darkTheme : ThemeConfig = {
     colorFillContent: '#1890ff', // Selected date bg
 
     // buttons
-    colorPrimaryHover: "#40a9ff",
-    colorPrimaryActive: "#096dd9",
-    colorPrimaryText: "#ffffff",
-    colorPrimaryBorder: "#1890ff",
-
-
+    colorPrimaryHover: '#40a9ff',
+    colorPrimaryActive: '#096dd9',
+    colorPrimaryText: '#ffffff',
+    colorPrimaryBorder: '#1890ff',
   },
 };

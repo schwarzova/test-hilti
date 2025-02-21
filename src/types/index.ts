@@ -76,4 +76,4 @@ export type Task = {
   completion: number;
 };
 
-export type PlanMode = 'history' | 'latest'
+export type PlanMode = 'history' | 'latest';
