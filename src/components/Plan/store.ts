@@ -149,7 +149,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
           socket.send(
             JSON.stringify({
               action: 'getLatestTags',
-              jobsite: get().selectedPlan?.id,
+              jobsite: get().selectedPlan?.id.toLowerCase(),
             }),
           ),
         1000,

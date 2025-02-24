@@ -1,8 +1,9 @@
-import { Flex, Select } from 'antd';
+import { ConfigProvider, Flex, Select } from 'antd';
 import { css } from '../../styled-system/css';
 import logoSrc from '../assets/logo.svg';
 import { usePlanStore } from '../components/Plan/store';
 import { useSidebarStore } from '../components/Sidebar/store';
+import { selectTheme } from '../theme/selectTheme';
 
 const menuStyles = css({
   display: 'flex',
@@ -62,12 +63,14 @@ function TopMenu() {
         Location-aware Tools | Digital Twin
       </Flex>
       {plans.length > 0 && (
-        <Select
-          style={{ width: 200 }}
-          onChange={handleChange}
-          options={plans.map((p) => ({ value: p.id, label: p.name }))}
-          value={selectedPlan ? selectedPlan.id : null}
-        />
+        <ConfigProvider theme={selectTheme}>
+          <Select
+            style={{ width: 200 }}
+            onChange={handleChange}
+            options={plans.map((p) => ({ value: p.id, label: p.name }))}
+            value={selectedPlan ? selectedPlan.id : null}
+          />
+        </ConfigProvider>
       )}
     </div>
   );

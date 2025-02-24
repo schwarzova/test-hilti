@@ -5,7 +5,6 @@ export const selectBtnStyles = css({
   py: 'basePy',
   height: '100%',
   width: '100%',
-  borderRadius: '10px',
   display: 'flex',
   flexDir: 'column',
   justifyContent: 'center',
@@ -20,7 +19,6 @@ export const selectBtnStyles = css({
 export const listWrapStyles = css({
   height: '100%',
   width: '100%',
-  borderRadius: '10px',
   backgroundColor: 'boxBg',
   display: 'flex',
   flexDir: 'column',
