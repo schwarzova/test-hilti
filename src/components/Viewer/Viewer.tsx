@@ -81,6 +81,7 @@ function Viewer(props: Props) {
         render={(content) => (
           <ReactSVGPanZoom
             ref={viewerRef}
+            detectAutoPan={false}
             width={planWidth}
             height={planHeight}
             value={value}
