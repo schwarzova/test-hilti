@@ -2,7 +2,10 @@ import { beforeEach, expect, test } from 'vitest';
 import { usePlanStore } from '../store';
 import { Plan } from '../../../types';
 import dayjs from 'dayjs';
-import { HISTORICAL_REPLAY_SPEED, HISTORICAL_TIME_STEP } from '../../../constants/consts';
+import {
+  HISTORICAL_REPLAY_SPEED,
+  HISTORICAL_TIME_STEP,
+} from '../../../constants/consts';
 
 const emptyPlanStore = usePlanStore.getState();
 
