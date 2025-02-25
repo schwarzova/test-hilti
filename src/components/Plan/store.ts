@@ -241,7 +241,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   generatedTags: [],
 
   initializeStartTime: () => {
-    const [intervalMap, startTag] = getIntervalMap(get());
+    const [, startTag] = getIntervalMap(get());
 
     if (startTag) {
       const startTime = new Date(startTag.timestamp).getTime();
@@ -252,8 +252,6 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   startPollingHistoricalTags: () => {
     const [intervalMap, startTag] = getIntervalMap(get());
     const { historicalInterval, replaySpeed, replayTimeStep } = get();
-
-    let interval: NodeJS.Timeout;
 
     if (historicalInterval || !startTag) {
       return;
@@ -267,7 +265,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       ' sec',
     );
 
-    interval = setInterval(() => {
+    const interval: NodeJS.Timeout = setInterval(() => {
       const { historicalTimeStamp } = get();
 
       if (historicalTimeStamp === undefined) {
@@ -287,6 +285,8 @@ export const usePlanStore = create<PlanState>((set, get) => ({
           currentTag = measurements[i];
           i++;
         }
+
+        console.log('REPLAY ending with i', i, measurements.length);
 
         console.log(
           'REPLAY for time:',
