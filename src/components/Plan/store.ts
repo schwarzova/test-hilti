@@ -8,7 +8,11 @@ import {
   PLAN_ANCHORS_MOCKED_MAP,
 } from '../../mocks/mocks';
 import { formatTime, parseSvg } from './utils';
-import { HISTORICAL_TIME_STEP, REST_API_URL } from '../../constants/consts';
+import {
+  HISTORICAL_REPLAY_SPEED,
+  HISTORICAL_TIME_STEP,
+  REST_API_URL,
+} from '../../constants/consts';
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 import { getIntervalMap } from './selectors';
@@ -44,9 +48,12 @@ export type PlanState = {
   replayDate?: Dayjs;
   replayTime?: Dayjs;
   replaySpeed: number;
+  replayTimeStep: number;
   setReplayDate: (date?: Dayjs) => void;
   setReplayTime: (time?: Dayjs) => void;
   setReplaySpeed: (speed: number) => void;
+  setReplayTimeStep: (timeStep: number) => void;
+
   isReplayDataLoaded: boolean;
   resetReplay: () => void;
 
@@ -215,19 +222,21 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   setReplayDate: (date) => set({ replayDate: date }),
   setReplayTime: (time) => set({ replayTime: time }),
   setReplaySpeed: (speed) => set({ replaySpeed: speed }),
+  setReplayTimeStep: (timeStep) => set({ replayTimeStep: timeStep }),
   resetReplay: () => {
     set({
       replayTime: undefined,
-      replaySpeed: 1,
+      replaySpeed: HISTORICAL_REPLAY_SPEED,
       replayDate: dayjs(),
       isReplayDataLoaded: false,
+      replayTimeStep: HISTORICAL_TIME_STEP,
     });
   },
   isReplayDataLoaded: false,
   replayDate: dayjs(),
   replayTime: undefined,
-  replaySpeed: 1,
-
+  replaySpeed: HISTORICAL_REPLAY_SPEED,
+  replayTimeStep: HISTORICAL_TIME_STEP,
   historicalInterval: undefined,
   generatedTags: [],
 
@@ -236,13 +245,13 @@ export const usePlanStore = create<PlanState>((set, get) => ({
 
     if (startTag) {
       const startTime = new Date(startTag.timestamp).getTime();
-      set({ historicalTimeStamp: startTime + HISTORICAL_TIME_STEP });
+      set({ historicalTimeStamp: startTime });
     }
   },
 
   startPollingHistoricalTags: () => {
     const [intervalMap, startTag] = getIntervalMap(get());
-    const { historicalInterval } = get();
+    const { historicalInterval, replaySpeed, replayTimeStep } = get();
 
     let interval: NodeJS.Timeout;
 
@@ -250,7 +259,13 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       return;
     }
 
-    console.log('REPLAY polling history tags');
+    console.log(
+      'REPLAY polling with timeStep',
+      replayTimeStep / 1000,
+      'sec, every ',
+      replaySpeed / 1000,
+      ' sec',
+    );
 
     interval = setInterval(() => {
       const { historicalTimeStamp } = get();
@@ -287,9 +302,9 @@ export const usePlanStore = create<PlanState>((set, get) => ({
 
       set({
         generatedTags: currentTags,
-        historicalTimeStamp: historicalTimeStamp + HISTORICAL_TIME_STEP,
+        historicalTimeStamp: historicalTimeStamp + replayTimeStep,
       });
-    }, 5000);
+    }, replaySpeed);
 
     set({ historicalInterval: interval });
   },

@@ -10,5 +10,5 @@ export const REST_API_URL =
 export const ICON_COLOR_LIGHT = '#C6C6C6';
 export const ICON_COLOR_DARK = '#636363';
 
-// in milliseconds
-export const HISTORICAL_TIME_STEP = 5000;
+export const HISTORICAL_TIME_STEP = 10000;
+export const HISTORICAL_REPLAY_SPEED = 5000; // in milliseconds
