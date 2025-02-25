@@ -116,10 +116,7 @@ function calculateTlsDistance(
   return Math.sqrt(dx * dx + dy * dy);
 }
 
-export function getRealDistance(
-  pointA: ReferencePoint,
-  pointB: ReferencePoint,
-) {
+function getRealDistance(pointA: ReferencePoint, pointB: ReferencePoint) {
   return haversineDistance(
     pointA.xReal,
     pointA.yReal,
@@ -202,10 +199,7 @@ function solveLinearSystem(A: number[][], B: number[]): number[] | null {
   return augmentedMatrix.map((row) => row[n]);
 }
 
-export function transformPoint(
-  point: Point,
-  transform: TransformMatrix,
-): Point {
+function transformPoint(point: Point, transform: TransformMatrix): Point {
   const [a, b, c, d, e, f] = transform;
   return {
     x: a * point.x + b * point.y + c,
