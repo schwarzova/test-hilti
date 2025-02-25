@@ -7,10 +7,11 @@ import {
   mockedTags1,
   PLAN_ANCHORS_MOCKED_MAP,
 } from '../../mocks/mocks';
-import { parseSvg } from './utils';
-import { REST_API_URL } from '../../constants/consts';
+import { formatTime, parseSvg } from './utils';
+import { HISTORICAL_TIME_STEP, REST_API_URL } from '../../constants/consts';
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
+import { getIntervalMap } from './selectors';
 
 export type PlanState = {
   anchors: Anchor[];
@@ -48,6 +49,13 @@ export type PlanState = {
   setReplaySpeed: (speed: number) => void;
   isReplayDataLoaded: boolean;
   resetReplay: () => void;
+
+  initializeStartTime: () => void;
+  startPollingHistoricalTags: () => void;
+  stopPollingHistoricalTags: () => void;
+  generatedTags: Tag[];
+  historicalInterval?: NodeJS.Timeout;
+  historicalTimeStamp?: number;
 };
 
 const initialParsed: SvgParsedData = {
@@ -190,7 +198,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
         params: { jobSite: plan?.id },
       });
 
-      const data = response.data;
+      const data: Tag[] = response.data;
       set({
         allTags: data,
         isFetchingAllTags: false,
@@ -202,7 +210,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     }
   },
 
-  planMode: 'latest',
+  planMode: 'latest' as PlanMode,
   changePlanMode: (mode) => set({ planMode: mode }),
   setReplayDate: (date) => set({ replayDate: date }),
   setReplayTime: (time) => set({ replayTime: time }),
@@ -219,4 +227,82 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   replayDate: dayjs(),
   replayTime: undefined,
   replaySpeed: 1,
+
+  historicalInterval: undefined,
+  generatedTags: [],
+
+  initializeStartTime: () => {
+    const [intervalMap, startTag] = getIntervalMap(get());
+
+    if (startTag) {
+      const startTime = new Date(startTag.timestamp).getTime();
+      set({ historicalTimeStamp: startTime + HISTORICAL_TIME_STEP });
+    }
+  },
+
+  startPollingHistoricalTags: () => {
+    const [intervalMap, startTag] = getIntervalMap(get());
+    const { historicalInterval } = get();
+
+    let interval: NodeJS.Timeout;
+
+    if (historicalInterval || !startTag) {
+      return;
+    }
+
+    console.log('REPLAY polling history tags');
+
+    interval = setInterval(() => {
+      const { historicalTimeStamp } = get();
+
+      if (historicalTimeStamp === undefined) {
+        return;
+      }
+
+      const currentTags = Object.keys(intervalMap).map((tagId) => {
+        const measurements = intervalMap[tagId];
+
+        let i = 0;
+        let currentTag = measurements[0]; // first measurement of tag
+
+        while (
+          i < measurements.length &&
+          new Date(currentTag.timestamp).getTime() < historicalTimeStamp
+        ) {
+          currentTag = measurements[i];
+          i++;
+        }
+
+        console.log(
+          'REPLAY for time:',
+          formatTime(new Date(historicalTimeStamp)),
+          ' returning tag at ',
+          formatTime(new Date(currentTag.timestamp)),
+          '---- X:',
+          currentTag.position.x,
+        );
+
+        return currentTag;
+      });
+
+      set({
+        generatedTags: currentTags,
+        historicalTimeStamp: historicalTimeStamp + HISTORICAL_TIME_STEP,
+      });
+    }, 5000);
+
+    set({ historicalInterval: interval });
+  },
+  stopPollingHistoricalTags: () => {
+    if (get().historicalInterval) {
+      console.log('REPLAY stop polling');
+
+      clearInterval(get().historicalInterval);
+      set({
+        historicalInterval: undefined,
+        generatedTags: [],
+        historicalTimeStamp: undefined,
+      });
+    }
+  },
 }));

@@ -35,7 +35,6 @@ function HistoryReplayConfig(props: Props) {
   //   const setReplaySpeed = usePlanStore((state) => state.setReplaySpeed);
   const resetReplay = usePlanStore((state) => state.resetReplay);
   const changePlanMode = usePlanStore((state) => state.changePlanMode);
-  const closeTagsSocket = usePlanStore((state) => state.disconnectFetchTags);
 
   const isReplayDataLoaded = usePlanStore((state) => state.isReplayDataLoaded);
   const replayDate = usePlanStore((state) => state.replayDate);
@@ -73,7 +72,6 @@ function HistoryReplayConfig(props: Props) {
     if (planMode === 'history') {
       changePlanMode('latest');
     } else {
-      closeTagsSocket();
       changePlanMode('history');
     }
   }

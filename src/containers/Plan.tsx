@@ -37,11 +37,28 @@ function Plan() {
   const changePlanMode = usePlanStore((state) => state.changePlanMode);
   const planMode = usePlanStore((state) => state.planMode);
 
+  const closeTagsSocket = usePlanStore((state) => state.disconnectFetchTags);
+  const stopPollingHistoricalTags = usePlanStore(
+    (state) => state.stopPollingHistoricalTags,
+  );
+  const startPollingHistoricalTags = usePlanStore(
+    (state) => state.startPollingHistoricalTags,
+  );
+  const initializeStartTime = usePlanStore(
+    (state) => state.initializeStartTime,
+  );
+
   const [isPopoverOpen, setPopoverOpen] = useState(false);
 
   useEffect(() => {
     if (selectedPlan && planMode === 'latest') {
+      stopPollingHistoricalTags();
       connectFetchTags();
+    }
+    if (selectedPlan && planMode === 'history') {
+      closeTagsSocket();
+      initializeStartTime();
+      startPollingHistoricalTags();
     }
   }, [connectFetchTags, planMode, selectedPlan]);
 
@@ -62,7 +79,6 @@ function Plan() {
 
   function handleLiveUpdateClick() {
     changePlanMode('latest');
-    // start web socked again and switch displayedTags to tags
   }
 
   return (

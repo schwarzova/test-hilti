@@ -15,9 +15,13 @@ const theme = {
 
 function App() {
   const closeTagsSocket = usePlanStore((state) => state.disconnectFetchTags);
+  const startPollingHistoricalTags = usePlanStore(
+    (state) => state.startPollingHistoricalTags,
+  );
 
   useEffect(() => () => {
     closeTagsSocket();
+    startPollingHistoricalTags();
   });
 
   return (
