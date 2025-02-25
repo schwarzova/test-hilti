@@ -136,6 +136,7 @@ function Viewer(props: Props) {
                         transform: `scale(${1 / value?.d || 1})`,
                       }}
                       tag={tooltipTag}
+                      planMode={props.planMode}
                     />
                   )}
                 </foreignObject>
