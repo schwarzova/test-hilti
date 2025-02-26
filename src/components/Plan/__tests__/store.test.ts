@@ -2,6 +2,10 @@ import { beforeEach, expect, test } from 'vitest';
 import { usePlanStore } from '../store';
 import { Plan } from '../../../types';
 import dayjs from 'dayjs';
+import {
+  HISTORICAL_REPLAY_SPEED,
+  HISTORICAL_TIME_STEP,
+} from '../../../constants/consts';
 
 const emptyPlanStore = usePlanStore.getState();
 
@@ -57,14 +61,16 @@ test('resetReplay', () => {
 
   usePlanStore.setState({
     replayTime: dayjsDay,
-    replaySpeed: 500,
+    replaySpeed: 3333,
     replayDate: dayjsDay,
     isReplayDataLoaded: true,
+    replayTimeStep: 5000,
   });
   usePlanStore.getState().resetReplay();
   expect(usePlanStore.getState().replayTime).toEqual(undefined);
-  expect(usePlanStore.getState().replaySpeed).toEqual(1);
+  expect(usePlanStore.getState().replaySpeed).toEqual(HISTORICAL_REPLAY_SPEED);
   expect(usePlanStore.getState().isReplayDataLoaded).toEqual(false);
+  expect(usePlanStore.getState().replayTimeStep).toEqual(HISTORICAL_TIME_STEP);
 });
 
 // todo test for connectFetchTags, disconnectFetchTags and fetchAllTags

@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { Tag } from '../../types';
+import { PlanMode, Tag } from '../../types';
 import {
   tooltipClass,
   tooltipEmphasizedLabelClass,
@@ -20,6 +20,7 @@ import { ICON_COLOR_LIGHT } from '../../constants/consts';
 type Props = {
   tag: Tag;
   style?: CSSProperties;
+  planMode?: PlanMode;
 };
 
 type LabelProps = {
@@ -139,7 +140,7 @@ function AdvancedTagTooltip(props: Props) {
     return <HeightImage src={`/assets/${imageName}.svg`} />;
   }
 
-  function getTimeLabel() {
+  function getLatestTimeLabel() {
     const [days, hours, minutes] = getDifferenceTime(props.tag.timestamp);
 
     if (days > 0) {
@@ -151,6 +152,18 @@ function AdvancedTagTooltip(props: Props) {
     }
 
     return `${minutes} min ago`;
+  }
+
+  function getTimeLabel() {
+    const date = new Date(props.tag.timestamp);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${day}.${month}.${year} ${hours}:${minutes}`;
   }
 
   function renderBatteryIcon(batteryLevel: number) {
@@ -211,7 +224,13 @@ function AdvancedTagTooltip(props: Props) {
           />
           <IconLabel
             icon={<Clock size={iconSize} color={ICON_COLOR_LIGHT} />}
-            label={<TooltipLabel>{getTimeLabel()}</TooltipLabel>}
+            label={
+              <TooltipLabel>
+                {props.planMode === 'latest'
+                  ? getLatestTimeLabel()
+                  : getTimeLabel()}
+              </TooltipLabel>
+            }
           />
         </div>
       </div>

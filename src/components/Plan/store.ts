@@ -7,10 +7,15 @@ import {
   mockedTags1,
   PLAN_ANCHORS_MOCKED_MAP,
 } from '../../mocks/mocks';
-import { parseSvg } from './utils';
-import { REST_API_URL } from '../../constants/consts';
+import { formatTime, parseSvg } from './utils';
+import {
+  HISTORICAL_REPLAY_SPEED,
+  HISTORICAL_TIME_STEP,
+  REST_API_URL,
+} from '../../constants/consts';
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
+import { getIntervalMap } from './selectors';
 
 export type PlanState = {
   anchors: Anchor[];
@@ -43,11 +48,21 @@ export type PlanState = {
   replayDate?: Dayjs;
   replayTime?: Dayjs;
   replaySpeed: number;
+  replayTimeStep: number;
   setReplayDate: (date?: Dayjs) => void;
   setReplayTime: (time?: Dayjs) => void;
   setReplaySpeed: (speed: number) => void;
+  setReplayTimeStep: (timeStep: number) => void;
+
   isReplayDataLoaded: boolean;
   resetReplay: () => void;
+
+  initializeStartTime: () => void;
+  startPollingHistoricalTags: () => void;
+  stopPollingHistoricalTags: () => void;
+  generatedTags: Tag[];
+  historicalInterval?: NodeJS.Timeout;
+  historicalTimeStamp?: number;
 };
 
 const initialParsed: SvgParsedData = {
@@ -190,7 +205,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
         params: { jobSite: plan?.id },
       });
 
-      const data = response.data;
+      const data: Tag[] = response.data;
       set({
         allTags: data,
         isFetchingAllTags: false,
@@ -202,21 +217,107 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     }
   },
 
-  planMode: 'latest',
+  planMode: 'latest' as PlanMode,
   changePlanMode: (mode) => set({ planMode: mode }),
   setReplayDate: (date) => set({ replayDate: date }),
   setReplayTime: (time) => set({ replayTime: time }),
   setReplaySpeed: (speed) => set({ replaySpeed: speed }),
+  setReplayTimeStep: (timeStep) => set({ replayTimeStep: timeStep }),
   resetReplay: () => {
     set({
       replayTime: undefined,
-      replaySpeed: 1,
+      replaySpeed: HISTORICAL_REPLAY_SPEED,
       replayDate: dayjs(),
       isReplayDataLoaded: false,
+      replayTimeStep: HISTORICAL_TIME_STEP,
     });
   },
   isReplayDataLoaded: false,
   replayDate: dayjs(),
   replayTime: undefined,
-  replaySpeed: 1,
+  replaySpeed: HISTORICAL_REPLAY_SPEED,
+  replayTimeStep: HISTORICAL_TIME_STEP,
+  historicalInterval: undefined,
+  generatedTags: [],
+
+  initializeStartTime: () => {
+    const [, startTag] = getIntervalMap(get());
+
+    if (startTag) {
+      const startTime = new Date(startTag.timestamp).getTime();
+      set({ historicalTimeStamp: startTime });
+    }
+  },
+
+  startPollingHistoricalTags: () => {
+    const [intervalMap, startTag] = getIntervalMap(get());
+    const { historicalInterval, replaySpeed, replayTimeStep } = get();
+
+    if (historicalInterval || !startTag) {
+      return;
+    }
+
+    console.log(
+      'REPLAY polling with timeStep',
+      replayTimeStep / 1000,
+      'sec, every ',
+      replaySpeed / 1000,
+      ' sec',
+    );
+
+    const interval: NodeJS.Timeout = setInterval(() => {
+      const { historicalTimeStamp } = get();
+
+      if (historicalTimeStamp === undefined) {
+        return;
+      }
+
+      const currentTags = Object.keys(intervalMap).map((tagId) => {
+        const measurements = intervalMap[tagId];
+
+        let i = 0;
+        let currentTag = measurements[0]; // first measurement of tag
+
+        while (
+          i < measurements.length &&
+          new Date(currentTag.timestamp).getTime() < historicalTimeStamp
+        ) {
+          currentTag = measurements[i];
+          i++;
+        }
+
+        console.log('REPLAY ending with i', i, measurements.length);
+
+        console.log(
+          'REPLAY for time:',
+          formatTime(new Date(historicalTimeStamp)),
+          ' returning tag at ',
+          formatTime(new Date(currentTag.timestamp)),
+          '---- X:',
+          currentTag.position.x,
+        );
+
+        return currentTag;
+      });
+
+      set({
+        generatedTags: currentTags,
+        historicalTimeStamp: historicalTimeStamp + replayTimeStep,
+      });
+    }, replaySpeed);
+
+    set({ historicalInterval: interval });
+  },
+  stopPollingHistoricalTags: () => {
+    if (get().historicalInterval) {
+      console.log('REPLAY stop polling');
+
+      clearInterval(get().historicalInterval);
+      set({
+        historicalInterval: undefined,
+        generatedTags: [],
+        historicalTimeStamp: undefined,
+      });
+    }
+  },
 }));

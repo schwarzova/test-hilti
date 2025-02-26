@@ -77,3 +77,7 @@ export type Task = {
 };
 
 export type PlanMode = 'history' | 'latest';
+
+export type TagMap = {
+  [tagId: string]: Tag[];
+};
