@@ -288,3 +288,26 @@ export function formatTime(date: Date): string {
 
   return `${hours}:${minutes}:${seconds}`;
 }
+
+export function formatDateTime(
+  stringDate: string,
+  displayDate?: boolean,
+  displaySeconds?: boolean,
+) {
+  const date = new Date(stringDate);
+
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const year = date.getFullYear();
+
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  const time = `${hours}:${minutes}${displaySeconds ? `:${seconds}` : ''}`;
+  if (displayDate) {
+    return `${day}.${month}.${year}  ${time}`;
+  }
+
+  return time;
+}

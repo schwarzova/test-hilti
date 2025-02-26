@@ -13,6 +13,7 @@ import {
 } from '../components/Plan/selectors';
 import HistoryReplayConfig from '../components/Plan/HistoryReplayConfig';
 import Spinner from '../components/Spinner';
+import PlanModeBar from '../components/Plan/PlanModeBar';
 
 const planWrapStyles = css({
   marginLeft: 'basePx',
@@ -100,6 +101,7 @@ function Plan() {
           {isPopoverOpen && (
             <HistoryReplayConfig onClose={() => setPopoverOpen(false)} />
           )}
+          <PlanModeBar />
         </div>
       ) : (
         <PlanSelection

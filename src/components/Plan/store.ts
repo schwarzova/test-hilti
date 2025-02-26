@@ -7,7 +7,7 @@ import {
   mockedTags1,
   PLAN_ANCHORS_MOCKED_MAP,
 } from '../../mocks/mocks';
-import { formatTime, parseSvg } from './utils';
+import { formatDateTime, parseSvg } from './utils';
 import {
   HISTORICAL_REPLAY_SPEED,
   HISTORICAL_TIME_STEP,
@@ -290,9 +290,13 @@ export const usePlanStore = create<PlanState>((set, get) => ({
 
         console.log(
           'REPLAY for time:',
-          formatTime(new Date(historicalTimeStamp)),
+          formatDateTime(
+            new Date(historicalTimeStamp).toDateString(),
+            false,
+            true,
+          ),
           ' returning tag at ',
-          formatTime(new Date(currentTag.timestamp)),
+          formatDateTime(currentTag.timestamp, false, true),
           '---- X:',
           currentTag.position.x,
         );
