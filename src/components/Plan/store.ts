@@ -262,7 +262,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   startPollingHistoricalTags: () => {
     const [intervalMap, startTag] = getIntervalMap(get());
 
-    console.log('REPLAY startPolling ', mapToString(intervalMap));
+    console.log('REPLAY startPolling ');
     const { historicalInterval, replaySpeed, replayTimeStep } = get();
 
     if (historicalInterval || !startTag) {
@@ -272,10 +272,6 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     const replayInterval: NodeJS.Timeout = setInterval(() => {
       const { historicalTimeStamp, generatedTags } = get();
 
-      console.log(
-        'REPLAY TAGS:',
-        generatedTags.map((t) => t.timestamp),
-      );
       const renderedLastTags =
         generatedTags.length > 0 &&
         generatedTags.every((tag) =>
@@ -284,7 +280,6 @@ export const usePlanStore = create<PlanState>((set, get) => ({
             tag,
           ),
         );
-      console.log('REPLAY TAGS areFinished:', renderedLastTags);
 
       if (renderedLastTags) {
         set({ shouldFinishReplay: true });
