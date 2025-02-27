@@ -32,6 +32,7 @@ function AnchorLayer(props: Props) {
           onTooltipVisibilityChange={props.onTooltipVisibilityChange}
           showTagImage={props.showTagImage}
           tag={tag}
+          displayId
         />
       ))}
       {props.enableGroundTruthPoints &&

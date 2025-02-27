@@ -1,12 +1,18 @@
 import { TAG_SIZE } from '../../constants/consts';
 import { Tag } from '../../types';
 import { findToolForTag } from '../Plan/utils';
-import { tagClass, tagErrorClass, tagImageClass } from './styles';
+import {
+  tagClass,
+  tagErrorClass,
+  tagImageClass,
+  tagLabelClass,
+} from './styles';
 
 type Props = {
   tag: Tag;
   onTooltipVisibilityChange: (tag?: Tag) => void;
   showTagImage: boolean;
+  displayId?: boolean;
 };
 
 function TagPoint(props: Props) {
@@ -40,6 +46,9 @@ function TagPoint(props: Props) {
         top: `${top}px`,
       }}
     >
+      {props.displayId && (
+        <span className={tagLabelClass}>{props.tag.tagId}</span>
+      )}
       {props.tag.error2d && props.tag.error2d > 1 && (
         <div
           className={tagErrorClass}

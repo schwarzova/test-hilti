@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { css } from '../../styled-system/css';
 
 import { usePlanStore } from '../components/Plan/store';
@@ -13,6 +13,7 @@ import {
 } from '../components/Plan/selectors';
 import HistoryReplayConfig from '../components/Plan/HistoryReplayConfig';
 import Spinner from '../components/Spinner';
+import PlanModeBar from '../components/Plan/PlanModeBar';
 
 const planWrapStyles = css({
   marginLeft: 'basePx',
@@ -36,11 +37,16 @@ function Plan() {
   const connectFetchTags = usePlanStore((state) => state.connectFetchTags);
   const changePlanMode = usePlanStore((state) => state.changePlanMode);
   const planMode = usePlanStore((state) => state.planMode);
+  const shouldFinishReplay = usePlanStore((state) => state.shouldFinishReplay);
 
   const closeTagsSocket = usePlanStore((state) => state.disconnectFetchTags);
   const stopPollingHistoricalTags = usePlanStore(
     (state) => state.stopPollingHistoricalTags,
   );
+  const setReplayConfigOpen = usePlanStore(
+    (state) => state.setReplayConfigOpen,
+  );
+  const isReplayConfigOpen = usePlanStore((state) => state.isReplayConfigOpen);
   const startPollingHistoricalTags = usePlanStore(
     (state) => state.startPollingHistoricalTags,
   );
@@ -48,19 +54,31 @@ function Plan() {
     (state) => state.initializeStartTime,
   );
 
-  const [isPopoverOpen, setPopoverOpen] = useState(false);
+  useEffect(() => {
+    if (selectedPlan && !planMode) {
+      changePlanMode('latest');
+    }
+  }, [changePlanMode, planMode, selectedPlan]);
 
   useEffect(() => {
-    if (selectedPlan && planMode === 'latest') {
+    if ((selectedPlan && planMode === 'latest') || shouldFinishReplay) {
       stopPollingHistoricalTags();
       connectFetchTags();
-    }
-    if (selectedPlan && planMode === 'history') {
+    } else if (selectedPlan && planMode === 'history') {
       closeTagsSocket();
       initializeStartTime();
       startPollingHistoricalTags();
     }
-  }, [connectFetchTags, planMode, selectedPlan]);
+  }, [
+    connectFetchTags,
+    initializeStartTime,
+    stopPollingHistoricalTags,
+    startPollingHistoricalTags,
+    closeTagsSocket,
+    shouldFinishReplay,
+    planMode,
+    selectedPlan,
+  ]);
 
   function handlePlansLoad() {
     fetchPlans();
@@ -74,7 +92,7 @@ function Plan() {
   }
 
   function handlePopoverOpenChange() {
-    setPopoverOpen(!isPopoverOpen);
+    setReplayConfigOpen(!isReplayConfigOpen);
   }
 
   function handleLiveUpdateClick() {
@@ -97,9 +115,8 @@ function Plan() {
             planSvgUrl={selectedPlanSvgUrl}
             tags={tags}
           />
-          {isPopoverOpen && (
-            <HistoryReplayConfig onClose={() => setPopoverOpen(false)} />
-          )}
+          {isReplayConfigOpen && <HistoryReplayConfig />}
+          <PlanModeBar />
         </div>
       ) : (
         <PlanSelection

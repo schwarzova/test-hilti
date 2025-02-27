@@ -3,6 +3,7 @@ import {
   ReferencePoint,
   SvgParsedData,
   Point,
+  TagMap,
 } from '../../types';
 import { useSidebarStore } from '../Sidebar/store';
 
@@ -287,4 +288,40 @@ export function formatTime(date: Date): string {
   const seconds = String(date.getSeconds()).padStart(2, '0');
 
   return `${hours}:${minutes}:${seconds}`;
+}
+
+export function formatDateTime(
+  stringDate: string | number,
+  displayDate?: boolean,
+  displaySeconds?: boolean,
+) {
+  const date = new Date(stringDate);
+
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const year = date.getFullYear();
+
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  const time = `${hours}:${minutes}${displaySeconds ? `:${seconds}` : ''}`;
+  if (displayDate) {
+    return `${day}.${month}.${year}  ${time}`;
+  }
+
+  return time;
+}
+
+// for debugging
+
+export type StrMap = {
+  [tagId: string]: string[];
+};
+
+export function mapToString(map: TagMap): StrMap {
+  return Object.keys(map).reduce<StrMap>((acc, tagId) => {
+    acc[tagId] = map[tagId].map((tag) => tag.timestamp);
+    return acc;
+  }, {});
 }

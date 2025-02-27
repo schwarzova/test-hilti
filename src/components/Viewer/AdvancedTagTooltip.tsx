@@ -6,7 +6,11 @@ import {
   tooltipNotEmphasizedLabelClass,
   advancedTooltipLabelClass,
 } from './styles';
-import { getDifferenceTime, findToolForTag } from '../Plan/utils';
+import {
+  getDifferenceTime,
+  findToolForTag,
+  formatDateTime,
+} from '../Plan/utils';
 import { cx } from '../../../styled-system/css';
 import {
   BatteryFull,
@@ -154,18 +158,6 @@ function AdvancedTagTooltip(props: Props) {
     return `${minutes} min ago`;
   }
 
-  function getTimeLabel() {
-    const date = new Date(props.tag.timestamp);
-
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-
-    return `${day}.${month}.${year} ${hours}:${minutes}`;
-  }
-
   function renderBatteryIcon(batteryLevel: number) {
     const props = { size: iconSize + 4, color: ICON_COLOR_LIGHT };
 
@@ -228,7 +220,7 @@ function AdvancedTagTooltip(props: Props) {
               <TooltipLabel>
                 {props.planMode === 'latest'
                   ? getLatestTimeLabel()
-                  : getTimeLabel()}
+                  : formatDateTime(props.tag.timestamp, true, true)}
               </TooltipLabel>
             }
           />

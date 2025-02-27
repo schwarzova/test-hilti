@@ -47,18 +47,18 @@ function AnchorPoint(props: Props) {
   );
 
   // prepared for the image rendering (for debugging it is better to see points)
+
+  // const imageSize = ANCHOR_SIZE*6;
   // return (
   //   <img
   //     src={anchorImg}
-  //     className={css({
+  //     style={{
   //       position: 'absolute',
   //       zIndex: 1,
-  //       height: `${ANCHOR_SIZE}px`,
-  //       width: `${ANCHOR_SIZE}px`,
-  //     })}
-  //     style={{
-  //       left: `calc(${props.anchor.x}px - ${ANCHOR_SIZE / 2}px)`,
-  //       top: `calc(${props.anchor.y}px - ${ANCHOR_SIZE / 2}px)`,
+  //       height: `${imageSize}px`,
+  //       width: `${imageSize}px`,
+  //       left: `calc(${props.anchor.x}px - ${imageSize / 2}px)`,
+  //       top: `calc(${props.anchor.y}px - ${imageSize / 2}px)`,
   //     }}
   //     alt="Anchor"
   //   />
