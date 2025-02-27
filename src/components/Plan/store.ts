@@ -216,7 +216,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       });
     } catch (error) {
       console.error('Error fetching all tags:', error);
-      set({ isFetchingAllTags: false, isReplayDataLoaded: false });
+      set({ isFetchingAllTags: false, isReplayDataLoaded: false, allTags: [] });
     }
   },
 
