@@ -38,7 +38,9 @@ function HistoryReplayConfig() {
   const resetReplay = usePlanStore((state) => state.resetReplay);
   const changePlanMode = usePlanStore((state) => state.changePlanMode);
   const setReplayTimeStep = usePlanStore((state) => state.setReplayTimeStep);
-  const stopPollingHistoricalTags = usePlanStore((state) => state.stopPollingHistoricalTags);
+  const stopPollingHistoricalTags = usePlanStore(
+    (state) => state.stopPollingHistoricalTags,
+  );
   const setReplayConfigOpen = usePlanStore(
     (state) => state.setReplayConfigOpen,
   );
@@ -83,7 +85,7 @@ function HistoryReplayConfig() {
 
   function handleDownloadDataClick() {
     fetchAllTags();
-    if (planMode === 'history'){
+    if (planMode === 'history') {
       changePlanMode('latest');
       stopPollingHistoricalTags();
     }

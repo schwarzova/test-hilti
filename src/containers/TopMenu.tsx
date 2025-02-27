@@ -43,15 +43,19 @@ function TopMenu() {
   const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
   const resetSelectedPlan = usePlanStore((state) => state.resetSelectedPlan);
   const resetReplay = usePlanStore((state) => state.resetReplay);
-  const setReplayConfigOpen = usePlanStore((state) => state.setReplayConfigOpen);
+  const setReplayConfigOpen = usePlanStore(
+    (state) => state.setReplayConfigOpen,
+  );
   const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
   const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
-  const stopPollingHistoricalTags = usePlanStore((state) => state.stopPollingHistoricalTags);
+  const stopPollingHistoricalTags = usePlanStore(
+    (state) => state.stopPollingHistoricalTags,
+  );
   const changePlanMode = usePlanStore((state) => state.changePlanMode);
 
   function handleChange(value: string) {
-    if (planMode === 'history'){
+    if (planMode === 'history') {
       stopPollingHistoricalTags();
       changePlanMode(undefined);
     }

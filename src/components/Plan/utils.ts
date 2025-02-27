@@ -317,11 +317,11 @@ export function formatDateTime(
 
 export type StrMap = {
   [tagId: string]: string[];
-}
+};
 
 export function mapToString(map: TagMap): StrMap {
   return Object.keys(map).reduce<StrMap>((acc, tagId) => {
-    acc[tagId] = map[tagId].map(tag => tag.timestamp);
+    acc[tagId] = map[tagId].map((tag) => tag.timestamp);
     return acc;
-  }, {})
+  }, {});
 }

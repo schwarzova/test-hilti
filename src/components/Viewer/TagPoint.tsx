@@ -46,13 +46,8 @@ function TagPoint(props: Props) {
         top: `${top}px`,
       }}
     >
-        {props.displayId && (
-        <span
-          className={tagLabelClass}
-        
-        >
-          {props.tag.tagId}
-        </span>
+      {props.displayId && (
+        <span className={tagLabelClass}>{props.tag.tagId}</span>
       )}
       {props.tag.error2d && props.tag.error2d > 1 && (
         <div
@@ -65,7 +60,6 @@ function TagPoint(props: Props) {
           }}
         ></div>
       )}
-    
     </div>
   );
 }

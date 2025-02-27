@@ -61,11 +61,10 @@ function Plan() {
   }, [changePlanMode, planMode, selectedPlan]);
 
   useEffect(() => {
-    if ((selectedPlan && planMode === 'latest' )|| shouldFinishReplay) {
+    if ((selectedPlan && planMode === 'latest') || shouldFinishReplay) {
       stopPollingHistoricalTags();
       connectFetchTags();
-    }
-    else if (selectedPlan && planMode === 'history') {
+    } else if (selectedPlan && planMode === 'history') {
       closeTagsSocket();
       initializeStartTime();
       startPollingHistoricalTags();
