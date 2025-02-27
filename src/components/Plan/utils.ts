@@ -290,7 +290,7 @@ export function formatTime(date: Date): string {
 }
 
 export function formatDateTime(
-  stringDate: string,
+  stringDate: string | number,
   displayDate?: boolean,
   displaySeconds?: boolean,
 ) {
