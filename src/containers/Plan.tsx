@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { css } from '../../styled-system/css';
 
 import { usePlanStore } from '../components/Plan/store';
@@ -42,6 +42,10 @@ function Plan() {
   const stopPollingHistoricalTags = usePlanStore(
     (state) => state.stopPollingHistoricalTags,
   );
+  const setReplayConfigOpen = usePlanStore(
+    (state) => state.setReplayConfigOpen,
+  );
+  const isReplayConfigOpen = usePlanStore((state) => state.isReplayConfigOpen);
   const startPollingHistoricalTags = usePlanStore(
     (state) => state.startPollingHistoricalTags,
   );
@@ -49,7 +53,11 @@ function Plan() {
     (state) => state.initializeStartTime,
   );
 
-  const [isPopoverOpen, setPopoverOpen] = useState(false);
+  useEffect(() => {
+    if (selectedPlan && !planMode) {
+      changePlanMode('latest');
+    }
+  }, [changePlanMode, planMode, selectedPlan]);
 
   useEffect(() => {
     if (selectedPlan && planMode === 'latest') {
@@ -61,7 +69,15 @@ function Plan() {
       initializeStartTime();
       startPollingHistoricalTags();
     }
-  }, [connectFetchTags, planMode, selectedPlan]);
+  }, [
+    connectFetchTags,
+    initializeStartTime,
+    stopPollingHistoricalTags,
+    startPollingHistoricalTags,
+    closeTagsSocket,
+    planMode,
+    selectedPlan,
+  ]);
 
   function handlePlansLoad() {
     fetchPlans();
@@ -75,7 +91,7 @@ function Plan() {
   }
 
   function handlePopoverOpenChange() {
-    setPopoverOpen(!isPopoverOpen);
+    setReplayConfigOpen(!isReplayConfigOpen);
   }
 
   function handleLiveUpdateClick() {
@@ -98,9 +114,7 @@ function Plan() {
             planSvgUrl={selectedPlanSvgUrl}
             tags={tags}
           />
-          {isPopoverOpen && (
-            <HistoryReplayConfig onClose={() => setPopoverOpen(false)} />
-          )}
+          {isReplayConfigOpen && <HistoryReplayConfig />}
           <PlanModeBar />
         </div>
       ) : (
