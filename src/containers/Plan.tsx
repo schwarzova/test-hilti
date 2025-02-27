@@ -37,6 +37,7 @@ function Plan() {
   const connectFetchTags = usePlanStore((state) => state.connectFetchTags);
   const changePlanMode = usePlanStore((state) => state.changePlanMode);
   const planMode = usePlanStore((state) => state.planMode);
+  const shouldFinishReplay = usePlanStore((state) => state.shouldFinishReplay);
 
   const closeTagsSocket = usePlanStore((state) => state.disconnectFetchTags);
   const stopPollingHistoricalTags = usePlanStore(
@@ -60,11 +61,11 @@ function Plan() {
   }, [changePlanMode, planMode, selectedPlan]);
 
   useEffect(() => {
-    if (selectedPlan && planMode === 'latest') {
+    if ((selectedPlan && planMode === 'latest' )|| shouldFinishReplay) {
       stopPollingHistoricalTags();
       connectFetchTags();
     }
-    if (selectedPlan && planMode === 'history') {
+    else if (selectedPlan && planMode === 'history') {
       closeTagsSocket();
       initializeStartTime();
       startPollingHistoricalTags();
@@ -75,6 +76,7 @@ function Plan() {
     stopPollingHistoricalTags,
     startPollingHistoricalTags,
     closeTagsSocket,
+    shouldFinishReplay,
     planMode,
     selectedPlan,
   ]);

@@ -53,7 +53,7 @@ function TopMenu() {
   function handleChange(value: string) {
     if (planMode === 'history'){
       stopPollingHistoricalTags();
-      changePlanMode('latest');
+      changePlanMode(undefined);
     }
 
     resetSelectedPlan();

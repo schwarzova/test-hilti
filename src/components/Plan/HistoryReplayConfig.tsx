@@ -215,6 +215,7 @@ function HistoryReplayConfig() {
                       defaultValue={HISTORICAL_TIME_STEP}
                       disabled={isReplaying || noDataToReplay}
                       options={[
+                        { value: 5000, label: '5s' },
                         { value: HISTORICAL_TIME_STEP, label: '10s' },
                         { value: 60 * 1000, label: '1min' },
                         { value: 5 * 60 * 1000, label: '5min' },

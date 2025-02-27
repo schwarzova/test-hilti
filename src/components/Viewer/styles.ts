@@ -40,6 +40,14 @@ export const anchorLabelClass = css({
   color: 'viewer.anchor',
 });
 
+export const tagLabelClass = css({
+  fontSize: '10px',
+  position: 'relative',
+  color: 'viewer.tag',
+  bottom: '10px',
+  left: '14px',
+});
+
 export const tooltipClass = css({
   position: 'absolute',
   backgroundColor: 'background.tooltip',

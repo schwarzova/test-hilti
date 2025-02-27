@@ -7,7 +7,7 @@ import {
   mockedTags1,
   PLAN_ANCHORS_MOCKED_MAP,
 } from '../../mocks/mocks';
-import { formatDateTime, parseSvg } from './utils';
+import { mapToString, parseSvg } from './utils';
 import {
   HISTORICAL_REPLAY_SPEED,
   HISTORICAL_TIME_STEP,
@@ -16,6 +16,7 @@ import {
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 import { getIntervalMap } from './selectors';
+import { isEqual } from 'lodash';
 
 export type PlanState = {
   anchors: Anchor[];
@@ -53,7 +54,7 @@ export type PlanState = {
   setReplayTime: (time?: Dayjs) => void;
   setReplaySpeed: (speed: number) => void;
   setReplayTimeStep: (timeStep: number) => void;
-
+  shouldFinishReplay: boolean;
   isReplayDataLoaded: boolean;
   resetReplay: () => void;
 
@@ -237,9 +238,11 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       isReplayDataLoaded: false,
       replayTimeStep: HISTORICAL_TIME_STEP,
       generatedTags: [],
+      planMode: undefined,
     });
   },
   isReplayDataLoaded: false,
+  shouldFinishReplay: false,
   replayDate: dayjs(),
   replayTime: undefined,
   replaySpeed: HISTORICAL_REPLAY_SPEED,
@@ -258,16 +261,26 @@ export const usePlanStore = create<PlanState>((set, get) => ({
 
   startPollingHistoricalTags: () => {
     const [intervalMap, startTag] = getIntervalMap(get());
+
+    console.log('REPLAY startPolling ',mapToString(intervalMap))
     const { historicalInterval, replaySpeed, replayTimeStep,  } = get();
 
     if (historicalInterval || !startTag) {
       return;
     }
 
-    const interval: NodeJS.Timeout = setInterval(() => {
+    const replayInterval: NodeJS.Timeout = setInterval(() => {
       const { historicalTimeStamp,generatedTags } = get();
 
-      console.log('REPLAY gener',generatedTags)
+      console.log('REPLAY TAGS:',generatedTags.map(t => t.timestamp));
+      const renderedLastTags = generatedTags.length > 0 &&  generatedTags.every(tag => isEqual(intervalMap[tag.tagId][intervalMap[tag.tagId].length - 1],tag));
+      console.log('REPLAY TAGS areFinished:',renderedLastTags);
+
+      if (renderedLastTags){
+        set({shouldFinishReplay: true});
+        return 
+      }
+
       if (historicalTimeStamp === undefined) {
         return;
       }
@@ -279,24 +292,13 @@ export const usePlanStore = create<PlanState>((set, get) => ({
         let currentTag = measurements[0]; // first measurement of tag
 
         while (
+          !renderedLastTags && 
           i < measurements.length &&
           new Date(currentTag.timestamp).getTime() < historicalTimeStamp
         ) {
           currentTag = measurements[i];
           i++;
         }
-
-        console.log(
-          'REPLAY for time:',
-          historicalTimeStamp,
-          formatDateTime(
-            new Date(historicalTimeStamp).toDateString(),
-            true,
-            true,
-          ),
-          ' returning tag at ',
-          formatDateTime(currentTag.timestamp, false, true),
-        );
 
         return currentTag;
       });
@@ -307,7 +309,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       });
     }, replaySpeed);
 
-    set({ historicalInterval: interval });
+    set({ historicalInterval: replayInterval });
   },
   stopPollingHistoricalTags: () => {
     if (get().historicalInterval) {
@@ -318,6 +320,8 @@ export const usePlanStore = create<PlanState>((set, get) => ({
         historicalInterval: undefined,
         generatedTags: [],
         historicalTimeStamp: undefined,
+        planMode: undefined,
+        shouldFinishReplay: false,
       });
     }
   },
