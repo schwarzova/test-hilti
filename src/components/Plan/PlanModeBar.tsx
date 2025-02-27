@@ -26,7 +26,7 @@ function PlanModeBar() {
       setCurrentTime(new Date());
     }, 1000);
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval);
   }, []);
 
   if (!planMode) {

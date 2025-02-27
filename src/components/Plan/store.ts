@@ -57,6 +57,9 @@ export type PlanState = {
   isReplayDataLoaded: boolean;
   resetReplay: () => void;
 
+  isReplayConfigOpen: boolean;
+  setReplayConfigOpen: (isOpen: boolean) => void;
+
   initializeStartTime: () => void;
   startPollingHistoricalTags: () => void;
   stopPollingHistoricalTags: () => void;
@@ -223,6 +226,9 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   setReplayTime: (time) => set({ replayTime: time }),
   setReplaySpeed: (speed) => set({ replaySpeed: speed }),
   setReplayTimeStep: (timeStep) => set({ replayTimeStep: timeStep }),
+
+  isReplayConfigOpen: false,
+  setReplayConfigOpen: (isOpen) => set({ isReplayConfigOpen: isOpen }),
   resetReplay: () => {
     set({
       replayTime: undefined,
@@ -230,6 +236,7 @@ export const usePlanStore = create<PlanState>((set, get) => ({
       replayDate: dayjs(),
       isReplayDataLoaded: false,
       replayTimeStep: HISTORICAL_TIME_STEP,
+      generatedTags: [],
     });
   },
   isReplayDataLoaded: false,
@@ -251,23 +258,16 @@ export const usePlanStore = create<PlanState>((set, get) => ({
 
   startPollingHistoricalTags: () => {
     const [intervalMap, startTag] = getIntervalMap(get());
-    const { historicalInterval, replaySpeed, replayTimeStep } = get();
+    const { historicalInterval, replaySpeed, replayTimeStep,  } = get();
 
     if (historicalInterval || !startTag) {
       return;
     }
 
-    console.log(
-      'REPLAY polling with timeStep',
-      replayTimeStep / 1000,
-      'sec, every ',
-      replaySpeed / 1000,
-      ' sec',
-    );
-
     const interval: NodeJS.Timeout = setInterval(() => {
-      const { historicalTimeStamp } = get();
+      const { historicalTimeStamp,generatedTags } = get();
 
+      console.log('REPLAY gener',generatedTags)
       if (historicalTimeStamp === undefined) {
         return;
       }
@@ -286,19 +286,16 @@ export const usePlanStore = create<PlanState>((set, get) => ({
           i++;
         }
 
-        console.log('REPLAY ending with i', i, measurements.length);
-
         console.log(
           'REPLAY for time:',
+          historicalTimeStamp,
           formatDateTime(
             new Date(historicalTimeStamp).toDateString(),
-            false,
+            true,
             true,
           ),
           ' returning tag at ',
           formatDateTime(currentTag.timestamp, false, true),
-          '---- X:',
-          currentTag.position.x,
         );
 
         return currentTag;

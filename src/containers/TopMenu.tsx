@@ -38,14 +38,28 @@ function LogoImage() {
 function TopMenu() {
   const plans = usePlanStore((state) => state.plans);
   const selectedPlan = usePlanStore((state) => state.selectedPlan);
+  const planMode = usePlanStore((state) => state.planMode);
+
   const setSelectedPlan = usePlanStore((state) => state.setSelectedPlan);
   const resetSelectedPlan = usePlanStore((state) => state.resetSelectedPlan);
+  const resetReplay = usePlanStore((state) => state.resetReplay);
+  const setReplayConfigOpen = usePlanStore((state) => state.setReplayConfigOpen);
   const fetchAnchors = usePlanStore((state) => state.fetchAnchors);
   const fetchSvgUrl = usePlanStore((state) => state.fetchPlanSvgUrl);
   const fetchSidebarTools = useSidebarStore((state) => state.fetchTools);
+  const stopPollingHistoricalTags = usePlanStore((state) => state.stopPollingHistoricalTags);
+  const changePlanMode = usePlanStore((state) => state.changePlanMode);
 
   function handleChange(value: string) {
+    if (planMode === 'history'){
+      stopPollingHistoricalTags();
+      changePlanMode('latest');
+    }
+
     resetSelectedPlan();
+    setReplayConfigOpen(false);
+    resetReplay();
+
     const newPlan = plans.find((p) => p.id === value);
 
     if (newPlan) {
