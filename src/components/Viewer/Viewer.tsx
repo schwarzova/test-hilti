@@ -44,7 +44,7 @@ function Viewer(props: Props) {
 
   useEffect(() => {
     setCurrentZoom(viewerRef?.current?.getValue().d || 1);
-  }, [value]);
+  }, [value, viewerRef]);
 
   function handleTooltipVisibilityChange(tag?: Tag) {
     setTooltipTag(tag);

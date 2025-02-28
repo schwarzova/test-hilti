@@ -2,7 +2,6 @@ import {
   Anchor,
   MeasurementPoint,
   Plan,
-  Tag,
   Tool,
   PlanAnchorsMap,
   Task,
@@ -127,143 +126,7 @@ export const PLAN_ANCHORS_MOCKED_MAP: PlanAnchorsMap = {
   opticslab: mockedAnchors3,
 };
 
-/* eslint-disable no-loss-of-precision */
-
-export const mockedTags1: Tag[] = [
-  {
-    tagId: '1111',
-    measureName: 'sensor_data',
-    position: {
-      x: -0.5110425320785901,
-      y: -0.12287860453565639,
-      z: -1.2040414322618493,
-    },
-    error2d: 10,
-    error3d: 40,
-    los: 'a1a2a3a4',
-    batteryLevel: 85,
-    timestamp: '1738146249',
-  },
-  {
-    tagId: '2222',
-    measureName: 'sensor_data',
-    position: {
-      x: -8.256795438109275,
-      y: -0.7752587170327425,
-      z: -1.743765534446407,
-    },
-    los: 'a1a2a3a4',
-    error2d: 11,
-    error3d: 19,
-    batteryLevel: 85,
-    timestamp: '1738146349',
-  },
-  {
-    tagId: '3333',
-    measureName: 'sensor_data',
-    position: {
-      x: -3.8026854,
-      y: 0.4318713,
-      z: -4.58586295,
-    },
-    los: 'a1a2a3a4',
-    error2d: 153,
-    error3d: 357,
-    batteryLevel: 85,
-    timestamp: '1738146360',
-  },
-];
-
-export const mockedTags2: Tag[] = [
-  {
-    tagId: '1111',
-    measureName: 'sensor_data',
-    position: {
-      x: -0.5274726092280309,
-      y: -0.14396243916810192,
-      z: -1.1808511304685392,
-    },
-    los: 'a1a2a3a4',
-    error2d: 13,
-    error3d: 45,
-    batteryLevel: 85,
-    timestamp: '1738146250',
-  },
-  {
-    tagId: '2222',
-    measureName: 'sensor_data',
-    position: {
-      x: -8.23502907812362,
-      y: -0.7821089068416865,
-      z: -1.6871791128552263,
-    },
-    los: 'a1a2a3a4',
-    error2d: 10,
-    error3d: 19,
-    batteryLevel: 85,
-    timestamp: '1738146350',
-  },
-  {
-    tagId: '3333',
-    measureName: 'sensor_data',
-    position: {
-      x: -3.4339728,
-      y: 1.9534661,
-      z: -1.4373713,
-    },
-    los: 'a1a2a4',
-    error2d: 7,
-    error3d: 10,
-    batteryLevel: 85,
-    timestamp: '1738146361',
-  },
-];
-
-export const mockedTags3: Tag[] = [
-  {
-    tagId: '1111',
-    measureName: 'sensor_data',
-    position: {
-      x: -0.5255643229410668,
-      y: -0.08378042425439332,
-      z: -1.2080846404861073,
-    },
-    los: 'a1a2a3a4',
-    error2d: 8,
-    error3d: 36,
-    batteryLevel: 85,
-    timestamp: '1738146251',
-  },
-  {
-    tagId: '2222',
-    measureName: 'sensor_data',
-    position: {
-      x: -8.240016412089021,
-      y: -0.7835736929520743,
-      z: -1.6479335364263972,
-    },
-    los: 'a1a2a3a4',
-    error2d: 10,
-    error3d: 23,
-    batteryLevel: 85,
-    timestamp: '1738146351',
-  },
-  {
-    tagId: '3333',
-    measureName: 'sensor_data',
-    position: {
-      x: -4.3321433,
-      y: -2.0508021,
-      z: -6.6383143,
-    },
-    los: 'a1a4',
-    error2d: 407,
-    error3d: 663,
-    batteryLevel: 85,
-    timestamp: '1738146362',
-  },
-];
-
+// These are the tools displayed for image, change the imgUrl and place the image in /assets/ folder
 export const MOCKED_TOOLS: Tool[] = [
   {
     id: 't2',
@@ -294,33 +157,13 @@ export const MOCKED_TOOLS: Tool[] = [
   },
 ];
 
-export const GROUND_TRUTH_POINTS: MeasurementPoint[] = [
-  {
-    id: 'Measurement Point 1',
-    x: -0.483,
-    y: -0.066,
-    z: -1.451,
-  },
-  {
-    id: 'Measurement Point 2',
-    x: -8.182,
-    y: -0.867,
-    z: -1.815,
-  },
-  {
-    id: 'Measurement Point 4',
-    x: -3.386,
-    y: 1.903,
-    z: -1.361,
-  },
-];
-
+// This is what is rendered in sidebar top panel (Tasks)
 export const MOCKED_TASKS: Task[] = [
   {
     id: 'task1',
     name: 'Pipe installation',
     place: 'Room 1',
-    completion: 15,
+    completion: 15, // in percentage
   },
   {
     id: 'task2',
@@ -339,5 +182,26 @@ export const MOCKED_TASKS: Task[] = [
     name: 'Pipe installation',
     place: 'Room 3',
     completion: 90,
+  },
+];
+
+export const GROUND_TRUTH_POINTS: MeasurementPoint[] = [
+  {
+    id: 'Measurement Point 1',
+    x: -0.483,
+    y: -0.066,
+    z: -1.451,
+  },
+  {
+    id: 'Measurement Point 2',
+    x: -8.182,
+    y: -0.867,
+    z: -1.815,
+  },
+  {
+    id: 'Measurement Point 4',
+    x: -3.386,
+    y: 1.903,
+    z: -1.361,
   },
 ];
