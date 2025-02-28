@@ -36,12 +36,25 @@ export const listItemStyles = css({
   },
 });
 
+export const viewerBarStyles = css({
+  backgroundColor: 'background.toolbar',
+  borderRadius: '2px',
+});
+
 export const toolbar = css({
   position: 'absolute',
   top: ' 8px',
   right: '8px',
-  backgroundColor: 'background.toolbar',
-  borderRadius: '2px',
+});
+
+export const modeBar = css({
+  position: 'absolute',
+  bottom: ' 8px',
+  right: '31px',
+  padding: '4px 12px',
+  height: '32px',
+  display: 'flex',
+  alignItems: 'center',
 });
 
 export const toolbarButton = css({
@@ -59,4 +72,14 @@ export const selectedToolbarButton = css({
   _hover: {
     color: 'text.highlighted',
   },
+});
+
+export const badgeStyle = css({
+  backgroundColor: 'red',
+  borderRadius: '25px',
+  padding: '0px 10px',
+  fontSize: 'small',
+  display: 'inline-flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 });

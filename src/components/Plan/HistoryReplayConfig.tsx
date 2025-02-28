@@ -30,11 +30,7 @@ import {
   ICON_COLOR_LIGHT,
 } from '../../constants/consts';
 
-type Props = {
-  onClose: () => void;
-};
-
-function HistoryReplayConfig(props: Props) {
+function HistoryReplayConfig() {
   const fetchAllTags = usePlanStore((state) => state.fetchAllTags);
   const setReplayDate = usePlanStore((state) => state.setReplayDate);
   const setReplayTime = usePlanStore((state) => state.setReplayTime);
@@ -42,7 +38,12 @@ function HistoryReplayConfig(props: Props) {
   const resetReplay = usePlanStore((state) => state.resetReplay);
   const changePlanMode = usePlanStore((state) => state.changePlanMode);
   const setReplayTimeStep = usePlanStore((state) => state.setReplayTimeStep);
-
+  const stopPollingHistoricalTags = usePlanStore(
+    (state) => state.stopPollingHistoricalTags,
+  );
+  const setReplayConfigOpen = usePlanStore(
+    (state) => state.setReplayConfigOpen,
+  );
   const isReplayDataLoaded = usePlanStore((state) => state.isReplayDataLoaded);
   const replayDate = usePlanStore((state) => state.replayDate);
   const replayTime = usePlanStore((state) => state.replayTime);
@@ -55,8 +56,13 @@ function HistoryReplayConfig(props: Props) {
   );
 
   const filteredTags = usePlanStore(getTagsFromSelectedInterval);
+  const measurements = filteredTags.length;
   const uniqueTagsCount = usePlanStore(getUniqueTagCount);
+  const noDataToReplay = measurements === 0 || uniqueTagsCount === 0;
 
+  function handleClose() {
+    setReplayConfigOpen(false);
+  }
   function onTimeChange(time: Dayjs) {
     if (isReplayDataLoaded) {
       resetReplay();
@@ -79,6 +85,14 @@ function HistoryReplayConfig(props: Props) {
 
   function handleDownloadDataClick() {
     fetchAllTags();
+    if (planMode === 'history') {
+      changePlanMode('latest');
+      stopPollingHistoricalTags();
+    }
+  }
+
+  function handleTimeStepChange(value: number) {
+    setReplayTimeStep(value);
   }
 
   function handlePlayClick() {
@@ -89,17 +103,13 @@ function HistoryReplayConfig(props: Props) {
     }
   }
 
-  function handleTimeStepChange(value: number) {
-    setReplayTimeStep(value);
-  }
-
   return (
     <ConfigProvider theme={darkTheme}>
       <Card
         size="small"
         title="History replay settings "
         extra={
-          <button style={{ color: '#ff0000' }} onClick={props.onClose}>
+          <button style={{ color: '#ff0000' }} onClick={handleClose}>
             Close
           </button>
         }
@@ -138,14 +148,15 @@ function HistoryReplayConfig(props: Props) {
             Get data
           </Button>
         </Flex>
-        <Flex vertical style={{ marginTop: '16px' }}>
-          <ConfigLabel bold>Results</ConfigLabel>
-          {isFetchingAllTags && (
-            <Flex justify="center" style={{ width: '100%', height: '100px' }}>
-              <Spinner />
-            </Flex>
-          )}
-          {isReplayDataLoaded && (
+        {(isReplayDataLoaded || isFetchingAllTags) && (
+          <Flex vertical style={{ marginTop: '16px' }}>
+            <ConfigLabel bold>Results</ConfigLabel>
+            {isFetchingAllTags && (
+              <Flex justify="center" style={{ width: '100%', height: '100px' }}>
+                <Spinner />
+              </Flex>
+            )}
+
             <Flex vertical style={{ marginTop: '4px' }}>
               <Flex justify="space-between" style={{ width: '100%' }}>
                 <Flex gap="2px" align="center">
@@ -158,7 +169,7 @@ function HistoryReplayConfig(props: Props) {
                 <Flex gap="2px" align="center">
                   <LocateFixed size="16px" color={ICON_COLOR_LIGHT} />
                   <ConfigLabel secondary>
-                    {filteredTags.length} measurements
+                    {measurements} measurements
                   </ConfigLabel>
                 </Flex>
               </Flex>
@@ -175,7 +186,7 @@ function HistoryReplayConfig(props: Props) {
                       onChange={handleSpeedChange}
                       defaultValue={5000}
                       optionType="button"
-                      disabled={isReplaying}
+                      disabled={isReplaying || noDataToReplay}
                     >
                       <Radio.Button
                         checked={replaySpeed === 10000}
@@ -204,8 +215,9 @@ function HistoryReplayConfig(props: Props) {
                       size="small"
                       onChange={handleTimeStepChange}
                       defaultValue={HISTORICAL_TIME_STEP}
-                      disabled={isReplaying}
+                      disabled={isReplaying || noDataToReplay}
                       options={[
+                        { value: 5000, label: '5s' },
                         { value: HISTORICAL_TIME_STEP, label: '10s' },
                         { value: 60 * 1000, label: '1min' },
                         { value: 5 * 60 * 1000, label: '5min' },
@@ -219,6 +231,7 @@ function HistoryReplayConfig(props: Props) {
                 <Button
                   style={{ marginTop: '8px', width: '100%' }}
                   onClick={handlePlayClick}
+                  disabled={noDataToReplay}
                   icon={
                     planMode === 'history' ? (
                       <Square size="16px" style={{ marginTop: '2px' }} />
@@ -231,8 +244,8 @@ function HistoryReplayConfig(props: Props) {
                 </Button>
               </Flex>
             </Flex>
-          )}
-        </Flex>
+          </Flex>
+        )}
       </Card>
     </ConfigProvider>
   );

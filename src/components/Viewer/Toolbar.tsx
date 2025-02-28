@@ -7,12 +7,18 @@ import {
 } from 'react-svg-pan-zoom';
 
 import { Divider, Flex } from 'antd';
-import { selectedToolbarButton, toolbar, toolbarButton } from '../Plan/styles';
-import ToolButton, { STROKE_WIDTH } from './ToolButton';
+import {
+  selectedToolbarButton,
+  toolbar,
+  toolbarButton,
+  viewerBarStyles,
+} from '../Plan/styles';
+import ToolButton from './ToolButton';
 import { Fullscreen, History, Radio } from 'lucide-react';
 import { memo } from 'react';
 import { PlanMode } from '../../types';
 import { cx } from '../../../styled-system/css';
+import { PLAN_ICON_STROKE_WIDTH } from '../../constants/consts';
 
 type Props = {
   onChangeTool: (tool: string) => void;
@@ -25,7 +31,7 @@ type Props = {
 
 const Toolbar = memo((props: Props) => {
   return (
-    <Flex className={toolbar} vertical align="center">
+    <Flex className={cx(viewerBarStyles, toolbar)} vertical align="center">
       <Flex vertical align="center" style={{ padding: '12px 4px 6px' }}>
         <ToolButton
           tool={TOOL_NONE}
@@ -64,7 +70,7 @@ const Toolbar = memo((props: Props) => {
           onClick={() => props.viewer?.current?.reset()}
           title="Resize to fit"
         >
-          <Fullscreen strokeWidth={STROKE_WIDTH} />
+          <Fullscreen strokeWidth={PLAN_ICON_STROKE_WIDTH} />
         </button>
         <Divider
           type="horizontal"
@@ -86,7 +92,7 @@ const Toolbar = memo((props: Props) => {
           onClick={props.onPopoverOpenChange}
           title="History playback"
         >
-          <History strokeWidth={STROKE_WIDTH} />
+          <History strokeWidth={PLAN_ICON_STROKE_WIDTH} />
         </button>
 
         <button
@@ -97,7 +103,7 @@ const Toolbar = memo((props: Props) => {
           onClick={props.onLiveUpdateClick}
           title="Live update"
         >
-          <Radio strokeWidth={STROKE_WIDTH} />
+          <Radio strokeWidth={PLAN_ICON_STROKE_WIDTH} />
         </button>
       </Flex>
     </Flex>
