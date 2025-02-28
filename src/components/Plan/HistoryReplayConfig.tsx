@@ -211,7 +211,8 @@ function HistoryReplayConfig() {
 
                   <Space direction="vertical" size={2}>
                     <ConfigLabel>Time step</ConfigLabel>
-                    <Select
+                    <Select 
+                    style={{minWidth: '80px'}}
                       size="small"
                       onChange={handleTimeStepChange}
                       defaultValue={HISTORICAL_TIME_STEP}
