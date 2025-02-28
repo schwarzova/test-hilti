@@ -4,6 +4,7 @@ import {
   SvgParsedData,
   Point,
   TagMap,
+  TagTimestampMap,
 } from '../../types';
 import { useSidebarStore } from '../Sidebar/store';
 
@@ -313,14 +314,8 @@ export function formatDateTime(
   return time;
 }
 
-// for debugging
-
-export type StrMap = {
-  [tagId: string]: string[];
-};
-
-export function mapToString(map: TagMap): StrMap {
-  return Object.keys(map).reduce<StrMap>((acc, tagId) => {
+export function mapToString(map: TagMap): TagTimestampMap {
+  return Object.keys(map).reduce<TagTimestampMap>((acc, tagId) => {
     acc[tagId] = map[tagId].map((tag) => tag.timestamp);
     return acc;
   }, {});

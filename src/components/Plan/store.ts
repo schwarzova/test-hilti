@@ -1,13 +1,8 @@
 import { create } from 'zustand';
 
 import { Anchor, Plan, PlanMode, SvgParsedData, Tag } from '../../types';
-import {
-  mockedAnchors,
-  mockedPlans,
-  mockedTags1,
-  PLAN_ANCHORS_MOCKED_MAP,
-} from '../../mocks/mocks';
-import { mapToString, parseSvg } from './utils';
+import { mockedPlans, PLAN_ANCHORS_MOCKED_MAP } from '../../mocks/mocks';
+import { parseSvg } from './utils';
 import {
   HISTORICAL_REPLAY_SPEED,
   HISTORICAL_TIME_STEP,
@@ -33,7 +28,6 @@ export type PlanState = {
   fetchPlanSvgUrl: (plan: Plan) => Promise<void>;
   resetSelectedPlan: () => void;
   setSelectedPlan: (plan: Plan) => void;
-  quickInit: () => void;
   setSvgScale: (svgScaleX: number, svgScaleY: number) => void;
   isSocketConnected: boolean;
   socketReal: WebSocket | null;
@@ -82,16 +76,6 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   parsedSvgData: initialParsed,
   svgScaleX: 1,
   svgScaleY: 1,
-  // this is for quick floor plan load for debugging anchors and tags
-  quickInit: () => {
-    set({
-      selectedPlanSvgUrl: '/assets/floorplan.svg',
-      anchors: mockedAnchors,
-      tags: mockedTags1,
-      selectedPlan: mockedPlans[0],
-      plans: mockedPlans,
-    });
-  },
   plans: [],
   fetchPlans: async () => {
     set({ isFetching: true });
@@ -117,7 +101,6 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   anchors: [],
   fetchAnchors: async () => {
     set({ isFetching: true });
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
     set((state) => ({
       anchors: state.selectedPlan?.id
         ? PLAN_ANCHORS_MOCKED_MAP[state.selectedPlan.id]
