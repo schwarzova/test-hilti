@@ -81,3 +81,7 @@ export type PlanMode = 'history' | 'latest';
 export type TagMap = {
   [tagId: string]: Tag[];
 };
+
+export type TagTimestampMap = {
+  [tagId: string]: string[];
+};
