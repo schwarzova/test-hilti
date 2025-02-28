@@ -1,11 +1,8 @@
 import { create } from 'zustand';
 
 import { Anchor, Plan, PlanMode, SvgParsedData, Tag } from '../../types';
-import {
-  mockedPlans,
-  PLAN_ANCHORS_MOCKED_MAP,
-} from '../../mocks/mocks';
-import {  parseSvg } from './utils';
+import { mockedPlans, PLAN_ANCHORS_MOCKED_MAP } from '../../mocks/mocks';
+import { parseSvg } from './utils';
 import {
   HISTORICAL_REPLAY_SPEED,
   HISTORICAL_TIME_STEP,
