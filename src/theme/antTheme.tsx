@@ -23,11 +23,11 @@ export const darkTheme: ThemeConfig = {
     controlItemBgActive: '#0f0f0f', // Darker background for selected time
 
     // Picker's link buttons (Date Picker / Time Picker)
-    colorLink: '#ff0000', 
-    colorLinkHover: '#ff3333', 
-    colorLinkActive: '#cc0000', 
+    colorLink: '#ff0000',
+    colorLinkHover: '#ff3333',
+    colorLinkActive: '#cc0000',
 
-    // Type 
+    // Type
     colorSuccess: '#52c41a', // Success messages
     colorWarning: '#faad14', // Warnings
     colorError: '#ff4d4f', // Errors
